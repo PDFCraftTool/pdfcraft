@@ -12,6 +12,7 @@ import type {
   ProgressCallback,
 } from '@/types/pdf';
 import { PDFErrorCode } from '@/types/pdf';
+import { logger } from '@/lib/utils/logger';
 import { BasePDFProcessor } from '../processor';
 import { loadPyMuPDF } from '../pymupdf-loader';
 
@@ -175,7 +176,16 @@ export class CompressPDFProcessor extends BasePDFProcessor {
           // If optimizeImages is enabled, additionally compress images with PyMuPDF
           if (compressOptions.optimizeImages) {
             this.updateProgress(70, 'Optimizing images...');
-            result = await this.optimizeImagesWithPyMuPDF(result.pdfBytes, compressOptions);
+            try {
+              result = await this.optimizeImagesWithPyMuPDF(result.pdfBytes, compressOptions);
+            } catch (optimizationError) {
+              // Degrade gracefully to worker-only output if PyMuPDF is unavailable.
+              logger.warn(
+                '[CompressPDF] Image optimization skipped, using structure-compressed output only',
+                optimizationError
+              );
+              this.updateProgress(95, 'Image optimization unavailable, finalizing...');
+            }
           }
           break;
       }

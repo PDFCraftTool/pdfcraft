@@ -7,6 +7,27 @@
 let pymupdfInstance: any = null;
 let loadingPromise: Promise<any> | null = null;
 
+function resolvePublicAssetPath(assetPath: string): string {
+  if (typeof window === 'undefined') return assetPath;
+
+  const normalizedAssetPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
+  const scripts = Array.from(document.querySelectorAll('script[src]')) as HTMLScriptElement[];
+  const nextScript = scripts.find((script) => script.src.includes('/_next/'));
+
+  if (!nextScript) return normalizedAssetPath;
+
+  try {
+    const scriptUrl = new URL(nextScript.src);
+    const nextIndex = scriptUrl.pathname.indexOf('/_next/');
+    if (nextIndex <= 0) return normalizedAssetPath;
+
+    const basePath = scriptUrl.pathname.slice(0, nextIndex).replace(/\/$/, '');
+    return `${basePath}${normalizedAssetPath}`;
+  } catch {
+    return normalizedAssetPath;
+  }
+}
+
 /**
  * Load PyMuPDF using Pyodide directly
  */
@@ -21,7 +42,10 @@ export async function loadPyMuPDF(): Promise<any> {
 
   loadingPromise = (async () => {
     try {
-      const basePath = `${window.location.origin}/pymupdf-wasm/`;
+      const basePath = new URL(
+        resolvePublicAssetPath('/pymupdf-wasm/'),
+        window.location.origin
+      ).toString();
 
       // Dynamically import Pyodide as ES module
       const pyodideModule = await import(/* webpackIgnore: true */ `${basePath}pyodide.js`);
