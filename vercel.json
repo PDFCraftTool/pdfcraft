@@ -34,6 +34,22 @@
       ]
     },
     {
+      "source": "/libreoffice-wasm/soffice.wasm.gz",
+      "headers": [
+        { "key": "Content-Type", "value": "application/wasm" },
+        { "key": "Content-Encoding", "value": "gzip" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/libreoffice-wasm/soffice.data.gz",
+      "headers": [
+        { "key": "Content-Type", "value": "application/octet-stream" },
+        { "key": "Content-Encoding", "value": "gzip" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
       "source": "/(.*)\\.mjs",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript" }

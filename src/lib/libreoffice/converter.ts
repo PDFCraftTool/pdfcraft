@@ -30,6 +30,12 @@ import { WorkerBrowserConverter } from '@matbee/libreoffice-converter/browser';
 
 const LIBREOFFICE_PATH = '/libreoffice-wasm/';
 const ASSET_VERSION = '20240212-3';
+const SOFFICE_WASM_FILE = 'soffice.wasm.gz';
+const SOFFICE_DATA_FILE = 'soffice.data.gz';
+
+function normalizeBasePath(path: string): string {
+    return path.endsWith('/') ? path : `${path}/`;
+}
 
 export interface LoadProgress {
     phase: 'loading' | 'initializing' | 'converting' | 'complete' | 'ready';
@@ -53,7 +59,7 @@ export class LibreOfficeConverter {
     private progressCallback?: ProgressCallback;
 
     constructor(basePath?: string) {
-        this.basePath = basePath || LIBREOFFICE_PATH;
+        this.basePath = normalizeBasePath(basePath || LIBREOFFICE_PATH);
     }
 
     async initialize(onProgress?: ProgressCallback): Promise<void> {
@@ -107,8 +113,8 @@ export class LibreOfficeConverter {
 
             this.converter = new WorkerBrowserConverter({
                 sofficeJs: `${this.basePath}soffice.js?v=${ASSET_VERSION}`,
-                sofficeWasm: `${this.basePath}soffice.wasm?v=${ASSET_VERSION}`,
-                sofficeData: `${this.basePath}soffice.data?v=${ASSET_VERSION}`,
+                sofficeWasm: `${this.basePath}${SOFFICE_WASM_FILE}?v=${ASSET_VERSION}`,
+                sofficeData: `${this.basePath}${SOFFICE_DATA_FILE}?v=${ASSET_VERSION}`,
                 sofficeWorkerJs: `${this.basePath}soffice.worker.js?v=${ASSET_VERSION}`,
                 browserWorkerJs: `${this.basePath}browser.worker.global.js?v=${ASSET_VERSION}`,
                 verbose: false,
@@ -187,8 +193,8 @@ export class LibreOfficeConverter {
 
         // 3. Check file connectivity (parallel for speed) & accumulate total size
         const files = [
-            'soffice.wasm',
-            'soffice.data',
+            SOFFICE_WASM_FILE,
+            SOFFICE_DATA_FILE,
             'soffice.js',
             'soffice.worker.js',
             'browser.worker.global.js',

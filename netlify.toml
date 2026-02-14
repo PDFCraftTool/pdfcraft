@@ -126,6 +126,26 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
+  for = "/libreoffice-wasm/soffice.wasm.gz"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/wasm"
+    Content-Encoding = "gzip"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Cross-Origin-Resource-Policy = "cross-origin"
+
+[[headers]]
+  for = "/libreoffice-wasm/soffice.data.gz"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/octet-stream"
+    Content-Encoding = "gzip"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Cross-Origin-Resource-Policy = "cross-origin"
+
+[[headers]]
   for = "/pdfjs-viewer/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"

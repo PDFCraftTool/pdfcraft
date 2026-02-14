@@ -4,10 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "node scripts/decompress-wasm-dev.mjs",
     "dev": "next dev --turbopack",
     "build": "next build",
-    "postbuild": "node scripts/decompress-wasm.mjs",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "vitest run",

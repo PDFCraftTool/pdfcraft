@@ -83,6 +83,22 @@
   Content-Type: application/wasm
 
 # LibreOffice WASM data files
+/libreoffice-wasm/soffice.wasm.gz
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/wasm
+  Content-Encoding: gzip
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: cross-origin
+
+/libreoffice-wasm/soffice.data.gz
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/octet-stream
+  Content-Encoding: gzip
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: cross-origin
+
 /libreoffice-wasm/*
   Cache-Control: public, max-age=31536000, immutable
   Cross-Origin-Opener-Policy: same-origin
