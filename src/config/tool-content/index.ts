@@ -3,15 +3,6 @@
  * Requirements: 3.1 - Multi-language support
  */
 
-export { toolContentEn } from './en';
-export { toolContentJa } from './ja';
-export { toolContentKo } from './ko';
-export { toolContentEs } from './es';
-export { toolContentFr } from './fr';
-export { toolContentDe } from './de';
-export { toolContentZh } from './zh';
-export { toolContentPt } from './pt';
-
 import { toolContentEn } from './en';
 import { toolContentJa } from './ja';
 import { toolContentKo } from './ko';
@@ -20,9 +11,10 @@ import { toolContentFr } from './fr';
 import { toolContentDe } from './de';
 import { toolContentZh } from './zh';
 import { toolContentPt } from './pt';
+import { toolContentVn } from './vi';
 import { ToolContent } from '@/types/tool';
 
-export type Locale = 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'zh' | 'zh-TW' | 'pt';
+export type Locale = 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'zh' | 'zh-TW' | 'pt' | 'vi';
 
 /**
  * Get tool content for a specific locale
@@ -39,6 +31,7 @@ export function getToolContent(locale: Locale, toolId: string): ToolContent | un
     de: toolContentDe,
     zh: toolContentZh,
     pt: toolContentPt,
+    vi: toolContentVn
   };
 
   // Map zh-TW to zh (use Simplified Chinese content for Traditional Chinese)
