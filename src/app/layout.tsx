@@ -2,12 +2,20 @@ import type { Metadata } from 'next';
 import '@/app/globals.css';
 
 export const metadata: Metadata = {
-  title: 'PDFCraft - Professional PDF Tools',
+  title: 'PDFaro - Professional PDF Tools',
   description: 'Free online PDF tools for merging, splitting, compressing, and converting PDF files. All processing happens in your browser for maximum privacy.',
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/images/web/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/web/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/images/web/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/images/web/favicon-32x32.png',
+    apple: [
+      { url: '/images/web/apple-touch-icon.png' },
+      { url: '/images/web/apple-touch-icon-180x180.png', sizes: '180x180' },
+    ],
   },
 };
 

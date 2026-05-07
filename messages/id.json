@@ -1,7 +1,7 @@
 {
   "metadata": {
     "home": {
-      "title": "PDFCraft - Alat PDF Profesional",
+      "title": "PDFaro - Alat PDF Profesional",
       "description": "Gratis, Pribadi & Berbasis Browser. Gabung, edit, dan ubah file PDF secara online tanpa mengunggah ke server."
     },
     "tools": {
@@ -10,19 +10,19 @@
     },
     "about": {
       "title": "Tentang",
-      "description": "Pelajari tentang PDFCraft - toolkit PDF gratis, pribadi, dan kuat. Semua proses terjadi di browser Anda."
+      "description": "Pelajari tentang PDFaro - toolkit PDF gratis, pribadi, dan kuat. Semua proses terjadi di browser Anda."
     },
     "faq": {
       "title": "Pertanyaan yang Sering Diajukan",
-      "description": "Temukan jawaban untuk pertanyaan umum tentang PDFCraft. Pelajari cara menggunakan alat PDF kami secara efektif."
+      "description": "Temukan jawaban untuk pertanyaan umum tentang PDFaro. Pelajari cara menggunakan alat PDF kami secara efektif."
     },
     "privacy": {
       "title": "Kebijakan Privasi",
-      "description": "Kebijakan privasi PDFCraft. File Anda tidak pernah meninggalkan perangkat Anda - semua proses terjadi secara lokal di browser Anda."
+      "description": "Kebijakan privasi PDFaro. File Anda tidak pernah meninggalkan perangkat Anda - semua proses terjadi secara lokal di browser Anda."
     },
     "contact": {
       "title": "Hubungi Kami",
-      "description": "Hubungi tim PDFCraft. Kami ingin mendengar pendapat Anda."
+      "description": "Hubungi tim PDFaro. Kami ingin mendengar pendapat Anda."
     },
     "keywords": {
       "pdfTools": "alat PDF",
@@ -35,7 +35,7 @@
     }
   },
   "common": {
-    "brand": "PDFCraft",
+    "brand": "PDFaro",
     "tagline": "Alat PDF Profesional - Gratis & Pribadi",
     "navigation": {
       "home": "Beranda",
@@ -83,8 +83,8 @@
       "loading": "Memuat..."
     },
     "footer": {
-      "footer": "© 2025 PDFCraft. Seluruh hak cipta dilindungi undang-undang.",
-      "copyright": "© {year} PDFCraft. Seluruh hak cipta dilindungi undang-undang.",
+      "footer": "© 2025 PDFaro. Seluruh hak cipta dilindungi undang-undang.",
+      "copyright": "© {year} PDFaro. Seluruh hak cipta dilindungi undang-undang.",
       "privacyBadge": "100% Pribadi - File tidak pernah meninggalkan perangkat Anda",
       "madeWith": "Dibuat dengan <Heart /> dan <Nextjs />"
     },
@@ -129,7 +129,7 @@
       "finish": "Selesai",
       "skip": "Lewati",
       "stepOf": "dari",
-      "welcomeTitle": "Selamat Datang di PDFCraft!",
+      "welcomeTitle": "Selamat Datang di PDFaro!",
       "welcomeMessage": "Apakah Anda ingin tur singkat untuk mempelajari cara menggunakan alat PDF kami? Hanya butuh satu menit.",
       "helpButton": "Tur Bantuan"
     },
@@ -200,16 +200,16 @@
     "sections": {
       "general": {
         "whatIs": {
-          "question": "Apa itu PDFCraft?",
-          "answer": "PDFCraft adalah toolkit PDF gratis yang berfokus pada privasi yang berjalan sepenuhnya di browser Anda. Kami menawarkan 80+ alat profesional untuk mengedit, mengonversi, menggabung, memisah, dan mengamankan file PDF tanpa mengunggahnya ke server mana pun."
+          "question": "Apa itu PDFaro?",
+          "answer": "PDFaro adalah toolkit PDF gratis yang berfokus pada privasi yang berjalan sepenuhnya di browser Anda. Kami menawarkan 80+ alat profesional untuk mengedit, mengonversi, menggabung, memisah, dan mengamankan file PDF tanpa mengunggahnya ke server mana pun."
         },
         "isFree": {
-          "question": "Apakah PDFCraft benar-benar gratis?",
-          "answer": "Ya, PDFCraft sepenuhnya gratis untuk digunakan. Tidak ada biaya tersembunyi, tidak ada tingkat premium, dan tidak perlu registrasi. Semua fitur tersedia untuk semua orang."
+          "question": "Apakah PDFaro benar-benar gratis?",
+          "answer": "Ya, PDFaro sepenuhnya gratis untuk digunakan. Tidak ada biaya tersembunyi, tidak ada tingkat premium, dan tidak perlu registrasi. Semua fitur tersedia untuk semua orang."
         },
         "account": {
           "question": "Apakah saya perlu membuat akun?",
-          "answer": "Tidak, Anda tidak perlu membuat akun atau mendaftar untuk menggunakan PDFCraft. Cukup kunjungi situs web dan mulai gunakan alat apa pun segera."
+          "answer": "Tidak, Anda tidak perlu membuat akun atau mendaftar untuk menggunakan PDFaro. Cukup kunjungi situs web dan mulai gunakan alat apa pun segera."
         }
       },
       "privacy": {
@@ -218,8 +218,8 @@
           "answer": "Tidak, file Anda tidak pernah diunggah ke server mana pun. Semua pemrosesan PDF terjadi secara lokal di browser Anda menggunakan JavaScript dan WebAssembly. File Anda tidak pernah meninggalkan perangkat Anda."
         },
         "safe": {
-          "question": "Apakah aman menggunakan PDFCraft untuk dokumen sensitif?",
-          "answer": "Ya, PDFCraft dirancang dengan mengutamakan privasi. Karena semua pemrosesan terjadi secara lokal di browser Anda, dokumen sensitif Anda tetap berada di perangkat Anda dan tidak pernah dikirimkan melalui internet."
+          "question": "Apakah aman menggunakan PDFaro untuk dokumen sensitif?",
+          "answer": "Ya, PDFaro dirancang dengan mengutamakan privasi. Karena semua pemrosesan terjadi secara lokal di browser Anda, dokumen sensitif Anda tetap berada di perangkat Anda dan tidak pernah dikirimkan melalui internet."
         },
         "storage": {
           "question": "Apa yang terjadi dengan file saya setelah diproses?",
@@ -229,7 +229,7 @@
       "features": {
         "operations": {
           "question": "Operasi PDF apa saja yang bisa saya lakukan?",
-          "answer": "PDFCraft menawarkan 67+ alat termasuk: gabung, pisah, kompres, konversi (ke/dari gambar, teks, JSON), edit, anotasi, tanda tangan, tambah watermark, enkripsi/dekripsi, OCR, dan banyak lagi."
+          "answer": "PDFaro menawarkan 67+ alat termasuk: gabung, pisah, kompres, konversi (ke/dari gambar, teks, JSON), edit, anotasi, tanda tangan, tambah watermark, enkripsi/dekripsi, OCR, dan banyak lagi."
         },
         "merge": {
           "question": "Bisakah saya menggabungkan beberapa file PDF?",
@@ -237,17 +237,17 @@
         },
         "images": {
           "question": "Bisakah saya mengonversi gambar ke PDF?",
-          "answer": "Ya, PDFCraft mendukung konversi berbagai format gambar (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) ke PDF. Anda dapat mengonversi satu atau beberapa gambar sekaligus."
+          "answer": "Ya, PDFaro mendukung konversi berbagai format gambar (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) ke PDF. Anda dapat mengonversi satu atau beberapa gambar sekaligus."
         },
         "edit": {
           "question": "Bisakah saya mengedit teks dalam PDF?",
-          "answer": "PDFCraft menyediakan alat anotasi dan pengeditan termasuk menyorot, menambah teks, bentuk, gambar, dan tanda tangan. Untuk pengeditan teks lengkap, alat Editor PDF menawarkan kemampuan anotasi yang komprehensif."
+          "answer": "PDFaro menyediakan alat anotasi dan pengeditan termasuk menyorot, menambah teks, bentuk, gambar, dan tanda tangan. Untuk pengeditan teks lengkap, alat Editor PDF menawarkan kemampuan anotasi yang komprehensif."
         }
       },
       "technical": {
         "browsers": {
           "question": "Browser apa saja yang didukung?",
-          "answer": "PDFCraft berfungsi di semua browser modern termasuk Chrome, Firefox, Safari, dan Edge. Kami merekomendasikan penggunaan versi terbaru browser Anda untuk pengalaman terbaik."
+          "answer": "PDFaro berfungsi di semua browser modern termasuk Chrome, Firefox, Safari, dan Edge. Kami merekomendasikan penggunaan versi terbaru browser Anda untuk pengalaman terbaik."
         },
         "sizeLimit": {
           "question": "Apakah ada batasan ukuran file?",
@@ -258,14 +258,14 @@
           "answer": "Karena semua pemrosesan terjadi di browser Anda, kinerja tergantung pada kemampuan perangkat Anda. File besar membutuhkan lebih banyak memori dan daya pemrosesan. Untuk hasil terbaik, tutup tab browser dan aplikasi lainnya."
         },
         "offline": {
-          "question": "Apakah PDFCraft berfungsi secara offline?",
-          "answer": "Saat ini, PDFCraft memerlukan koneksi internet untuk memuat aplikasi. Namun, setelah dimuat, pemrosesan PDF itu sendiri terjadi secara lokal dan tidak memerlukan koneksi."
+          "question": "Apakah PDFaro berfungsi secara offline?",
+          "answer": "Saat ini, PDFaro memerlukan koneksi internet untuk memuat aplikasi. Namun, setelah dimuat, pemrosesan PDF itu sendiri terjadi secara lokal dan tidak memerlukan koneksi."
         }
       },
       "languages": {
         "supported": {
           "question": "Bahasa apa saja yang didukung?",
-          "answer": "PDFCraft tersedia dalam 10 bahasa: Inggris, Jepang, Korea, Spanyol, Prancis, Jerman, Mandarin, Portugis, Italia, dan Bahasa Indonesia."
+          "answer": "PDFaro tersedia dalam 10 bahasa: Inggris, Jepang, Korea, Spanyol, Prancis, Jerman, Mandarin, Portugis, Italia, dan Bahasa Indonesia."
         },
         "change": {
           "question": "Bagaimana cara mengubah bahasa?",
@@ -296,7 +296,7 @@
       },
       "fast": {
         "title": "Cepat & Efisien",
-        "description": "Didukung oleh teknologi web modern, PDFCraft memberikan pemrosesan PDF yang sangat cepat tanpa perlu unggah atau unduh."
+        "description": "Didukung oleh teknologi web modern, PDFaro memberikan pemrosesan PDF yang sangat cepat tanpa perlu unggah atau unduh."
       },
       "accessible": {
         "title": "Dapat Diakses di Mana Saja",
@@ -304,7 +304,7 @@
       },
       "free": {
         "title": "Gratis Selamanya",
-        "description": "PDFCraft sepenuhnya gratis untuk digunakan tanpa biaya tersembunyi, tidak perlu registrasi, dan tanpa batasan penggunaan."
+        "description": "PDFaro sepenuhnya gratis untuk digunakan tanpa biaya tersembunyi, tidak perlu registrasi, dan tanpa batasan penggunaan."
       },
       "openSource": {
         "title": "Open Source",
@@ -482,7 +482,7 @@
   "workflow": {
     "title": "Pembangun Alur Kerja PDF",
     "subtitle": "Buat pipa pemrosesan PDF khusus dengan menghubungkan alat-alat",
-    "metaTitle": "Pembangun Alur Kerja PDF - PDFCraft",
+    "metaTitle": "Pembangun Alur Kerja PDF - PDFaro",
     "metaDescription": "Buat pipa pemrosesan PDF khusus dengan menghubungkan alat secara visual. Bangun, simpan, dan gunakan kembali alur kerja Anda.",
     "toolbox": "Kotak Alat",
     "dragToAdd": "Seret alat untuk menambahkan ke alur kerja",

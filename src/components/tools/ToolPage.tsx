@@ -10,8 +10,9 @@ import { type Locale } from '@/lib/i18n/config';
 import { ToolProvider } from '@/lib/contexts/ToolContext';
 import { getToolIcon } from '@/config/icons';
 import Link from 'next/link';
-import { Home, ChevronRight } from 'lucide-react';
+import { ChevronRight, Bookmark } from 'lucide-react';
 import { FavoriteButton } from '@/components/ui/FavoriteButton';
+import { TrustBadges } from '@/components/ui/TrustBadges';
 import { useMemo } from 'react';
 import { sanitizeHtml } from '@/lib/utils/html-sanitizer';
 
@@ -55,67 +56,86 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
+  const IconComponent = getToolIcon(tool.icon);
+
   return (
     <ToolProvider toolSlug={tool.slug} toolName={toolDisplayName}>
       <div className="min-h-screen flex flex-col" data-testid="tool-page">
         <Header locale={locale as Locale} />
 
-        <main id="main-content" className="flex-1" tabIndex={-1}>
-          <div className="max-w-7xl mx-auto px-4 pt-24 pb-8">
-            {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-4 flex items-center text-sm text-[hsl(var(--color-muted-foreground))] animate-in fade-in slide-in-from-top-4 duration-500 delay-100">
-              <Link
-                href={`/${locale}`}
-                className="flex items-center hover:text-[hsl(var(--color-primary))] transition-colors"
-                title={t('common.navigation.home')}
-              >
-                <Home className="w-4 h-4" />
+        <main id="main-content" className="flex-1 pt-14" tabIndex={-1}>
+          <div className="max-w-7xl mx-auto px-4 lg:px-6 pt-6 pb-16">
+
+            {/* Breadcrumb */}
+            <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-[hsl(var(--color-muted-foreground))] mb-6">
+              <Link href={`/${locale}/tools`} className="hover:text-[hsl(var(--color-primary))] transition-colors">
+                Tools
               </Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
+              <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
               <Link
-                href={`/${locale}/tools`}
-                className="hover:text-[hsl(var(--color-primary))] transition-colors"
-              >
-                {t('common.navigation.tools')}
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
-              <Link
-                href={`/${locale}/tools/category/${tool.category}`}
+                href={`/${locale}/tools?category=${tool.category}`}
                 className="hover:text-[hsl(var(--color-primary))] transition-colors"
               >
                 {t(`home.categories.${categoryTranslationKeys[tool.category]}`)}
               </Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
-              <span className="font-medium text-[hsl(var(--color-foreground))] truncate max-w-[200px] sm:max-w-md" aria-current="page">
+              <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+              <span className="font-medium text-[hsl(var(--color-foreground))] truncate" aria-current="page">
                 {content.title || toolDisplayName}
               </span>
             </nav>
 
-            {/* Tool Header */}
-            <ToolHeader tool={tool} content={content} />
+            {/* Tool heading row */}
+            <div className="flex items-start justify-between gap-4 mb-2" data-testid="tool-page-header">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-12 h-12 rounded-xl bg-[hsl(var(--color-primary)/0.1)] flex items-center justify-center shrink-0"
+                  aria-hidden="true"
+                >
+                  <IconComponent className="w-6 h-6 text-[hsl(var(--color-primary))]" />
+                </div>
+                <div>
+                  <h1
+                    className="text-2xl font-bold text-[hsl(var(--color-foreground))]"
+                    data-testid="tool-page-title"
+                  >
+                    {content.title || toolDisplayName}
+                  </h1>
+                </div>
+              </div>
+              <button
+                className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors shrink-0 mt-1"
+                onClick={() => {/* handled by FavoriteButton below */}}
+                aria-label="Save tool"
+              >
+                <Bookmark className="w-4 h-4" aria-hidden="true" />
+                Save tool
+              </button>
+            </div>
 
-            {/* Tool Interface Area */}
+            {/* Description + trust badges */}
+            <p
+              className="text-sm text-[hsl(var(--color-muted-foreground))] leading-relaxed mb-4 max-w-2xl"
+              data-testid="tool-page-subtitle"
+            >
+              {content.metaDescription}
+            </p>
+            <TrustBadges className="mb-8" />
+
+            {/* Two-column layout: tool interface + (implicit) settings panel inside children */}
             <section
-              className="mt-6"
               data-testid="tool-page-interface"
               aria-label="Tool interface"
             >
               {children}
             </section>
 
-            {/* Description Section */}
+            {/* SEO content below the fold */}
             <DescriptionSection description={content.description} />
-
-            {/* How to Use Section */}
             <HowToUseSection steps={content.howToUse} />
-
-            {/* Use Cases Section */}
             <UseCasesSection useCases={content.useCases} />
-
-            {/* FAQ Section */}
             <FAQSection faq={content.faq} />
 
-            {/* Related Tools Section */}
+            {/* Related Tools */}
             <RelatedToolsSection
               tools={relatedTools}
               locale={locale}
@@ -130,55 +150,7 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
   );
 }
 
-/**
- * Tool header with icon, name, and brief description
- */
-interface ToolHeaderProps {
-  tool: Tool;
-  content: ToolContent;
-}
-
-function ToolHeader({ tool, content }: ToolHeaderProps) {
-  const toolName = tool.id
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-
-  const IconComponent = getToolIcon(tool.icon);
-
-  return (
-    <header className="text-center" data-testid="tool-page-header" itemScope itemType="https://schema.org/SoftwareApplication">
-      <meta itemProp="applicationCategory" content="UtilitiesApplication" />
-      <meta itemProp="operatingSystem" content="Web Browser" />
-      <meta itemProp="offers" itemScope itemType="https://schema.org/Offer" content="" />
-      <meta itemProp="price" content="0" />
-      <meta itemProp="priceCurrency" content="USD" />
-      <div
-        className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[hsl(var(--color-primary)/0.1)] to-[hsl(var(--color-accent)/0.1)] mb-4 shadow-inner"
-        aria-hidden="true"
-      >
-        <IconComponent className="w-8 h-8 text-[hsl(var(--color-primary))]" />
-      </div>
-      <h1
-        className="text-3xl font-bold text-[hsl(var(--color-foreground))] mb-2"
-        data-testid="tool-page-title"
-        itemProp="name"
-      >
-        {content.title || toolName}
-      </h1>
-      <p
-        className="text-lg text-[hsl(var(--color-muted-foreground))] max-w-2xl mx-auto leading-relaxed mb-4"
-        data-testid="tool-page-subtitle"
-        itemProp="description"
-      >
-        {content.metaDescription}
-      </p>
-      <div className="flex items-center justify-center">
-        <FavoriteButton toolId={tool.id} size="lg" showLabel />
-      </div>
-    </header>
-  );
-}
+/* ToolHeader is now inlined into ToolPage above; kept for reference only */
 
 /**
  * Description section with detailed tool information
@@ -399,18 +371,21 @@ function RelatedToolsSection({ tools, locale, localizedRelatedTools }: RelatedTo
 
   return (
     <section
-      className="mt-10"
+      className="mt-12 pt-8 border-t border-[hsl(var(--color-border))]"
       data-testid="tool-page-related-tools"
       aria-labelledby="related-tools-heading"
     >
+      <p className="text-xs font-semibold uppercase tracking-widest text-[hsl(var(--color-muted-foreground))] mb-1">
+        Related PDF tools
+      </p>
       <h2
         id="related-tools-heading"
-        className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-6"
+        className="text-xl font-bold text-[hsl(var(--color-foreground))] mb-6"
       >
-        {t('tools.relatedTools')}
+        What&apos;s next?
       </h2>
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
         data-testid="related-tools-grid"
       >
         {tools.map(tool => {
@@ -419,9 +394,9 @@ function RelatedToolsSection({ tools, locale, localizedRelatedTools }: RelatedTo
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
+          const toolDesc = localized?.description || '';
 
           const IconComponent = getToolIcon(tool.icon);
-          const categoryName = t(`home.categories.${categoryTranslationKeys[tool.category]}`);
 
           return (
             <a
@@ -429,21 +404,23 @@ function RelatedToolsSection({ tools, locale, localizedRelatedTools }: RelatedTo
               href={`/${locale}/tools/${tool.slug}`}
               className="block group"
             >
-              <Card hover clickable className="h-full glass-card transition-all duration-300 group-hover:-translate-y-1">
-                <div className="flex items-center gap-4">
+              <Card className="h-full bg-[hsl(var(--color-card))] border border-[hsl(var(--color-border))] hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
+                <div className="p-4 flex items-start gap-3">
                   <div
-                    className="flex-shrink-0 w-12 h-12 rounded-xl bg-[hsl(var(--color-primary)/0.1)] flex items-center justify-center group-hover:bg-[hsl(var(--color-primary))] transition-colors duration-300"
+                    className="flex-shrink-0 w-10 h-10 rounded-lg bg-[hsl(var(--color-primary)/0.1)] flex items-center justify-center"
                     aria-hidden="true"
                   >
-                    <IconComponent className="w-6 h-6 text-[hsl(var(--color-primary))] group-hover:text-white transition-colors duration-300" />
+                    <IconComponent className="w-5 h-5 text-[hsl(var(--color-primary))]" />
                   </div>
-                  <div>
-                    <span className="font-semibold text-[hsl(var(--color-foreground))] block mb-1">
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-semibold text-[hsl(var(--color-foreground))] block group-hover:text-[hsl(var(--color-primary))] transition-colors">
                       {toolName}
                     </span>
-                    <span className="text-xs text-[hsl(var(--color-muted-foreground))]">
-                      {categoryName}
-                    </span>
+                    {toolDesc && (
+                      <span className="text-xs text-[hsl(var(--color-muted-foreground))] line-clamp-1">
+                        {toolDesc}
+                      </span>
+                    )}
                   </div>
                 </div>
               </Card>

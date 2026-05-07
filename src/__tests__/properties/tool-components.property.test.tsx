@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as fc from 'fast-check';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import React from 'react';
 import { tools } from '@/config/tools';
 import { locales } from '@/lib/i18n/config';
@@ -8,11 +8,25 @@ import { ToolCard } from '@/components/tools/ToolCard';
 
 // Mock next/link
 vi.mock('next/link', () => ({
-  default: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => 
+  default: ({ children, href, ...props }: { children: React.ReactNode; href: string }) =>
     React.createElement('a', { href, ...props }, children),
 }));
 
+// Mock next-intl
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
+// Mock next/navigation
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
+  usePathname: () => '/en/tools',
+}));
+
 describe('Tool Component Property Tests', () => {
+  beforeEach(() => {
+    cleanup();
+  });
   /**
    * **Feature: nextjs-pdf-toolkit, Property 3: Tool Card Rendering**
    * **Validates: Requirements 2.5**
@@ -193,6 +207,9 @@ function generateValidToolContent(tool: typeof tools[0]): ToolContent {
 }
 
 describe('Tool Page Property Tests', () => {
+  beforeEach(() => {
+    cleanup();
+  });
   /**
    * **Feature: nextjs-pdf-toolkit, Property 7: Tool Page Content Completeness**
    * **Validates: Requirements 4.2, 4.3, 4.4, 4.5, 12.1-12.5**

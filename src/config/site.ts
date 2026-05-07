@@ -2,15 +2,15 @@
  * Site configuration
  */
 export const siteConfig = {
-  name: 'PDFCraft',
+  name: 'PDFaro',
   description: 'Professional PDF Tools - Free, Private & Browser-Based. Merge, split, compress, convert, and edit PDF files online without uploading to servers.',
-  url: 'https://pdfcraft.devtoolcafe.com',
-  ogImage: '/images/og-image.png',
+  url: 'https://pdfaro.app',
+  ogImage: '/images/png/lockup-color-960.png',
   links: {
-    github: 'https://github.com/PDFCraftTool/pdfcraft',
-    twitter: 'https://twitter.com/pdfcraft',
+    github: 'https://github.com/PDFaroTool/pdfaro',
+    twitter: 'https://twitter.com/pdfaro',
   },
-  creator: 'PDFCraft Team',
+  creator: 'PDFaro Team',
   keywords: [
     'PDF tools',
     'PDF editor',
@@ -25,9 +25,9 @@ export const siteConfig = {
   ],
   // SEO-related settings
   seo: {
-    titleTemplate: '%s | PDFCraft',
-    defaultTitle: 'PDFCraft - Professional PDF Tools',
-    twitterHandle: '@pdfcraft',
+    titleTemplate: '%s | PDFaro',
+    defaultTitle: 'PDFaro - Professional PDF Tools',
+    twitterHandle: '@pdfaro',
     locale: 'en_US',
   },
 };

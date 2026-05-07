@@ -18,6 +18,11 @@ export { Modal, type ModalProps } from './Modal';
 export { Tabs, type TabsProps, type Tab } from './Tabs';
 export { OptimizedImage, IMAGE_SIZES, type OptimizedImageProps } from './OptimizedImage';
 
+// PDFaro redesign atoms
+export { ToolBadge, type ToolBadgeProps, type BadgeVariant } from './ToolBadge';
+export { TrustBadges, type TrustBadgesProps, type TrustBadge } from './TrustBadges';
+export { SectionHeader, type SectionHeaderProps } from './SectionHeader';
+
 // Form Components - Requirements: 9.5
 export {
   FormField,

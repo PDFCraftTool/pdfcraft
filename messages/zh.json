@@ -1,7 +1,7 @@
 {
   "metadata": {
     "home": {
-      "title": "PDFCraft - 专业 PDF 工具",
+      "title": "PDFaro - 专业 PDF 工具",
       "description": "免费、私密、基于浏览器。在线合并、编辑 PDF 文件，无需上传到服务器。"
     },
     "tools": {
@@ -10,19 +10,19 @@
     },
     "about": {
       "title": "关于我们",
-      "description": "了解 PDFCraft - 您免费、私密且强大的 PDF 工具箱。所有处理都在您的浏览器中进行。"
+      "description": "了解 PDFaro - 您免费、私密且强大的 PDF 工具箱。所有处理都在您的浏览器中进行。"
     },
     "faq": {
       "title": "常见问题",
-      "description": "查找有关 PDFCraft 的常见问题解答。了解如何有效使用我们的 PDF 工具。"
+      "description": "查找有关 PDFaro 的常见问题解答。了解如何有效使用我们的 PDF 工具。"
     },
     "privacy": {
       "title": "隐私政策",
-      "description": "PDFCraft 隐私政策。您的文件永远不会离开您的设备 - 所有处理都在本地浏览器中进行。"
+      "description": "PDFaro 隐私政策。您的文件永远不会离开您的设备 - 所有处理都在本地浏览器中进行。"
     },
     "contact": {
       "title": "联系我们",
-      "description": "联系 PDFCraft 团队。我们很乐意听取您的意见。"
+      "description": "联系 PDFaro 团队。我们很乐意听取您的意见。"
     },
     "keywords": {
       "pdfTools": "PDF 工具",
@@ -35,7 +35,7 @@
     }
   },
   "common": {
-    "brand": "PDFCraft",
+    "brand": "PDFaro",
     "tagline": "专业PDF工具 - 免费且私密",
     "navigation": {
       "home": "首页",
@@ -83,8 +83,8 @@
       "loading": "加载中..."
     },
     "footer": {
-      "footer": "© 2025 PDFCraft. 保留所有权利。",
-      "copyright": "© {year} PDFCraft. 保留所有权利。",
+      "footer": "© 2025 PDFaro. 保留所有权利。",
+      "copyright": "© {year} PDFaro. 保留所有权利。",
       "privacyBadge": "100% 私密 - 文件永不离开您的设备",
       "madeWith": "Made with <Heart /> and <Nextjs />"
     },
@@ -129,7 +129,7 @@
       "finish": "完成",
       "skip": "跳过",
       "stepOf": "/",
-      "welcomeTitle": "欢迎使用PDFCraft！",
+      "welcomeTitle": "欢迎使用PDFaro！",
       "welcomeMessage": "想要快速了解如何使用我们的PDF工具吗？只需一分钟。",
       "helpButton": "帮助导览"
     },
@@ -194,16 +194,16 @@
     "sections": {
       "general": {
         "whatIs": {
-          "question": "PDFCraft 是什么？",
-          "answer": "PDFCraft 是一个免费、注重隐私的 PDF 工具包，完全在您的浏览器中运行。它提供 67+ 个专业工具，用于编辑、转换、合并、分割和加密 PDF 文件，而无需将其上传到任何服务器。"
+          "question": "PDFaro 是什么？",
+          "answer": "PDFaro 是一个免费、注重隐私的 PDF 工具包，完全在您的浏览器中运行。它提供 67+ 个专业工具，用于编辑、转换、合并、分割和加密 PDF 文件，而无需将其上传到任何服务器。"
         },
         "isFree": {
-          "question": "PDFCraft 真的免费吗？",
-          "answer": "是的，PDFCraft 完全免费使用。没有隐藏费用，没有高级会员，也无需注册。所有功能对每个人开放。"
+          "question": "PDFaro 真的免费吗？",
+          "answer": "是的，PDFaro 完全免费使用。没有隐藏费用，没有高级会员，也无需注册。所有功能对每个人开放。"
         },
         "account": {
           "question": "我需要创建账户吗？",
-          "answer": "不需要，您无需创建账户或注册即可使用 PDFCraft。只需访问网站即可立即开始使用任何工具。"
+          "answer": "不需要，您无需创建账户或注册即可使用 PDFaro。只需访问网站即可立即开始使用任何工具。"
         }
       },
       "privacy": {
@@ -212,8 +212,8 @@
           "answer": "不会，您的文件从未上传到任何服务器。所有 PDF 处理都使用 JavaScript 和 WebAssembly 在浏览器本地进行。您的文件从未离开您的设备。"
         },
         "safe": {
-          "question": "使用 PDFCraft 处理敏感文档安全吗？",
-          "answer": "是的，PDFCraft 的设计以隐私为重。由于所有处理都在浏览器本地进行，您的敏感文档保留在您的设备上，从未通过互联网传输。"
+          "question": "使用 PDFaro 处理敏感文档安全吗？",
+          "answer": "是的，PDFaro 的设计以隐私为重。由于所有处理都在浏览器本地进行，您的敏感文档保留在您的设备上，从未通过互联网传输。"
         },
         "storage": {
           "question": "处理后我的文件会怎样？",
@@ -223,7 +223,7 @@
       "features": {
         "operations": {
           "question": "我可以执行哪些 PDF 操作？",
-          "answer": "PDFCraft 提供 67+ 个工具，包括：合并、分割、压缩、转换（转为/来自图像、文本、JSON）、编辑、注释、签名、添加水印、加密/解密、OCR 等等。"
+          "answer": "PDFaro 提供 67+ 个工具，包括：合并、分割、压缩、转换（转为/来自图像、文本、JSON）、编辑、注释、签名、添加水印、加密/解密、OCR 等等。"
         },
         "merge": {
           "question": "我可以合并多个 PDF 文件吗？",
@@ -231,17 +231,17 @@
         },
         "images": {
           "question": "我可以将图像转换为 PDF 吗？",
-          "answer": "是的，PDFCraft 支持将各种图像格式（JPG、PNG、WebP、BMP、TIFF、SVG、HEIC）转换为 PDF。您可以一次转换单个或多个图像。"
+          "answer": "是的，PDFaro 支持将各种图像格式（JPG、PNG、WebP、BMP、TIFF、SVG、HEIC）转换为 PDF。您可以一次转换单个或多个图像。"
         },
         "edit": {
           "question": "我可以编辑 PDF 中的文本吗？",
-          "answer": "PDFCraft 提供注释和编辑工具，包括高亮、添加文本、形状、图像和签名。如需全文编辑，PDF 编辑器工具提供全面的注释功能。"
+          "answer": "PDFaro 提供注释和编辑工具，包括高亮、添加文本、形状、图像和签名。如需全文编辑，PDF 编辑器工具提供全面的注释功能。"
         }
       },
       "technical": {
         "browsers": {
           "question": "支持哪些浏览器？",
-          "answer": "PDFCraft 适用于所有现代浏览器，包括 Chrome、Firefox、Safari 和 Edge。我们建议使用最新版本的浏览器以获得最佳体验。"
+          "answer": "PDFaro 适用于所有现代浏览器，包括 Chrome、Firefox、Safari 和 Edge。我们建议使用最新版本的浏览器以获得最佳体验。"
         },
         "sizeLimit": {
           "question": "有文件大小限制吗？",
@@ -252,14 +252,14 @@
           "answer": "由于所有处理都在浏览器中进行，性能取决于您设备的能力。大文件需要更多的内存和处理能力。为了获得最佳结果，请关闭其他浏览器标签页和应用程序。"
         },
         "offline": {
-          "question": "PDFCraft 可以离线工作吗？",
-          "answer": "目前，PDFCraft 需要互联网连接才能加载应用程序。但是，一旦加载，PDF 处理本身在本地进行，不需要连接。"
+          "question": "PDFaro 可以离线工作吗？",
+          "answer": "目前，PDFaro 需要互联网连接才能加载应用程序。但是，一旦加载，PDF 处理本身在本地进行，不需要连接。"
         }
       },
       "languages": {
         "supported": {
           "question": "支持哪些语言？",
-          "answer": "PDFCraft 提供 9 种语言版本：英语、日语、韩语、西班牙语、法语、德语、中文、葡萄牙语和阿拉伯语（支持从右到左）。"
+          "answer": "PDFaro 提供 9 种语言版本：英语、日语、韩语、西班牙语、法语、德语、中文、葡萄牙语和阿拉伯语（支持从右到左）。"
         },
         "change": {
           "question": "如何更改语言？",
@@ -290,7 +290,7 @@
       },
       "fast": {
         "title": "快速高效",
-        "description": "由现代 Web 技术驱动，PDFCraft 提供闪电般的 PDF 处理速度，无需上传或下载。"
+        "description": "由现代 Web 技术驱动，PDFaro 提供闪电般的 PDF 处理速度，无需上传或下载。"
       },
       "accessible": {
         "title": "随处可用",
@@ -298,7 +298,7 @@
       },
       "free": {
         "title": "永久免费",
-        "description": "PDFCraft 完全免费使用，没有隐藏费用，无需注册，也不限制使用次数。"
+        "description": "PDFaro 完全免费使用，没有隐藏费用，无需注册，也不限制使用次数。"
       },
       "openSource": {
         "title": "开源透明",
@@ -411,6 +411,7 @@
     "browserNotSupported": "您的浏览器不支持此功能。",
     "invalidPageRange": "指定的页面范围无效。",
     "invalidOptions": "提供的选项无效。",
+    "invalidPassword": "The password you entered is incorrect.",
     "unknown": "发生意外错误。请重试。",
     "toolNotFound": "工具未找到"
   },
@@ -472,7 +473,7 @@
   "workflow": {
     "title": "PDF 工作流编辑器",
     "subtitle": "通过连接工具创建自定义 PDF 处理管道",
-    "metaTitle": "PDF 工作流编辑器 - PDFCraft",
+    "metaTitle": "PDF 工作流编辑器 - PDFaro",
     "metaDescription": "通过可视化连接工具创建自定义 PDF 处理管道。构建、保存和重用您的工作流。",
     "toolbox": "工具箱",
     "dragToAdd": "拖拽工具添加到工作流",

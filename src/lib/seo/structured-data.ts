@@ -166,7 +166,7 @@ export function generateSoftwareApplicationSchema(
     description: content.metaDescription,
     url: `${siteConfig.url}/${locale}/tools/${tool.slug}`,
     applicationCategory: 'UtilitiesApplication',
-    operatingSystem: 'Windows, macOS, Linux, iOS, Android, Chrome OS',
+    operatingSystem: 'Web Browser',
     offers: {
       '@type': 'Offer',
       price: '0',

@@ -258,27 +258,20 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   const baseStyles = `
     relative flex flex-col items-center justify-center
-    w-full min-h-[250px] p-10
+    w-full min-h-[220px] p-8
     border-2 border-dashed
-    rounded-[2rem]
-    transition-all duration-300
+    rounded-2xl
+    transition-all duration-200
     cursor-pointer
     group
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--color-primary))/0.5]
   `;
 
-  // Dynamic styles based on state
   const stateStyles = disabled
     ? 'border-[hsl(var(--color-muted))] bg-[hsl(var(--color-muted)/0.3)] cursor-not-allowed opacity-50'
     : isDragging
-      ? 'border-[hsl(var(--color-primary))] bg-[hsl(var(--color-primary)/0.05)] scale-[1.01] shadow-2xl shadow-primary/10'
-      : `
-      border-[hsl(var(--color-border))] 
-      bg-[hsl(var(--color-card)/0.5)] 
-      hover:border-[hsl(var(--color-primary))] 
-      hover:bg-[hsl(var(--color-background))] 
-      hover:shadow-xl hover:shadow-[hsl(var(--color-primary)/0.05)]
-      glass-card
-    `;
+      ? 'border-[hsl(var(--color-primary))] bg-[hsl(var(--color-primary)/0.04)]'
+      : 'border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] hover:border-[hsl(var(--color-primary)/0.6)] hover:bg-[hsl(var(--color-muted)/0.3)]';
 
   return (
     <div
@@ -307,54 +300,57 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         disabled={disabled}
       />
 
-      {/* Decorative background blob */}
-      <div className="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[hsl(var(--color-primary)/0.03)] rounded-full blur-3xl" />
-      </div>
-
       {/* Upload icon */}
-      <div className={`
-        mb-6 p-4 rounded-full transition-transform duration-300 group-hover:scale-110
-        ${isDragging ? 'bg-[hsl(var(--color-primary)/0.1)] text-[hsl(var(--color-primary))]' : 'bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))] group-hover:bg-[hsl(var(--color-primary)/0.1)] group-hover:text-[hsl(var(--color-primary))]'}
-      `}>
-        <UploadCloud className="w-10 h-10" aria-hidden="true" />
+      <div className={`mb-4 transition-colors duration-200 ${isDragging ? 'text-[hsl(var(--color-primary))]' : 'text-[hsl(var(--color-muted-foreground))] group-hover:text-[hsl(var(--color-primary))]'}`}>
+        <UploadCloud className="w-9 h-9" aria-hidden="true" />
       </div>
 
       {/* Label */}
-      <p className="text-xl font-semibold text-[hsl(var(--color-foreground))] mb-3 text-center">
-        {label || t('buttons.upload')}
+      <p className="text-base font-semibold text-[hsl(var(--color-foreground))] mb-1.5 text-center">
+        {label || 'Drag and drop files here or click to browse'}
       </p>
 
-      {/* Description */}
-      <div className="text-sm text-[hsl(var(--color-muted-foreground))] text-center max-w-sm leading-relaxed">
+      {/* Description / size hint */}
+      <p className="text-xs text-[hsl(var(--color-muted-foreground))] text-center mb-2">
         {description || (
-          <>
-            <p className="mb-2">{t('fileUploader.dragDrop')}</p>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[hsl(var(--color-muted)/0.5)] text-xs font-medium">
-              <span className="opacity-70">{t('fileUploader.support')}:</span>
-              <span>{t('fileUploader.paste')}</span>
-            </div>
-          </>
+          maxSize !== Infinity
+            ? `Up to ${Math.round(maxSize / 1024 / 1024)}MB · ${multiple ? 'Multiple files' : 'Single file'}`
+            : (multiple ? 'Multiple files' : 'Single file')
         )}
-      </div>
+      </p>
 
-      {/* File info hints - only show when multiple files allowed */}
-      {multiple && (
-        <div className="mt-6 flex flex-wrap gap-2 justify-center">
-          <span className="text-xs px-2 py-1 rounded-md bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))]">
-            Files: {maxFiles}
-          </span>
-        </div>
+      {/* File type info */}
+      {accept && accept.length > 0 && (
+        <p className="text-xs text-[hsl(var(--color-muted-foreground))] text-center mb-1">
+          {accept.join(', ')}
+        </p>
       )}
+
+      {/* Max files info */}
+      {multiple && maxFiles && (
+        <p className="text-xs text-[hsl(var(--color-muted-foreground))] text-center mb-4">
+          Max files: {maxFiles}
+        </p>
+      )}
+
+      {/* Select button */}
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={disabled}
+        className="px-5 py-2 text-sm font-semibold text-white bg-[hsl(var(--color-primary))] hover:bg-[hsl(var(--color-primary-hover))] rounded-lg transition-colors shadow-sm disabled:opacity-50"
+        tabIndex={-1}
+        aria-hidden="true"
+      >
+        Select PDF
+      </button>
 
       {/* Drag overlay */}
       {isDragging && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[hsl(var(--color-background)/0.9)] backdrop-blur-sm rounded-[2rem] z-10 transition-opacity duration-200">
-          <div className="p-4 rounded-full bg-[hsl(var(--color-primary)/0.1)] text-[hsl(var(--color-primary))] mb-4 motion-safe:animate-bounce">
-            <Plus className="w-8 h-8" />
-          </div>
-          <p className="text-xl font-bold text-[hsl(var(--color-primary))]">
-            {t('fileUploader.dropToUpload')}
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[hsl(var(--color-primary)/0.06)] rounded-2xl z-10 pointer-events-none">
+          <Plus className="w-8 h-8 text-[hsl(var(--color-primary))] mb-2" aria-hidden="true" />
+          <p className="text-sm font-semibold text-[hsl(var(--color-primary))]">
+            Drop files here
           </p>
         </div>
       )}

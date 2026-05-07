@@ -126,123 +126,62 @@ export const ProcessingProgress: React.FC<ProcessingProgressProps> = ({
 
   return (
     <div
-      className={`w-full ${className}`.trim()}
+      className={`w-full rounded-xl border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] p-4 ${className}`.trim()}
       role="progressbar"
       aria-valuenow={clampedProgress}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={`${statusText}: ${clampedProgress}%`}
     >
-      {/* Screen reader announcement for status changes */}
-      <div 
-        role="status" 
-        aria-live="polite" 
-        aria-atomic="true" 
-        className="sr-only"
-      >
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         {announcementRef.current}
       </div>
-      {/* Status and percentage header */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          {/* Status indicator */}
-          {(status === 'uploading' || status === 'processing') && (
-            <div className="relative">
-              <div className="w-4 h-4 rounded-full bg-[hsl(var(--color-primary)/0.3)]" />
-              <div className="absolute inset-0 w-4 h-4 rounded-full bg-[hsl(var(--color-primary))] animate-ping opacity-75" />
-            </div>
-          )}
-          {status === 'complete' && (
-            <svg
-              className="w-5 h-5 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          )}
-          {status === 'error' && (
-            <svg
-              className="w-5 h-5 text-red-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          )}
-          
-          {/* Status text */}
-          <span className="text-sm font-medium text-[hsl(var(--color-foreground))]">
-            {statusText}
-          </span>
-        </div>
 
-        {/* Percentage */}
+      {/* Header row: message + percentage */}
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-[hsl(var(--color-foreground))] truncate">
+            {message || statusText}
+          </p>
+          {(status === 'uploading' || status === 'processing') && (
+            <p className="text-xs text-[hsl(var(--color-muted-foreground))] mt-0.5">
+              WebAssembly · running locally · 0 KB sent
+            </p>
+          )}
+        </div>
         {showPercentage && (
-          <span className="text-sm font-medium text-[hsl(var(--color-muted-foreground))]">
+          <span className="text-sm font-semibold text-[hsl(var(--color-primary))] shrink-0">
             {Math.round(clampedProgress)}%
           </span>
         )}
       </div>
 
       {/* Progress bar */}
-      <div className="relative w-full h-2 bg-[hsl(var(--color-muted))] rounded-full overflow-hidden">
+      <div className="relative w-full h-1.5 bg-[hsl(var(--color-muted))] rounded-full overflow-hidden mb-3">
         <div
           className={`absolute left-0 top-0 h-full transition-all duration-300 ease-out rounded-full ${progressBarColor}`}
           style={{ width: `${clampedProgress}%` }}
         />
-        
-        {/* Animated shimmer for active states */}
-        {(status === 'uploading' || status === 'processing') && clampedProgress < 100 && (
-          <div
-            className="absolute left-0 top-0 h-full bg-gradient-to-r from-transparent via-[hsl(var(--color-primary-foreground)/0.3)] to-transparent motion-safe:animate-shimmer"
-            style={{ width: `${clampedProgress}%` }}
-          />
-        )}
       </div>
 
-      {/* Message and estimated time */}
-      <div className="flex items-center justify-between mt-2">
-        {/* Current step message */}
-        <p className="text-sm text-[hsl(var(--color-muted-foreground))] truncate flex-1">
-          {message || ''}
-        </p>
-
-        {/* Estimated time */}
-        {showEstimatedTime && formattedTime && (status === 'uploading' || status === 'processing') && (
-          <span className="text-xs text-[hsl(var(--color-muted-foreground))] ml-4 whitespace-nowrap">
-            {formattedTime}
-          </span>
-        )}
-      </div>
-
-      {/* Cancel button */}
-      {showCancel && (
-        <div className="mt-3">
+      {/* Footer row: time + cancel */}
+      <div className="flex items-center justify-between text-xs text-[hsl(var(--color-muted-foreground))]">
+        <span>
+          {(status === 'uploading' || status === 'processing') && showEstimatedTime && formattedTime && (
+            <span>{formattedTime}</span>
+          )}
+        </span>
+        {showCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="text-sm text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
+            className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
             aria-label={t('buttons.cancel')}
           >
             {t('buttons.cancel')}
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

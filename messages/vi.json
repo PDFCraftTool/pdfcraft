@@ -1,7 +1,7 @@
 {
   "metadata": {
     "home": {
-      "title": "PDFCraft - Công cụ PDF Chuyên nghiệp",
+      "title": "PDFaro - Công cụ PDF Chuyên nghiệp",
       "description": "Miễn phí, Riêng tư & Hoàn toàn trên Trình duyệt. Hợp nhất, chỉnh sửa PDF trực tuyến mà không cần tải lên máy chủ."
     },
     "tools": {
@@ -10,19 +10,19 @@
     },
     "about": {
       "title": "Giới thiệu",
-      "description": "Tìm hiểu về PDFCraft - bộ công cụ PDF miễn phí, riêng tư và mạnh mẽ của bạn. Toàn bộ xử lý diễn ra ngay trong trình duyệt."
+      "description": "Tìm hiểu về PDFaro - bộ công cụ PDF miễn phí, riêng tư và mạnh mẽ của bạn. Toàn bộ xử lý diễn ra ngay trong trình duyệt."
     },
     "faq": {
       "title": "Câu hỏi Thường gặp",
-      "description": "Tìm câu trả lời cho các câu hỏi phổ biến về PDFCraft. Hướng dẫn sử dụng hiệu quả các công cụ PDF của chúng tôi."
+      "description": "Tìm câu trả lời cho các câu hỏi phổ biến về PDFaro. Hướng dẫn sử dụng hiệu quả các công cụ PDF của chúng tôi."
     },
     "privacy": {
       "title": "Chính sách Bảo mật",
-      "description": "Chính sách bảo mật của PDFCraft. Tệp của bạn không bao giờ rời khỏi thiết bị - mọi xử lý đều diễn ra cục bộ trong trình duyệt."
+      "description": "Chính sách bảo mật của PDFaro. Tệp của bạn không bao giờ rời khỏi thiết bị - mọi xử lý đều diễn ra cục bộ trong trình duyệt."
     },
     "contact": {
       "title": "Liên hệ Chúng tôi",
-      "description": "Liên hệ với đội ngũ PDFCraft. Chúng tôi rất mong nhận được phản hồi từ bạn."
+      "description": "Liên hệ với đội ngũ PDFaro. Chúng tôi rất mong nhận được phản hồi từ bạn."
     },
     "keywords": {
       "pdfTools": "công cụ PDF",
@@ -35,7 +35,7 @@
     }
   },
   "common": {
-    "brand": "PDFCraft",
+    "brand": "PDFaro",
     "tagline": "Công cụ PDF Chuyên nghiệp - Miễn phí & Riêng tư",
     "navigation": {
       "home": "Trang chủ",
@@ -83,8 +83,8 @@
       "loading": "Đang tải..."
     },
     "footer": {
-      "footer": "© 2025 PDFCraft. Bảo lưu mọi quyền.",
-      "copyright": "© {year} PDFCraft. Bảo lưu mọi quyền.",
+      "footer": "© 2025 PDFaro. Bảo lưu mọi quyền.",
+      "copyright": "© {year} PDFaro. Bảo lưu mọi quyền.",
       "privacyBadge": "100% Riêng tư - Tệp không bao giờ rời khỏi thiết bị",
       "madeWith": "Được tạo bởi <Heart /> và <Nextjs />"
     },
@@ -129,7 +129,7 @@
       "finish": "Hoàn tất",
       "skip": "Bỏ qua",
       "stepOf": "của",
-      "welcomeTitle": "Chào mừng đến với PDFCraft!",
+      "welcomeTitle": "Chào mừng đến với PDFaro!",
       "welcomeMessage": "Bạn có muốn tham gia một hướng dẫn nhanh để tìm hiểu cách sử dụng các công cụ PDF không? Chỉ mất khoảng một phút thôi.",
       "helpButton": "Hướng dẫn Trợ giúp"
     },
@@ -194,16 +194,16 @@
     "sections": {
       "general": {
         "whatIs": {
-          "question": "PDFCraft là gì?",
-          "answer": "PDFCraft là bộ công cụ PDF miễn phí, tập trung vào quyền riêng tư, chạy hoàn toàn trong trình duyệt của bạn. Nó cung cấp hơn 80 công cụ chuyên nghiệp để chỉnh sửa, chuyển đổi, hợp nhất, tách và bảo mật tệp PDF mà không cần tải lên bất kỳ máy chủ nào."
+          "question": "PDFaro là gì?",
+          "answer": "PDFaro là bộ công cụ PDF miễn phí, tập trung vào quyền riêng tư, chạy hoàn toàn trong trình duyệt của bạn. Nó cung cấp hơn 80 công cụ chuyên nghiệp để chỉnh sửa, chuyển đổi, hợp nhất, tách và bảo mật tệp PDF mà không cần tải lên bất kỳ máy chủ nào."
         },
         "isFree": {
-          "question": "PDFCraft có thực sự miễn phí không?",
-          "answer": "Có, PDFCraft hoàn toàn miễn phí. Không có chi phí ẩn, không có gói cao cấp và không cần đăng ký. Tất cả tính năng đều mở cho mọi người."
+          "question": "PDFaro có thực sự miễn phí không?",
+          "answer": "Có, PDFaro hoàn toàn miễn phí. Không có chi phí ẩn, không có gói cao cấp và không cần đăng ký. Tất cả tính năng đều mở cho mọi người."
         },
         "account": {
           "question": "Tôi có cần tạo tài khoản không?",
-          "answer": "Không, bạn không cần tạo tài khoản hay đăng ký để sử dụng PDFCraft. Chỉ cần truy cập website và bắt đầu sử dụng công cụ ngay lập tức."
+          "answer": "Không, bạn không cần tạo tài khoản hay đăng ký để sử dụng PDFaro. Chỉ cần truy cập website và bắt đầu sử dụng công cụ ngay lập tức."
         }
       },
       "privacy": {
@@ -212,8 +212,8 @@
           "answer": "Không, tệp của bạn không bao giờ được tải lên bất kỳ máy chủ nào. Toàn bộ xử lý PDF diễn ra cục bộ trong trình duyệt bằng JavaScript và WebAssembly. Tệp không bao giờ rời khỏi thiết bị của bạn."
         },
         "safe": {
-          "question": "Có an toàn khi sử dụng PDFCraft với tài liệu nhạy cảm không?",
-          "answer": "Có, PDFCraft được thiết kế với trọng tâm là quyền riêng tư. Vì mọi xử lý diễn ra cục bộ trong trình duyệt, tài liệu nhạy cảm của bạn vẫn ở trên thiết bị và không bao giờ được truyền qua internet."
+          "question": "Có an toàn khi sử dụng PDFaro với tài liệu nhạy cảm không?",
+          "answer": "Có, PDFaro được thiết kế với trọng tâm là quyền riêng tư. Vì mọi xử lý diễn ra cục bộ trong trình duyệt, tài liệu nhạy cảm của bạn vẫn ở trên thiết bị và không bao giờ được truyền qua internet."
         },
         "storage": {
           "question": "Tệp của tôi sẽ ra sao sau khi xử lý?",
@@ -223,7 +223,7 @@
       "features": {
         "operations": {
           "question": "Tôi có thể thực hiện những thao tác PDF nào?",
-          "answer": "PDFCraft cung cấp hơn 67 công cụ bao gồm: hợp nhất, tách, nén, chuyển đổi (sang/từ hình ảnh, văn bản, JSON), chỉnh sửa, chú thích, ký, thêm dấu mờ, mã hóa/giải mã, OCR và nhiều hơn nữa."
+          "answer": "PDFaro cung cấp hơn 67 công cụ bao gồm: hợp nhất, tách, nén, chuyển đổi (sang/từ hình ảnh, văn bản, JSON), chỉnh sửa, chú thích, ký, thêm dấu mờ, mã hóa/giải mã, OCR và nhiều hơn nữa."
         },
         "merge": {
           "question": "Tôi có thể hợp nhất nhiều tệp PDF không?",
@@ -231,17 +231,17 @@
         },
         "images": {
           "question": "Tôi có thể chuyển hình ảnh thành PDF không?",
-          "answer": "Có, PDFCraft hỗ trợ chuyển đổi nhiều định dạng hình ảnh (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) thành PDF. Bạn có thể chuyển đổi một hoặc nhiều hình ảnh cùng lúc."
+          "answer": "Có, PDFaro hỗ trợ chuyển đổi nhiều định dạng hình ảnh (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) thành PDF. Bạn có thể chuyển đổi một hoặc nhiều hình ảnh cùng lúc."
         },
         "edit": {
           "question": "Tôi có thể chỉnh sửa văn bản trong PDF không?",
-          "answer": "PDFCraft cung cấp các công cụ chú thích và chỉnh sửa bao gồm tô sáng, thêm văn bản, hình dạng, hình ảnh và chữ ký. Đối với chỉnh sửa văn bản đầy đủ, công cụ Trình chỉnh sửa PDF cung cấp khả năng chú thích toàn diện."
+          "answer": "PDFaro cung cấp các công cụ chú thích và chỉnh sửa bao gồm tô sáng, thêm văn bản, hình dạng, hình ảnh và chữ ký. Đối với chỉnh sửa văn bản đầy đủ, công cụ Trình chỉnh sửa PDF cung cấp khả năng chú thích toàn diện."
         }
       },
       "technical": {
         "browsers": {
           "question": "Những trình duyệt nào được hỗ trợ?",
-          "answer": "PDFCraft hoạt động trên tất cả trình duyệt hiện đại bao gồm Chrome, Firefox, Safari và Edge. Chúng tôi khuyến nghị sử dụng phiên bản mới nhất của trình duyệt để có trải nghiệm tốt nhất."
+          "answer": "PDFaro hoạt động trên tất cả trình duyệt hiện đại bao gồm Chrome, Firefox, Safari và Edge. Chúng tôi khuyến nghị sử dụng phiên bản mới nhất của trình duyệt để có trải nghiệm tốt nhất."
         },
         "sizeLimit": {
           "question": "Có giới hạn kích thước tệp không?",
@@ -252,14 +252,14 @@
           "answer": "Vì toàn bộ xử lý diễn ra trong trình duyệt, hiệu suất phụ thuộc vào khả năng của thiết bị. Tệp lớn cần nhiều bộ nhớ và sức mạnh xử lý hơn. Để có kết quả tốt nhất, hãy đóng các tab và ứng dụng trình duyệt khác."
         },
         "offline": {
-          "question": "PDFCraft có hoạt động ngoại tuyến không?",
-          "answer": "Hiện tại, PDFCraft cần kết nối internet để tải ứng dụng. Tuy nhiên, sau khi tải xong, việc xử lý PDF diễn ra cục bộ và không cần kết nối."
+          "question": "PDFaro có hoạt động ngoại tuyến không?",
+          "answer": "Hiện tại, PDFaro cần kết nối internet để tải ứng dụng. Tuy nhiên, sau khi tải xong, việc xử lý PDF diễn ra cục bộ và không cần kết nối."
         }
       },
       "languages": {
         "supported": {
           "question": "Những ngôn ngữ nào được hỗ trợ?",
-          "answer": "PDFCraft hiện hỗ trợ 9 ngôn ngữ: Tiếng Anh, Nhật, Hàn, Tây Ban Nha, Pháp, Đức, Trung, Bồ Đào Nha và Ả Rập (hỗ trợ RTL)."
+          "answer": "PDFaro hiện hỗ trợ 9 ngôn ngữ: Tiếng Anh, Nhật, Hàn, Tây Ban Nha, Pháp, Đức, Trung, Bồ Đào Nha và Ả Rập (hỗ trợ RTL)."
         },
         "change": {
           "question": "Làm thế nào để thay đổi ngôn ngữ?",
@@ -290,7 +290,7 @@
       },
       "fast": {
         "title": "Nhanh & Hiệu quả",
-        "description": "Được hỗ trợ bởi công nghệ web hiện đại, PDFCraft mang đến xử lý PDF cực nhanh mà không cần tải lên hoặc tải xuống."
+        "description": "Được hỗ trợ bởi công nghệ web hiện đại, PDFaro mang đến xử lý PDF cực nhanh mà không cần tải lên hoặc tải xuống."
       },
       "accessible": {
         "title": "Truy cập Mọi nơi",
@@ -298,7 +298,7 @@
       },
       "free": {
         "title": "Miễn phí Vĩnh viễn",
-        "description": "PDFCraft hoàn toàn miễn phí, không chi phí ẩn, không cần đăng ký, không giới hạn sử dụng."
+        "description": "PDFaro hoàn toàn miễn phí, không chi phí ẩn, không cần đăng ký, không giới hạn sử dụng."
       },
       "openSource": {
         "title": "Mã nguồn Mở",
@@ -472,7 +472,7 @@
   "workflow": {
     "title": "Trình xây dựng Quy trình PDF",
     "subtitle": "Tạo quy trình xử lý PDF tùy chỉnh bằng cách kết nối các công cụ",
-    "metaTitle": "Trình xây dựng Quy trình PDF - PDFCraft",
+    "metaTitle": "Trình xây dựng Quy trình PDF - PDFaro",
     "metaDescription": "Tạo quy trình xử lý PDF tùy chỉnh bằng cách kết nối trực quan các công cụ. Xây dựng, lưu và tái sử dụng quy trình của bạn.",
     "toolbox": "Hộp Công cụ",
     "dragToAdd": "Kéo công cụ để thêm vào quy trình",

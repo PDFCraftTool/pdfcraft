@@ -32,132 +32,95 @@ const ToolNode = memo(({ id, data, selected = false, isConnectable = true }: Too
         deleteElements({ nodes: [{ id }] });
     };
 
-    // Status colors
-    const statusColors = {
-        idle: 'bg-[hsl(var(--color-muted))]',
-        processing: 'bg-blue-100 border-blue-400',
-        complete: 'bg-green-100 border-green-400',
-        error: 'bg-red-100 border-red-400',
+    // Status colours matching the Figma workflow nodes
+    const nodeBorderColor = {
+        idle: 'border-[hsl(var(--color-border))]',
+        processing: 'border-[hsl(var(--color-primary))]',
+        complete: 'border-green-400 dark:border-green-600',
+        error: 'border-red-400 dark:border-red-600',
     };
 
-    // Status indicator colors
-    const statusIndicatorColors = {
-        idle: 'bg-gray-300',
-        processing: 'bg-blue-500 animate-pulse',
-        complete: 'bg-green-500',
-        error: 'bg-red-500',
-    };
-
-    // Category colors
-    const categoryColors: Record<string, string> = {
-        'organize-manage': 'border-l-blue-500',
-        'edit-annotate': 'border-l-purple-500',
-        'convert-to-pdf': 'border-l-green-500',
-        'convert-from-pdf': 'border-l-orange-500',
-        'optimize-repair': 'border-l-yellow-500',
-        'security-privacy': 'border-l-red-500',
+    const statusBadgeStyle = {
+        idle: 'text-[hsl(var(--color-muted-foreground))]',
+        processing: 'text-[hsl(var(--color-primary))] font-semibold',
+        complete: 'text-green-600 dark:text-green-400 font-semibold',
+        error: 'text-red-600 dark:text-red-400 font-semibold',
     };
 
     return (
         <div
             className={`
-        relative px-4 py-3 rounded-lg shadow-md border-2 border-l-4 transition-all duration-200
-        ${statusColors[data.status]}
-        ${categoryColors[data.category] || 'border-l-gray-500'}
+        relative px-3 py-2.5 rounded-xl shadow-sm border-2 transition-all duration-200
+        bg-[hsl(var(--color-card))]
+        ${nodeBorderColor[data.status]}
         ${selected ? 'ring-2 ring-[hsl(var(--color-primary))] ring-offset-2' : ''}
-        ${isHovered ? 'shadow-lg scale-[1.02]' : ''}
-        min-w-[160px] max-w-[200px]
+        ${isHovered ? 'shadow-md' : ''}
+        min-w-[160px] max-w-[220px]
       `}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            {/* Delete Button - shown on hover */}
             {isHovered && (
                 <button
                     onClick={handleDelete}
-                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center shadow-md transition-colors z-10"
+                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center shadow-sm transition-colors z-10"
                     title="Delete node"
                 >
                     <X className="w-3 h-3 text-white" />
                 </button>
             )}
 
-            {/* Input Handle */}
             <Handle
                 type="target"
                 position={Position.Left}
                 isConnectable={isConnectable}
-                className="!w-3 !h-3 !bg-[hsl(var(--color-primary))] !border-2 !border-white"
+                className="!w-3 !h-3 !bg-[hsl(var(--color-primary))] !border-2 !border-[hsl(var(--color-card))]"
             />
 
             {/* Content */}
-            <div className="flex items-center gap-3">
-                {/* Icon */}
-                <div className={`
-          p-2 rounded-lg
-          ${data.status === 'processing' ? 'bg-blue-200' : 'bg-white/80'}
-        `}>
-                    <IconComponent className="w-5 h-5 text-[hsl(var(--color-foreground))]" />
+            <div className="flex items-center gap-2.5">
+                <div className="p-1.5 rounded-lg bg-[hsl(var(--color-primary)/0.1)] shrink-0">
+                    <IconComponent className="w-4 h-4 text-[hsl(var(--color-primary))]" />
                 </div>
-
-                {/* Label and Status */}
                 <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[hsl(var(--color-foreground))] truncate">
+                    <p className="text-xs font-semibold text-[hsl(var(--color-foreground))] truncate">
                         {data.label}
                     </p>
-                    <div className="flex items-center gap-1.5 mt-0.5">
-                        <div className={`w-2 h-2 rounded-full ${statusIndicatorColors[data.status]}`} />
-                        <span className="text-xs text-[hsl(var(--color-muted-foreground))] capitalize">
-                            {data.status}
-                        </span>
-                    </div>
+                    <p className={`text-[10px] uppercase tracking-wider mt-0.5 ${statusBadgeStyle[data.status]}`}>
+                        {data.status === 'processing' && data.progress != null
+                            ? `RUNNING · ${data.progress}%`
+                            : data.status.toUpperCase()}
+                    </p>
                 </div>
             </div>
 
-            {/* Progress bar */}
             {data.status === 'processing' && (
-                <div className="mt-2 w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                <div className="mt-2 w-full h-1 bg-[hsl(var(--color-muted))] rounded-full overflow-hidden">
                     <div
-                        className="h-full bg-blue-500 rounded-full transition-all duration-300"
-                        style={{ width: `${data.progress}%` }}
+                        className="h-full bg-[hsl(var(--color-primary))] rounded-full transition-all duration-300"
+                        style={{ width: `${data.progress ?? 0}%` }}
                     />
                 </div>
             )}
 
-            {/* Error message */}
             {data.status === 'error' && data.error && (
-                <p className="mt-2 text-xs text-red-600 truncate">
-                    {data.error}
-                </p>
+                <p className="mt-1.5 text-[10px] text-red-500 truncate">{data.error}</p>
             )}
 
-            {/* Output file count indicator */}
             {data.status === 'complete' && data.outputFiles && data.outputFiles.length > 0 && (
-                <div className="mt-2 flex items-center gap-1.5">
-                    <LucideIcons.Download className="w-3 h-3 text-green-600" />
-                    <span className="text-[10px] text-green-600 font-medium">
+                <div className="mt-1.5 flex items-center gap-1">
+                    <LucideIcons.Download className="w-3 h-3 text-green-500" />
+                    <span className="text-[10px] text-green-600 dark:text-green-400 font-medium">
                         {data.outputFiles.length} file{data.outputFiles.length > 1 ? 's' : ''}
                     </span>
                 </div>
             )}
 
-            {/* Format tags */}
-            <div className="flex flex-wrap gap-1 mt-2">
-                <span className="text-[10px] px-1.5 py-0.5 bg-gray-200 rounded text-gray-600">
-                    in: {data.acceptedFormats.slice(0, 2).join(', ')}
-                    {data.acceptedFormats.length > 2 && '...'}
-                </span>
-                <span className="text-[10px] px-1.5 py-0.5 bg-blue-100 rounded text-blue-600">
-                    out: {data.outputFormat}
-                </span>
-            </div>
-
-            {/* Output Handle */}
             <Handle
                 type="source"
                 position={Position.Right}
                 isConnectable={isConnectable}
-                className="!w-3 !h-3 !bg-[hsl(var(--color-primary))] !border-2 !border-white"
+                className="!w-3 !h-3 !bg-[hsl(var(--color-primary))] !border-2 !border-[hsl(var(--color-card))]"
             />
         </div>
     );

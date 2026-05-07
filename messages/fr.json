@@ -1,7 +1,7 @@
 {
   "metadata": {
     "home": {
-      "title": "PDFCraft - Outils PDF Professionnels",
+      "title": "PDFaro - Outils PDF Professionnels",
       "description": "Gratuit, privé et basé sur navigateur. Fusionnez et modifiez des fichiers PDF en ligne sans les télécharger sur des serveurs."
     },
     "tools": {
@@ -10,19 +10,19 @@
     },
     "about": {
       "title": "À Propos",
-      "description": "Découvrez PDFCraft - votre boîte à outils PDF gratuite, privée et puissante. Tout le traitement se fait dans votre navigateur."
+      "description": "Découvrez PDFaro - votre boîte à outils PDF gratuite, privée et puissante. Tout le traitement se fait dans votre navigateur."
     },
     "faq": {
       "title": "Questions Fréquentes",
-      "description": "Trouvez des réponses aux questions courantes sur PDFCraft. Apprenez à utiliser efficacement nos outils PDF."
+      "description": "Trouvez des réponses aux questions courantes sur PDFaro. Apprenez à utiliser efficacement nos outils PDF."
     },
     "privacy": {
       "title": "Politique de Confidentialité",
-      "description": "Politique de confidentialité de PDFCraft. Vos fichiers ne quittent jamais votre appareil - tout le traitement se fait localement dans votre navigateur."
+      "description": "Politique de confidentialité de PDFaro. Vos fichiers ne quittent jamais votre appareil - tout le traitement se fait localement dans votre navigateur."
     },
     "contact": {
       "title": "Contactez-nous",
-      "description": "Contactez l'équipe PDFCraft. Nous serions ravis de vous entendre."
+      "description": "Contactez l'équipe PDFaro. Nous serions ravis de vous entendre."
     },
     "keywords": {
       "pdfTools": "outils PDF",
@@ -35,7 +35,7 @@
     }
   },
   "common": {
-    "brand": "PDFCraft",
+    "brand": "PDFaro",
     "tagline": "Outils PDF Professionnels - Gratuits et Privés",
     "navigation": {
       "home": "Accueil",
@@ -83,9 +83,9 @@
       "loading": "Chargement..."
     },
     "footer": {
-      "copyright": "© {year} PDFCraft. Tous droits réservés.",
+      "copyright": "© {year} PDFaro. Tous droits réservés.",
       "privacyBadge": "100% Privé - Les fichiers ne quittent jamais votre appareil",
-      "footer": "© 2025 PDFCraft. All rights reserved.",
+      "footer": "© 2025 PDFaro. All rights reserved.",
       "madeWith": "Made with <Heart /> and <Nextjs />"
     },
     "recentFiles": {
@@ -129,7 +129,7 @@
       "finish": "Terminer",
       "skip": "Passer",
       "stepOf": "sur",
-      "welcomeTitle": "Bienvenue sur PDFCraft !",
+      "welcomeTitle": "Bienvenue sur PDFaro !",
       "welcomeMessage": "Souhaitez-vous une visite rapide pour apprendre à utiliser nos outils PDF ? Cela ne prend qu'une minute.",
       "helpButton": "Visite Guidée"
     },
@@ -156,16 +156,16 @@
       "sections": {
         "general": {
           "whatIs": {
-            "question": "What is PDFCraft?",
-            "answer": "PDFCraft is a free, privacy-focused PDF toolkit that runs entirely in your browser. It offers 67+ professional tools for editing, converting, merging, splitting, and securing PDF files without uploading them to any server."
+            "question": "What is PDFaro?",
+            "answer": "PDFaro is a free, privacy-focused PDF toolkit that runs entirely in your browser. It offers 67+ professional tools for editing, converting, merging, splitting, and securing PDF files without uploading them to any server."
           },
           "isFree": {
-            "question": "Is PDFCraft really free?",
-            "answer": "Yes, PDFCraft is completely free to use. There are no hidden costs, no premium tiers, and no registration required. All features are available to everyone."
+            "question": "Is PDFaro really free?",
+            "answer": "Yes, PDFaro is completely free to use. There are no hidden costs, no premium tiers, and no registration required. All features are available to everyone."
           },
           "account": {
             "question": "Do I need to create an account?",
-            "answer": "No, you don't need to create an account or register to use PDFCraft. Simply visit the website and start using any tool immediately."
+            "answer": "No, you don't need to create an account or register to use PDFaro. Simply visit the website and start using any tool immediately."
           }
         },
         "privacy": {
@@ -174,8 +174,8 @@
             "answer": "No, your files are never uploaded to any server. All PDF processing happens locally in your browser using JavaScript and WebAssembly. Your files never leave your device."
           },
           "safe": {
-            "question": "Is it safe to use PDFCraft with sensitive documents?",
-            "answer": "Yes, PDFCraft is designed with privacy in mind. Since all processing happens locally in your browser, your sensitive documents remain on your device and are never transmitted over the internet."
+            "question": "Is it safe to use PDFaro with sensitive documents?",
+            "answer": "Yes, PDFaro is designed with privacy in mind. Since all processing happens locally in your browser, your sensitive documents remain on your device and are never transmitted over the internet."
           },
           "storage": {
             "question": "What happens to my files after processing?",
@@ -185,7 +185,7 @@
         "features": {
           "operations": {
             "question": "What PDF operations can I perform?",
-            "answer": "PDFCraft offers 67+ tools including: merge, split, compress, convert (to/from images, text, JSON), edit, annotate, sign, add watermarks, encrypt/decrypt, OCR, and many more."
+            "answer": "PDFaro offers 67+ tools including: merge, split, compress, convert (to/from images, text, JSON), edit, annotate, sign, add watermarks, encrypt/decrypt, OCR, and many more."
           },
           "merge": {
             "question": "Can I merge multiple PDF files?",
@@ -193,17 +193,17 @@
           },
           "images": {
             "question": "Can I convert images to PDF?",
-            "answer": "Yes, PDFCraft supports converting various image formats (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) to PDF. You can convert single or multiple images at once."
+            "answer": "Yes, PDFaro supports converting various image formats (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) to PDF. You can convert single or multiple images at once."
           },
           "edit": {
             "question": "Can I edit text in a PDF?",
-            "answer": "PDFCraft provides annotation and editing tools including highlighting, adding text, shapes, images, and signatures. For full text editing, the PDF Editor tool offers comprehensive annotation capabilities."
+            "answer": "PDFaro provides annotation and editing tools including highlighting, adding text, shapes, images, and signatures. For full text editing, the PDF Editor tool offers comprehensive annotation capabilities."
           }
         },
         "technical": {
           "browsers": {
             "question": "What browsers are supported?",
-            "answer": "PDFCraft works on all modern browsers including Chrome, Firefox, Safari, and Edge. We recommend using the latest version of your browser for the best experience."
+            "answer": "PDFaro works on all modern browsers including Chrome, Firefox, Safari, and Edge. We recommend using the latest version of your browser for the best experience."
           },
           "sizeLimit": {
             "question": "Is there a file size limit?",
@@ -214,14 +214,14 @@
             "answer": "Since all processing happens in your browser, performance depends on your device's capabilities. Large files require more memory and processing power. For best results, close other browser tabs and applications."
           },
           "offline": {
-            "question": "Does PDFCraft work offline?",
-            "answer": "Currently, PDFCraft requires an internet connection to load the application. However, once loaded, the PDF processing itself happens locally and doesn't require a connection."
+            "question": "Does PDFaro work offline?",
+            "answer": "Currently, PDFaro requires an internet connection to load the application. However, once loaded, the PDF processing itself happens locally and doesn't require a connection."
           }
         },
         "languages": {
           "supported": {
             "question": "What languages are supported?",
-            "answer": "PDFCraft is available in 9 languages: English, Japanese, Korean, Spanish, French, German, Chinese, Portuguese, and Arabic (with RTL support)."
+            "answer": "PDFaro is available in 9 languages: English, Japanese, Korean, Spanish, French, German, Chinese, Portuguese, and Arabic (with RTL support)."
           },
           "change": {
             "question": "How do I change the language?",
@@ -252,7 +252,7 @@
         },
         "fast": {
           "title": "Fast & Efficient",
-          "description": "Powered by modern web technologies, PDFCraft delivers lightning-fast PDF processing without the need for uploads or downloads."
+          "description": "Powered by modern web technologies, PDFaro delivers lightning-fast PDF processing without the need for uploads or downloads."
         },
         "accessible": {
           "title": "Accessible Everywhere",
@@ -260,7 +260,7 @@
         },
         "free": {
           "title": "Free Forever",
-          "description": "PDFCraft is completely free to use with no hidden costs, no registration required, and no limits on usage."
+          "description": "PDFaro is completely free to use with no hidden costs, no registration required, and no limits on usage."
         },
         "openSource": {
           "title": "Open Source",
@@ -398,6 +398,7 @@
     "browserNotSupported": "Votre navigateur ne prend pas en charge cette fonctionnalité.",
     "invalidPageRange": "Plage de pages invalide spécifiée.",
     "invalidOptions": "Options invalides fournies.",
+    "invalidPassword": "The password you entered is incorrect.",
     "unknown": "Une erreur inattendue s'est produite. Veuillez réessayer.",
     "toolNotFound": "Tool Not Found"
   },
@@ -459,7 +460,7 @@
   "workflow": {
     "title": "Éditeur de Flux de Travail PDF",
     "subtitle": "Créez des pipelines de traitement PDF personnalisés en connectant des outils",
-    "metaTitle": "Éditeur de Flux de Travail PDF - PDFCraft",
+    "metaTitle": "Éditeur de Flux de Travail PDF - PDFaro",
     "metaDescription": "Créez des pipelines de traitement PDF personnalisés en connectant visuellement des outils. Construisez, enregistrez et réutilisez vos flux de travail.",
     "toolbox": "Boîte à Outils",
     "dragToAdd": "Faites glisser les outils pour les ajouter au flux de travail",
@@ -2188,16 +2189,16 @@
     "sections": {
       "general": {
         "whatIs": {
-          "question": "Qu'est-ce que PDFCraft ?",
-          "answer": "PDFCraft est une boîte à outils PDF gratuite et respectueuse de la vie privée qui s'exécute entièrement dans votre navigateur. Elle offre plus de {count} outils professionnels pour éditer, convertir, fusionner, diviser et crypter des fichiers PDF sans jamais les télécharger sur un serveur."
+          "question": "Qu'est-ce que PDFaro ?",
+          "answer": "PDFaro est une boîte à outils PDF gratuite et respectueuse de la vie privée qui s'exécute entièrement dans votre navigateur. Elle offre plus de {count} outils professionnels pour éditer, convertir, fusionner, diviser et crypter des fichiers PDF sans jamais les télécharger sur un serveur."
         },
         "isFree": {
-          "question": "PDFCraft est-il vraiment gratuit ?",
-          "answer": "Oui, PDFCraft est totalement gratuit. Il n'y a pas de frais cachés, pas d'abonnement premium et aucune inscription n'est requise. Toutes les fonctionnalités sont accessibles à tous."
+          "question": "PDFaro est-il vraiment gratuit ?",
+          "answer": "Oui, PDFaro est totalement gratuit. Il n'y a pas de frais cachés, pas d'abonnement premium et aucune inscription n'est requise. Toutes les fonctionnalités sont accessibles à tous."
         },
         "account": {
           "question": "Dois-je créer un compte ?",
-          "answer": "Non, vous n'avez pas besoin de créer un compte ou de vous inscrire pour utiliser PDFCraft. Il vous suffit de visiter le site web pour commencer à utiliser n'importe quel outil immédiatement."
+          "answer": "Non, vous n'avez pas besoin de créer un compte ou de vous inscrire pour utiliser PDFaro. Il vous suffit de visiter le site web pour commencer à utiliser n'importe quel outil immédiatement."
         }
       },
       "privacy": {
@@ -2206,8 +2207,8 @@
           "answer": "Non, vos fichiers ne sont jamais téléchargés sur un serveur. Tout le traitement PDF se fait localement dans votre navigateur en utilisant JavaScript et WebAssembly. Vos fichiers ne quittent jamais votre appareil."
         },
         "safe": {
-          "question": "Est-il sûr d'utiliser PDFCraft pour des documents sensibles ?",
-          "answer": "Oui, PDFCraft est conçu avec la confidentialité comme priorité. Comme tout le traitement s'effectue localement dans votre navigateur, vos documents sensibles restent sur votre appareil et ne sont jamais transmis sur Internet."
+          "question": "Est-il sûr d'utiliser PDFaro pour des documents sensibles ?",
+          "answer": "Oui, PDFaro est conçu avec la confidentialité comme priorité. Comme tout le traitement s'effectue localement dans votre navigateur, vos documents sensibles restent sur votre appareil et ne sont jamais transmis sur Internet."
         },
         "storage": {
           "question": "Qu'advient-il de mes fichiers après le traitement ?",
@@ -2217,7 +2218,7 @@
       "features": {
         "operations": {
           "question": "Quelles opérations PDF puis-je effectuer ?",
-          "answer": "PDFCraft propose plus de {count} outils, notamment : fusionner, diviser, compresser, convertir (vers/depuis des images, texte, JSON), éditer, annoter, signer, ajouter des filigranes, crypter/décrypter, OCR, et bien plus encore."
+          "answer": "PDFaro propose plus de {count} outils, notamment : fusionner, diviser, compresser, convertir (vers/depuis des images, texte, JSON), éditer, annoter, signer, ajouter des filigranes, crypter/décrypter, OCR, et bien plus encore."
         },
         "merge": {
           "question": "Puis-je fusionner plusieurs fichiers PDF ?",
@@ -2225,17 +2226,17 @@
         },
         "images": {
           "question": "Puis-je convertir des images en PDF ?",
-          "answer": "Oui, PDFCraft permet de convertir divers formats d'image (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) en PDF. Vous pouvez convertir une seule ou plusieurs images à la fois."
+          "answer": "Oui, PDFaro permet de convertir divers formats d'image (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) en PDF. Vous pouvez convertir une seule ou plusieurs images à la fois."
         },
         "edit": {
           "question": "Puis-je modifier le texte d'un PDF ?",
-          "answer": "PDFCraft propose des outils d'annotation et d'édition comprenant le surlignage, l'ajout de texte, de formes, d'images et de signatures. Pour une édition complète du texte, l'outil Éditeur PDF fournit des fonctionnalités d'annotation complètes."
+          "answer": "PDFaro propose des outils d'annotation et d'édition comprenant le surlignage, l'ajout de texte, de formes, d'images et de signatures. Pour une édition complète du texte, l'outil Éditeur PDF fournit des fonctionnalités d'annotation complètes."
         }
       },
       "technical": {
         "browsers": {
           "question": "Quels navigateurs sont pris en charge ?",
-          "answer": "PDFCraft fonctionne dans tous les navigateurs modernes, notamment Chrome, Firefox, Safari et Edge. Nous recommandons d'utiliser la dernière version de votre navigateur pour une expérience optimale."
+          "answer": "PDFaro fonctionne dans tous les navigateurs modernes, notamment Chrome, Firefox, Safari et Edge. Nous recommandons d'utiliser la dernière version de votre navigateur pour une expérience optimale."
         },
         "sizeLimit": {
           "question": "Y a-t-il une limite de taille de fichier ?",
@@ -2246,14 +2247,14 @@
           "answer": "Comme tout le traitement s'effectue dans le navigateur, les performances dépendent des capacités de votre appareil. Les fichiers volumineux nécessitent plus de mémoire et de puissance de traitement. Pour de meilleurs résultats, fermez les autres onglets et applications."
         },
         "offline": {
-          "question": "PDFCraft peut-il fonctionner hors ligne ?",
-          "answer": "Actuellement, PDFCraft nécessite une connexion Internet pour charger l'application initiale. Cependant, une fois chargée, le traitement PDF lui-même se fait localement et ne nécessite pas de connexion."
+          "question": "PDFaro peut-il fonctionner hors ligne ?",
+          "answer": "Actuellement, PDFaro nécessite une connexion Internet pour charger l'application initiale. Cependant, une fois chargée, le traitement PDF lui-même se fait localement et ne nécessite pas de connexion."
         }
       },
       "languages": {
         "supported": {
           "question": "Quelles langues sont prises en charge ?",
-          "answer": "PDFCraft est disponible en 9 langues : anglais, japonais, coréen, espagnol, français, allemand, chinois, portugais et arabe (avec support de droite à gauche)."
+          "answer": "PDFaro est disponible en 9 langues : anglais, japonais, coréen, espagnol, français, allemand, chinois, portugais et arabe (avec support de droite à gauche)."
         },
         "change": {
           "question": "Comment puis-je changer de langue ?",
@@ -2284,7 +2285,7 @@
       },
       "fast": {
         "title": "Rapide et Efficace",
-        "description": "Propulsé par des technologies Web modernes, PDFCraft offre un traitement PDF ultra-rapide sans avoir besoin de téléchargements montants ou descendants."
+        "description": "Propulsé par des technologies Web modernes, PDFaro offre un traitement PDF ultra-rapide sans avoir besoin de téléchargements montants ou descendants."
       },
       "accessible": {
         "title": "Accessible Partout",
@@ -2292,7 +2293,7 @@
       },
       "free": {
         "title": "Gratuit pour Toujours",
-        "description": "PDFCraft est totalement gratuit, sans frais cachés, sans inscription requise et sans limites d'utilisation."
+        "description": "PDFaro est totalement gratuit, sans frais cachés, sans inscription requise et sans limites d'utilisation."
       },
       "openSource": {
         "title": "Open Source",

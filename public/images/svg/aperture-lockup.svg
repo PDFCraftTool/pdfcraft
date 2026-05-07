@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="64" viewBox="0 0 240 64" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64">
+      <stop offset="0" stop-color="#2747e3"></stop>
+      <stop offset="1" stop-color="#6c4ef5"></stop>
+    </linearGradient>
+    <linearGradient id="gt" x1="0" y1="0" x2="120" y2="0">
+      <stop offset="0" stop-color="#2747e3"></stop>
+      <stop offset="1" stop-color="#6c4ef5"></stop>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#g)"></rect>
+  <rect x="18" y="16" width="6" height="32" rx="3" fill="#ffffff"></rect>
+  <path d="M24 16 H38 A8 8 0 0 1 38 32 H24" stroke="#ffffff" stroke-width="6" fill="none" stroke-linejoin="round"></path>
+  <text x="80" y="44" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif" font-weight="700" font-size="36" letter-spacing="-0.025em">
+    <tspan fill="url(#gt)">PDF</tspan><tspan fill="#0B1220">aro</tspan>
+  </text>
+</svg>

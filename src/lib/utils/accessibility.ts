@@ -107,7 +107,7 @@ export function meetsWCAGAAA(
 }
 
 /**
- * PDFCraft color palette with verified contrast ratios
+ * PDFaro color palette with verified contrast ratios
  * All colors meet WCAG 2.1 AA requirements
  */
 export const ACCESSIBLE_COLORS = {

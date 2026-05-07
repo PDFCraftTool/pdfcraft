@@ -1,37 +1,37 @@
 @import "tailwindcss";
 
-/* PDFCraft Design System - CSS Variables for Theming */
+/* PDFaro Design System - CSS Variables for Theming */
 :root {
-  /* Primary Colors - Deep Blue/Indigo for trust and modern tech feel */
-  --color-primary: 226 71% 55%; /* #3b82f6 - slightly more vibrant */
+  /* Primary Colors - Indigo/Violet matching PDFaro brand */
+  --color-primary: 243 75% 59%; /* #4F46E5 indigo */
   --color-primary-foreground: 0 0% 100%;
-  --color-primary-hover: 226 71% 45%;
-  
+  --color-primary-hover: 243 75% 50%;
+
   /* Secondary Colors - Slate for neutral elements */
-  --color-secondary: 215 20% 90%;
-  --color-secondary-foreground: 215 25% 15%;
-  --color-secondary-hover: 215 20% 80%;
-  
-  /* Accent Colors - Teal/Cyan for highlights */
-  --color-accent: 172 66% 50%;
+  --color-secondary: 220 14% 93%;
+  --color-secondary-foreground: 220 20% 18%;
+  --color-secondary-hover: 220 14% 86%;
+
+  /* Accent Colors - Violet for highlights */
+  --color-accent: 262 52% 47%;
   --color-accent-foreground: 0 0% 100%;
-  
+
   /* Background Colors */
-  --color-background: 210 40% 98%; /* Slightly off-white for depth */
-  --color-foreground: 222 47% 11%;
-  
+  --color-background: 220 20% 98%;
+  --color-foreground: 220 25% 10%;
+
   /* Muted Colors */
-  --color-muted: 210 40% 96%;
-  --color-muted-foreground: 215 16% 47%;
-  
+  --color-muted: 220 14% 95%;
+  --color-muted-foreground: 220 10% 46%;
+
   /* Card Colors */
   --color-card: 0 0% 100%;
-  --color-card-foreground: 222 47% 11%;
-  
+  --color-card-foreground: 220 25% 10%;
+
   /* Border Colors */
-  --color-border: 214 32% 91%;
-  --color-input: 214 32% 91%;
-  --color-ring: 226 71% 55%;
+  --color-border: 220 13% 90%;
+  --color-input: 220 13% 90%;
+  --color-ring: 243 75% 59%;
   
   /* Destructive Colors */
   --color-destructive: 0 84% 60%;
@@ -80,29 +80,29 @@
 
 /* Dark Mode Theme */
 .dark {
-  --color-primary: 226 71% 60%;
-  --color-primary-foreground: 222 47% 11%;
-  --color-primary-hover: 226 71% 70%;
-  
-  --color-secondary: 215 20% 20%;
-  --color-secondary-foreground: 210 40% 98%;
-  --color-secondary-hover: 215 20% 30%;
-  
-  --color-accent: 172 66% 50%;
-  --color-accent-foreground: 222 47% 11%;
-  
-  --color-background: 222 47% 7%; /* Darker background for more contrast */
-  --color-foreground: 210 40% 98%;
-  
-  --color-muted: 217 33% 13%;
-  --color-muted-foreground: 215 20% 65%;
-  
-  --color-card: 222 47% 10%;
-  --color-card-foreground: 210 40% 98%;
-  
-  --color-border: 217 33% 15%;
-  --color-input: 217 33% 15%;
-  --color-ring: 226 71% 60%;
+  --color-primary: 243 75% 65%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-primary-hover: 243 75% 74%;
+
+  --color-secondary: 220 14% 20%;
+  --color-secondary-foreground: 220 14% 96%;
+  --color-secondary-hover: 220 14% 28%;
+
+  --color-accent: 262 52% 58%;
+  --color-accent-foreground: 0 0% 100%;
+
+  --color-background: 224 30% 8%;
+  --color-foreground: 220 14% 96%;
+
+  --color-muted: 224 20% 14%;
+  --color-muted-foreground: 220 10% 60%;
+
+  --color-card: 224 25% 11%;
+  --color-card-foreground: 220 14% 96%;
+
+  --color-border: 224 18% 18%;
+  --color-input: 224 18% 18%;
+  --color-ring: 243 75% 65%;
 }
 
 /* Base Styles */
@@ -224,7 +224,26 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(to right, hsl(var(--color-primary)), hsl(var(--color-accent)));
+  background-image: linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-accent)));
+}
+
+/* Hero title accent colour — matches "Fast, private, and simple." in design */
+.text-primary-accent {
+  color: hsl(var(--color-primary));
+}
+
+/* Mobile tool-page bottom action bar */
+@media (max-width: 639px) {
+  .tool-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem 1rem;
+    background: hsl(var(--color-background));
+    border-top: 1px solid hsl(var(--color-border));
+    z-index: 40;
+  }
 }
 
 /* Screen reader only utility */

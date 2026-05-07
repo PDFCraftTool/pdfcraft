@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="48" viewBox="0 0 180 48" fill="none">
+  <defs>
+    <linearGradient id="gt" x1="0" y1="0" x2="120" y2="0">
+      <stop offset="0" stop-color="#2747e3"></stop>
+      <stop offset="1" stop-color="#6c4ef5"></stop>
+    </linearGradient>
+  </defs>
+  <text x="0" y="36" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="36" letter-spacing="-0.025em">
+    <tspan fill="url(#gt)">PDF</tspan><tspan fill="#0B1220">aro</tspan>
+  </text>
+</svg>
