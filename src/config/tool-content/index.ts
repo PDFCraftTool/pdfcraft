@@ -15,7 +15,7 @@ export { toolContentPt } from './pt';
 export { toolContentAr } from './ar';
 export { toolContentIt } from './it';
 export { toolContentId } from './id';
-export { toolContentVn } from './vi';
+export { toolContentVi } from './vi';
 export { toolContentRo } from './ro';
 
 import { toolContentEn } from './en';
@@ -30,7 +30,7 @@ import { toolContentPt } from './pt';
 import { toolContentAr } from './ar';
 import { toolContentIt } from './it';
 import { toolContentId } from './id';
-import { toolContentVn } from './vi';
+import { toolContentVi } from './vi';
 import { toolContentRo } from './ro';
 import { ToolContent } from '@/types/tool';
 
@@ -56,7 +56,7 @@ export function getToolContent(locale: Locale, toolId: string): ToolContent | un
     ar: toolContentAr,
     it: toolContentIt,
     id: toolContentId,
-    vi: toolContentVn,
+    vi: toolContentVi,
     ro: toolContentRo,
   };
 
