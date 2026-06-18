@@ -15,8 +15,7 @@ export { toolContentPt } from './pt';
 export { toolContentAr } from './ar';
 export { toolContentIt } from './it';
 export { toolContentId } from './id';
-export { toolContentVi } from './vi';
-export { toolContentRo } from './ro';
+export { toolContentVn } from './vi';
 
 import { toolContentEn } from './en';
 import { toolContentJa } from './ja';
@@ -30,8 +29,7 @@ import { toolContentPt } from './pt';
 import { toolContentAr } from './ar';
 import { toolContentIt } from './it';
 import { toolContentId } from './id';
-import { toolContentVi } from './vi';
-import { toolContentRo } from './ro';
+import { toolContentVn } from './vi';
 import { ToolContent } from '@/types/tool';
 
 export type Locale = 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'zh' | 'zh-TW' | 'pt' | 'ar' | 'it' | 'id' | 'vi' | 'ro';
@@ -56,8 +54,8 @@ export function getToolContent(locale: Locale, toolId: string): ToolContent | un
     ar: toolContentAr,
     it: toolContentIt,
     id: toolContentId,
-    vi: toolContentVi,
-    ro: toolContentRo,
+    vi: toolContentVn,
+    ro: toolContentEn, // Fallback to English for Romanian tool content for now
   };
 
   const localeContent = contentMap[locale];

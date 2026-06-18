@@ -80,3 +80,7 @@ public/libreoffice-wasm/soffice.data
 # Tauri / Cargo (local build output)
 src-tauri/target/
 
+scripts/
+*.translate.ts
+*.bak
+*.sh
