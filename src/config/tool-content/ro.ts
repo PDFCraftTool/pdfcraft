@@ -1,8 +1,8 @@
 import { ToolContent } from '@/types/tool';
 
-export const toolContentVn: Record<string, ToolContent> = {
+export const toolContentRo: Record<string, ToolContent> = {
   'pdf-multi-tool': {
-    title: 'Công cụ đa năng PDF',
+    title: 'Pdf Multi Tool',
     metaDescription: 'Pdf Multi Tool free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf multi tool free online',
@@ -61,7 +61,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'merge-pdf': {
-    title: 'Hợp nhất PDF',
+    title: 'Merge Pdf',
     metaDescription: 'Merge Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'merge pdf free online',
@@ -120,7 +120,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'split-pdf': {
-    title: 'Tách PDF',
+    title: 'Split Pdf',
     metaDescription: 'Split Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'split pdf free online',
@@ -179,7 +179,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'compress-pdf': {
-    title: 'Nén PDF',
+    title: 'Compress Pdf',
     metaDescription: 'Compress Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'compress pdf free online',
@@ -297,7 +297,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'pdf-to-jpg': {
-    title: 'PDF sang JPG',
+    title: 'Pdf To Jpg',
     metaDescription: 'Pdf To Jpg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf to jpg free online',
@@ -356,7 +356,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'pdf-to-excel': {
-    title: 'PDF sang Excel',
+    title: 'Pdf To Excel',
     metaDescription: 'Pdf To Excel free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf to excel free online',
@@ -533,7 +533,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'word-to-pdf': {
-    title: 'Word sang PDF',
+    title: 'Word To Pdf',
     metaDescription: 'Word To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'word to pdf free online',
@@ -592,7 +592,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'jpg-to-pdf': {
-    title: 'JPG sang PDF',
+    title: 'Jpg To Pdf',
     metaDescription: 'Jpg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'jpg to pdf free online',
@@ -651,7 +651,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'excel-to-pdf': {
-    title: 'Excel sang PDF',
+    title: 'Excel To Pdf',
     metaDescription: 'Excel To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'excel to pdf free online',
@@ -887,7 +887,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'rotate-pdf': {
-    title: 'Xoay PDF',
+    title: 'Rotate Pdf',
     metaDescription: 'Rotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'rotate pdf free online',
@@ -1064,7 +1064,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'add-watermark': {
-    title: 'Thêm hình mờ',
+    title: 'Add Watermark',
     metaDescription: 'Add Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'add watermark free online',
@@ -1300,7 +1300,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'extract-pages': {
-    title: 'Trích xuất trang',
+    title: 'Extract Pages',
     metaDescription: 'Extract Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'extract pages free online',
@@ -1536,7 +1536,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'crop-pdf': {
-    title: 'Cắt PDF',
+    title: 'Crop Pdf',
     metaDescription: 'Crop Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'crop pdf free online',
@@ -1654,7 +1654,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'pdf-to-svg': {
-    title: 'PDF sang SVG',
+    title: 'Pdf To Svg',
     metaDescription: 'Pdf To Svg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf to svg free online',
@@ -1713,7 +1713,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'pdf-to-png': {
-    title: 'PDF sang PNG',
+    title: 'Pdf To Png',
     metaDescription: 'Pdf To Png free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf to png free online',
@@ -1772,7 +1772,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'pdf-to-webp': {
-    title: 'PDF sang WebP',
+    title: 'Pdf To Webp',
     metaDescription: 'Pdf To Webp free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf to webp free online',
@@ -1831,7 +1831,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'heic-to-pdf': {
-    title: 'HEIC sang PDF',
+    title: 'Heic To Pdf',
     metaDescription: 'Heic To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'heic to pdf free online',
@@ -1949,7 +1949,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'tiff-to-pdf': {
-    title: 'TIFF sang PDF',
+    title: 'Tiff To Pdf',
     metaDescription: 'Tiff To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'tiff to pdf free online',
@@ -2008,7 +2008,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'svg-to-pdf': {
-    title: 'SVG sang PDF',
+    title: 'Svg To Pdf',
     metaDescription: 'Svg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'svg to pdf free online',
@@ -2067,7 +2067,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'png-to-pdf': {
-    title: 'PNG sang PDF',
+    title: 'Png To Pdf',
     metaDescription: 'Png To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'png to pdf free online',
@@ -2126,7 +2126,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'webp-to-pdf': {
-    title: 'WebP sang PDF',
+    title: 'Webp To Pdf',
     metaDescription: 'Webp To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'webp to pdf free online',
@@ -2185,7 +2185,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'repair-pdf': {
-    title: 'Sửa chữa PDF',
+    title: 'Repair Pdf',
     metaDescription: 'Repair Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'repair pdf free online',
@@ -2244,7 +2244,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'ocr-pdf': {
-    title: 'OCR PDF',
+    title: 'Ocr Pdf',
     metaDescription: 'Ocr Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'ocr pdf free online',
@@ -2362,7 +2362,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'pdf-to-pdfa': {
-    title: 'PDF sang PDF/A',
+    title: 'Pdf To Pdfa',
     metaDescription: 'Pdf To Pdfa free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'pdf to pdfa free online',
@@ -2421,7 +2421,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'sign-pdf': {
-    title: 'Ký PDF',
+    title: 'Sign Pdf',
     metaDescription: 'Sign Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'sign pdf free online',
@@ -3011,7 +3011,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'form-filler': {
-    title: 'Điền biểu mẫu',
+    title: 'Form Filler',
     metaDescription: 'Form Filler free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'form filler free online',
@@ -3247,7 +3247,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'encrypt-pdf': {
-    title: 'Mã hóa PDF',
+    title: 'Encrypt Pdf',
     metaDescription: 'Encrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'encrypt pdf free online',
@@ -3306,7 +3306,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'decrypt-pdf': {
-    title: 'Giải mã PDF',
+    title: 'Decrypt Pdf',
     metaDescription: 'Decrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'decrypt pdf free online',
@@ -4014,7 +4014,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'extract-images': {
-    title: 'Trích xuất hình ảnh từ PDF',
+    title: 'Extract Images',
     metaDescription: 'Extract Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'extract images free online',
@@ -4132,7 +4132,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ],
   },
   'remove-blank-pages': {
-    title: 'Loại bỏ trang trống',
+    title: 'Remove Blank Pages',
     metaDescription: 'Remove Blank Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
     keywords: [
       'remove blank pages free online',
