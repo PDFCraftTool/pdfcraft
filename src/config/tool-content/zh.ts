@@ -3,7 +3,7 @@ import { ToolContent } from '@/types/tool';
 export const toolContentZh: Record<string, ToolContent> = {
   'pdf-multi-tool': {
     title: 'Pdf Multi Tool',
-    metaDescription: 'PDF多功能工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF多功能工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf multi tool 免费在线',
       'pdf multi tool 无需注册',
@@ -73,7 +73,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'merge-pdf': {
     title: 'Merge Pdf',
-    metaDescription: 'PDF合并工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF合并工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'merge pdf 免费在线',
       'merge pdf 无需注册',
@@ -143,7 +143,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'split-pdf': {
     title: 'Split Pdf',
-    metaDescription: 'PDF拆分工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF拆分工具免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'split pdf 免费在线',
       'split pdf 无需注册',
@@ -213,7 +213,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'compress-pdf': {
     title: 'Compress Pdf',
-    metaDescription: 'PDF压缩工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF压缩工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'compress pdf 免费在线',
       'compress pdf 无需注册',
@@ -283,7 +283,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-word': {
     title: 'Pdf To Word',
-    metaDescription: 'PDF转Word工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转Word工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to word 免费在线',
       'pdf to word 无需注册',
@@ -353,7 +353,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-jpg': {
     title: 'Pdf To Jpg',
-    metaDescription: 'PDF转JPG工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转JPG工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to jpg 免费在线',
       'pdf to jpg 无需注册',
@@ -423,7 +423,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-excel': {
     title: 'Pdf To Excel',
-    metaDescription: 'PDF转Excel工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转Excel工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to excel 免费在线',
       'pdf to excel 无需注册',
@@ -493,7 +493,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-powerpoint': {
     title: 'Pdf To Powerpoint',
-    metaDescription: 'PDF转PPT工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转PPT工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to powerpoint 免费在线',
       'pdf to powerpoint 无需注册',
@@ -563,7 +563,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-text': {
     title: 'Pdf To Text',
-    metaDescription: 'PDF转文本工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转文本工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to text 免费在线',
       'pdf to text 无需注册',
@@ -633,7 +633,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'word-to-pdf': {
     title: 'Word To Pdf',
-    metaDescription: 'Word转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `Word转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'word to pdf 免费在线',
       'word to pdf 无需注册',
@@ -703,7 +703,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'jpg-to-pdf': {
     title: 'Jpg To Pdf',
-    metaDescription: 'JPG转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `JPG转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'jpg to pdf 免费在线',
       'jpg to pdf 无需注册',
@@ -773,7 +773,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'excel-to-pdf': {
     title: 'Excel To Pdf',
-    metaDescription: 'Excel转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `Excel转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'excel to pdf 免费在线',
       'excel to pdf 无需注册',
@@ -843,7 +843,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'powerpoint-to-pdf': {
     title: 'Powerpoint To Pdf',
-    metaDescription: 'PPT转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PPT转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'powerpoint to pdf 免费在线',
       'powerpoint to pdf 无需注册',
@@ -913,7 +913,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'text-to-pdf': {
     title: 'Text To Pdf',
-    metaDescription: '文本转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `文本转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'text to pdf 免费在线',
       'text to pdf 无需注册',
@@ -983,7 +983,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'html-to-pdf': {
     title: 'Html To Pdf',
-    metaDescription: 'HTML转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `HTML转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'html to pdf 免费在线',
       'html to pdf 无需注册',
@@ -1053,7 +1053,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'rotate-pdf': {
     title: 'Rotate Pdf',
-    metaDescription: 'PDF旋转工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF旋转工具免费在线 - 耗注册，耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'rotate pdf 免费在线',
       'rotate pdf 无需注册',
@@ -1123,7 +1123,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'unlock-pdf': {
     title: 'Unlock Pdf',
-    metaDescription: 'PDF解锁工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF解锁工具免费在线 - 消失注册，消失注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'unlock pdf 免费在线',
       'unlock pdf 无需注册',
@@ -1193,7 +1193,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'protect-pdf': {
     title: 'Protect Pdf',
-    metaDescription: 'PDF加密工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF加密工具免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'protect pdf 免费在线',
       'protect pdf 无需注册',
@@ -1263,7 +1263,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'add-watermark': {
     title: 'Add Watermark',
-    metaDescription: 'PDF水印工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF水印工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'add watermark to pdf 免费在线',
       'add watermark to pdf 无需注册',
@@ -1333,7 +1333,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'remove-watermark': {
     title: 'Remove Watermark',
-    metaDescription: 'PDF去水印工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF去水印工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'remove watermark from pdf 免费在线',
       'remove watermark from pdf 无需注册',
@@ -1403,7 +1403,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'add-page-numbers': {
     title: 'Add Page Numbers',
-    metaDescription: 'PDF页码工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF页码工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'add page numbers to pdf 免费在线',
       'add page numbers to pdf 无需注册',
@@ -1473,7 +1473,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'remove-pages': {
     title: 'Remove Pages',
-    metaDescription: 'PDF删页工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF删除页面工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'remove pages from pdf 免费在线',
       'remove pages from pdf 无需注册',
@@ -1543,7 +1543,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'extract-pages': {
     title: 'Extract Pages',
-    metaDescription: 'PDF提取页面工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF提取页面工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'extract pages from pdf 免费在线',
       'extract pages from pdf 无需注册',
@@ -1613,7 +1613,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'reorganize-pdf': {
     title: 'Reorganize Pdf',
-    metaDescription: 'PDF重排工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF重排工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'reorganize pdf 免费在线',
       'reorganize pdf 无需注册',
@@ -1683,7 +1683,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'insert-pdf': {
     title: 'Insert Pdf',
-    metaDescription: 'PDF插入工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF插入工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'insert pdf 免费在线',
       'insert pdf 无需注册',
@@ -1753,7 +1753,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'replace-pdf': {
     title: 'Replace Pdf',
-    metaDescription: 'PDF替换工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF替换工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'replace pdf 免费在线',
       'replace pdf 无需注册',
@@ -1823,7 +1823,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'crop-pdf': {
     title: 'Crop Pdf',
-    metaDescription: 'PDF裁剪工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF裁剪工具免费在线 - 征用注册，征用注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'crop pdf 免费在线',
       'crop pdf 无需注册',
@@ -1893,7 +1893,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'resize-pdf': {
     title: 'Resize Pdf',
-    metaDescription: 'PDF缩放工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF缩放工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'resize pdf 免费在线',
       'resize pdf 无需注册',
@@ -1963,7 +1963,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-svg': {
     title: 'Pdf To Svg',
-    metaDescription: 'PDF转SVG工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转SVG工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to svg 免费在线',
       'pdf to svg 无需注册',
@@ -2033,7 +2033,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-png': {
     title: 'Pdf To Png',
-    metaDescription: 'PDF转PNG工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转PNG工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to png 免费在线',
       'pdf to png 无需注册',
@@ -2103,7 +2103,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-webp': {
     title: 'Pdf To Webp',
-    metaDescription: 'PDF转WebP工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转WebP工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to webp 免费在线',
       'pdf to webp 无需注册',
@@ -2173,7 +2173,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'heic-to-pdf': {
     title: 'Heic To Pdf',
-    metaDescription: 'HEIC转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `HEIC转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'heic to pdf 免费在线',
       'heic to pdf 无需注册',
@@ -2243,7 +2243,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'raw-to-pdf': {
     title: 'Raw To Pdf',
-    metaDescription: 'RAW转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `RAW转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'raw to pdf 免费在线',
       'raw to pdf 无需注册',
@@ -2313,7 +2313,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'tiff-to-pdf': {
     title: 'Tiff To Pdf',
-    metaDescription: 'TIFF转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `TIFF转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'tiff to pdf 免费在线',
       'tiff to pdf 无需注册',
@@ -2383,7 +2383,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'svg-to-pdf': {
     title: 'Svg To Pdf',
-    metaDescription: 'SVG转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `SVG转PDF工具免费在线 - 耗注册，耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'svg to pdf 免费在线',
       'svg to pdf 无需注册',
@@ -2453,7 +2453,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'png-to-pdf': {
     title: 'Png To Pdf',
-    metaDescription: 'PNG转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PNG转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'png to pdf 免费在线',
       'png to pdf 无需注册',
@@ -2523,7 +2523,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'webp-to-pdf': {
     title: 'Webp To Pdf',
-    metaDescription: 'WebP转PDF工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `WebP转PDF工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'webp to pdf 免费在线',
       'webp to pdf 无需注册',
@@ -2593,7 +2593,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'repair-pdf': {
     title: 'Repair Pdf',
-    metaDescription: 'PDF修复工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF修复工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'repair pdf 免费在线',
       'repair pdf 无需注册',
@@ -2663,7 +2663,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'ocr-pdf': {
     title: 'Ocr Pdf',
-    metaDescription: 'PDF文字识别工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF文字识别工具免费在线 - 需注册，需注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'ocr pdf 免费在线',
       'ocr pdf 无需注册',
@@ -2733,7 +2733,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'flatten-pdf': {
     title: 'Flatten Pdf',
-    metaDescription: 'PDF压平工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF压平工具免费在线 - 消失注册，消失注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'flatten pdf 免费在线',
       'flatten pdf 无需注册',
@@ -2803,7 +2803,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-pdfa': {
     title: 'Pdf To Pdfa',
-    metaDescription: 'PDF转PDF/A工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转PDF/A工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to pdfa 免费在线',
       'pdf to pdfa 无需注册',
@@ -2873,7 +2873,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'sign-pdf': {
     title: 'Sign Pdf',
-    metaDescription: 'PDF签名工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF签名工具免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'sign pdf 免费在线',
       'sign pdf 无需注册',
@@ -2943,7 +2943,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'annotate-pdf': {
     title: 'Annotate Pdf',
-    metaDescription: 'PDF批注工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF批注工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'annotate pdf 免费在线',
       'annotate pdf 无需注册',
@@ -3013,7 +3013,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'redact-pdf': {
     title: 'Redact Pdf',
-    metaDescription: 'PDF编辑工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF编辑工具免费在线 - 消失注册，消失注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'redact pdf 免费在线',
       'redact pdf 无需注册',
@@ -3083,7 +3083,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'compare-pdf': {
     title: 'Compare Pdf',
-    metaDescription: 'PDF比较工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF比较工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'compare pdf 免费在线',
       'compare pdf 无需注册',
@@ -3153,7 +3153,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'bookmark-pdf': {
     title: 'Bookmark Pdf',
-    metaDescription: 'PDF书签工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF书签工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'bookmark pdf 免费在线',
       'bookmark pdf 无需注册',
@@ -3223,7 +3223,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'header-footer-pdf': {
     title: 'Header Footer Pdf',
-    metaDescription: 'PDF页眉页脚工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF页眉页脚工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'add header footer to pdf 免费在线',
       'add header footer to pdf 无需注册',
@@ -3293,7 +3293,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'background-pdf': {
     title: 'Background Pdf',
-    metaDescription: 'PDF背景工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF背景工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'add background to pdf 免费在线',
       'add background to pdf 无需注册',
@@ -3363,7 +3363,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'bates-numbering': {
     title: 'Bates Numbering',
-    metaDescription: 'PDF贝茨编号工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF贝茨附件工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'bates numbering pdf 免费在线',
       'bates numbering pdf 无需注册',
@@ -3433,7 +3433,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-grayscale': {
     title: 'Pdf To Grayscale',
-    metaDescription: 'PDF灰度工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF灰度工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to grayscale 免费在线',
       'pdf to grayscale 无需注册',
@@ -3503,7 +3503,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'optimize-pdf': {
     title: 'Optimize Pdf',
-    metaDescription: 'PDF优化工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF优化工具免费在线 - 耗注册，耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'optimize pdf 免费在线',
       'optimize pdf 无需注册',
@@ -3573,7 +3573,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'form-filler': {
     title: 'Form Filler',
-    metaDescription: 'PDF表单填写工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF表单填写工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'fill pdf forms 免费在线',
       'fill pdf forms 无需注册',
@@ -3643,7 +3643,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'create-pdf': {
     title: 'Create Pdf',
-    metaDescription: 'PDF创建工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF创建工具免费在线 - 耗注册，耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'create pdf 免费在线',
       'create pdf 无需注册',
@@ -3713,7 +3713,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'merge-pdf-template': {
     title: 'Merge Pdf Template',
-    metaDescription: 'PDF合并模板工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF合并模板工具免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'merge pdf with template 免费在线',
       'merge pdf with template 无需注册',
@@ -3783,7 +3783,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'split-pdf-template': {
     title: 'Split Pdf Template',
-    metaDescription: 'PDF拆分模板工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF拆分模板工具免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'split pdf with template 免费在线',
       'split pdf with template 无需注册',
@@ -3853,7 +3853,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'encrypt-pdf': {
     title: 'Encrypt Pdf',
-    metaDescription: 'PDF加密工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF加密工具免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'encrypt pdf 免费在线',
       'encrypt pdf 无需注册',
@@ -3923,7 +3923,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'decrypt-pdf': {
     title: 'Decrypt Pdf',
-    metaDescription: 'PDF解密工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF工具解密免费在线 - 消失注册，消失注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'decrypt pdf 免费在线',
       'decrypt pdf 无需注册',
@@ -3993,7 +3993,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'metadata-pdf': {
     title: 'Metadata Pdf',
-    metaDescription: 'PDF元数据工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF元数据工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'edit pdf metadata 免费在线',
       'edit pdf metadata 无需注册',
@@ -4063,7 +4063,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-viewer': {
     title: 'Pdf Viewer',
-    metaDescription: 'PDF查看器免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF查看器免费在线 - 不需要注册，不需要注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'view pdf 免费在线',
       'view pdf 无需注册',
@@ -4273,7 +4273,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-csv': {
     title: 'Pdf To Csv',
-    metaDescription: 'PDF转CSV工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转CSV工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to csv 免费在线',
       'pdf to csv 无需注册',
@@ -4413,7 +4413,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-epub': {
     title: 'Pdf To Epub',
-    metaDescription: 'PDF转EPUB工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转EPUB工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to epub 免费在线',
       'pdf to epub 无需注册',
@@ -4483,7 +4483,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-compare-text': {
     title: 'Pdf Compare Text',
-    metaDescription: 'PDF文本比较工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF文本比较工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'compare pdf text 免费在线',
       'compare pdf text 无需注册',
@@ -4553,7 +4553,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-redact-all': {
     title: 'Pdf Redact All',
-    metaDescription: 'PDF全部编辑工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF全部编辑工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'redact all pdf 免费在线',
       'redact all pdf 无需注册',
@@ -4623,7 +4623,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-find-replace': {
     title: 'Pdf Find Replace',
-    metaDescription: 'PDF查找替换工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF替换替换工具免费在线 - 消耗注册，消耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'find and replace pdf text 免费在线',
       'find and replace pdf text 无需注册',
@@ -4693,7 +4693,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'pdf-to-images': {
     title: 'Pdf To Images',
-    metaDescription: 'PDF转图片工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF转图片工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'pdf to images 免费在线',
       'pdf to images 无需注册',
@@ -4763,7 +4763,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'extract-images': {
     title: 'Extract Images',
-    metaDescription: 'PDF提取图片工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF提取图片工具免费在线 - 补充注册，补充注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'extract images from pdf 免费在线',
       'extract images from pdf 无需注册',
@@ -4833,7 +4833,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'compress-images': {
     title: 'Compress Images',
-    metaDescription: '图片压缩工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `图片压缩工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'compress images in pdf 免费在线',
       'compress images in pdf 无需注册',
@@ -4903,7 +4903,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'remove-blank-pages': {
     title: 'Remove Blank Pages',
-    metaDescription: 'PDF删除空白页工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF删除空白页工具免费在线 - 补注册，补注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'remove blank pages from pdf 免费在线',
       'remove blank pages from pdf 无需注册',
@@ -4973,7 +4973,7 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
   'detect-pdf-scanners': {
     title: 'Detect Pdf Scanners',
-    metaDescription: 'PDF扫描器检测工具免费在线 - 无需注册，无需注册。在浏览器中安全处理PDF文件。',
+    metaDescription: `PDF扫描器检测工具免费在线 - 耗注册，耗注册。在浏览器中安全处理PDF文件。`,
     keywords: [
       'detect pdf scanners 免费在线',
       'detect pdf scanners 无需注册',

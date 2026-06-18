@@ -3,7 +3,7 @@ import { ToolContent } from '@/types/tool';
 export const toolContentZhTW: Record<string, ToolContent> = {
   'pdf-multi-tool': {
     title: 'Pdf Multi Tool',
-    metaDescription: 'Pdf Multi Tool free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf Multi Tool 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf multi tool 免费在线',
       'pdf multi tool 无需注册',
@@ -76,7 +76,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'merge-pdf': {
     title: 'Merge Pdf',
-    metaDescription: 'Merge Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上合併 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'merge pdf 免费在线',
       'merge pdf 无需注册',
@@ -149,7 +149,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'split-pdf': {
     title: 'Split Pdf',
-    metaDescription: 'Split Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上分割 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'split pdf 免费在线',
       'split pdf 无需注册',
@@ -222,7 +222,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'compress-pdf': {
     title: 'Compress Pdf',
-    metaDescription: 'Compress Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上壓縮 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'compress pdf 免费在线',
       'compress pdf 无需注册',
@@ -295,7 +295,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-word': {
     title: 'Pdf To Word',
-    metaDescription: 'Pdf To Word free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Word 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to word 免费在线',
       'pdf to word 无需注册',
@@ -368,7 +368,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-jpg': {
     title: 'Pdf To Jpg',
-    metaDescription: 'Pdf To Jpg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Jpg 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to jpg 免费在线',
       'pdf to jpg 无需注册',
@@ -441,7 +441,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-excel': {
     title: 'Pdf To Excel',
-    metaDescription: 'Pdf To Excel free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Excel 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to excel 免费在线',
       'pdf to excel 无需注册',
@@ -514,7 +514,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-powerpoint': {
     title: 'Pdf To Powerpoint',
-    metaDescription: 'Pdf To Powerpoint free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Powerpoint 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to powerpoint 免费在线',
       'pdf to powerpoint 无需注册',
@@ -587,7 +587,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-text': {
     title: 'Pdf To Text',
-    metaDescription: 'Pdf To Text free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Text 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to text 免费在线',
       'pdf to text 无需注册',
@@ -660,7 +660,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'word-to-pdf': {
     title: 'Word To Pdf',
-    metaDescription: 'Word To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上Word To Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'word to pdf 免费在线',
       'word to pdf 无需注册',
@@ -733,7 +733,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'jpg-to-pdf': {
     title: 'Jpg To Pdf',
-    metaDescription: 'Jpg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Jpg To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'jpg to pdf 免费在线',
       'jpg to pdf 无需注册',
@@ -806,7 +806,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'excel-to-pdf': {
     title: 'Excel To Pdf',
-    metaDescription: 'Excel To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Excel 轉 Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'excel to pdf 免费在线',
       'excel to pdf 无需注册',
@@ -879,7 +879,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'powerpoint-to-pdf': {
     title: 'Powerpoint To Pdf',
-    metaDescription: 'Powerpoint To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上 Powerpoint 轉 Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'powerpoint to pdf 免费在线',
       'powerpoint to pdf 无需注册',
@@ -952,7 +952,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'text-to-pdf': {
     title: 'Text To Pdf',
-    metaDescription: 'Text To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上文字轉 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'text to pdf 免费在线',
       'text to pdf 无需注册',
@@ -1025,7 +1025,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'html-to-pdf': {
     title: 'Html To Pdf',
-    metaDescription: 'Html To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Html To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'html to pdf 免费在线',
       'html to pdf 无需注册',
@@ -1098,7 +1098,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'rotate-pdf': {
     title: 'Rotate Pdf',
-    metaDescription: 'Rotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上旋轉 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'rotate pdf 免费在线',
       'rotate pdf 无需注册',
@@ -1171,7 +1171,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'unlock-pdf': {
     title: 'Unlock Pdf',
-    metaDescription: 'Unlock Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費在線解鎖 Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'unlock pdf 免费在线',
       'unlock pdf 无需注册',
@@ -1244,7 +1244,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'protect-pdf': {
     title: 'Protect Pdf',
-    metaDescription: 'Protect Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上保護 Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'protect pdf 免费在线',
       'protect pdf 无需注册',
@@ -1317,7 +1317,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'add-watermark': {
     title: 'Add Watermark',
-    metaDescription: 'Add Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費在線添加浮水印 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'add watermark to pdf 免费在线',
       'add watermark to pdf 无需注册',
@@ -1390,7 +1390,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'remove-watermark': {
     title: 'Remove Watermark',
-    metaDescription: 'Remove Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上刪除浮水印 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'remove watermark from pdf 免费在线',
       'remove watermark from pdf 无需注册',
@@ -1463,7 +1463,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'add-page-numbers': {
     title: 'Add Page Numbers',
-    metaDescription: 'Add Page Numbers free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上新增頁碼 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'add page numbers to pdf 免费在线',
       'add page numbers to pdf 无需注册',
@@ -1536,7 +1536,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'remove-pages': {
     title: 'Remove Pages',
-    metaDescription: 'Remove Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上刪除頁面 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'remove pages from pdf 免费在线',
       'remove pages from pdf 无需注册',
@@ -1609,7 +1609,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'extract-pages': {
     title: 'Extract Pages',
-    metaDescription: 'Extract Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Extract Pages 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'extract pages from pdf 免费在线',
       'extract pages from pdf 无需注册',
@@ -1682,7 +1682,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'reorganize-pdf': {
     title: 'Reorganize Pdf',
-    metaDescription: 'Reorganize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上重整 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'reorganize pdf 免费在线',
       'reorganize pdf 无需注册',
@@ -1755,7 +1755,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'insert-pdf': {
     title: 'Insert Pdf',
-    metaDescription: 'Insert Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費在線插入 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'insert pdf 免费在线',
       'insert pdf 无需注册',
@@ -1828,7 +1828,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'replace-pdf': {
     title: 'Replace Pdf',
-    metaDescription: 'Replace Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上替換 Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'replace pdf 免费在线',
       'replace pdf 无需注册',
@@ -1901,7 +1901,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'crop-pdf': {
     title: 'Crop Pdf',
-    metaDescription: 'Crop Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上裁剪 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'crop pdf 免费在线',
       'crop pdf 无需注册',
@@ -1974,7 +1974,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'resize-pdf': {
     title: 'Resize Pdf',
-    metaDescription: 'Resize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上調整 PDF 大小 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'resize pdf 免费在线',
       'resize pdf 无需注册',
@@ -2047,7 +2047,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-svg': {
     title: 'Pdf To Svg',
-    metaDescription: 'Pdf To Svg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Svg 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to svg 免费在线',
       'pdf to svg 无需注册',
@@ -2120,7 +2120,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-png': {
     title: 'Pdf To Png',
-    metaDescription: 'Pdf To Png free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上 Pdf 轉 Png - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to png 免费在线',
       'pdf to png 无需注册',
@@ -2193,7 +2193,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-webp': {
     title: 'Pdf To Webp',
-    metaDescription: 'Pdf To Webp free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Webp 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to webp 免费在线',
       'pdf to webp 无需注册',
@@ -2266,7 +2266,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'heic-to-pdf': {
     title: 'Heic To Pdf',
-    metaDescription: 'Heic To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Heic To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'heic to pdf 免费在线',
       'heic to pdf 无需注册',
@@ -2339,7 +2339,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'raw-to-pdf': {
     title: 'Raw To Pdf',
-    metaDescription: 'Raw To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Raw To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'raw to pdf 免费在线',
       'raw to pdf 无需注册',
@@ -2412,7 +2412,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'tiff-to-pdf': {
     title: 'Tiff To Pdf',
-    metaDescription: 'Tiff To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Tiff To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'tiff to pdf 免费在线',
       'tiff to pdf 无需注册',
@@ -2485,7 +2485,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'svg-to-pdf': {
     title: 'Svg To Pdf',
-    metaDescription: 'Svg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Svg To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'svg to pdf 免费在线',
       'svg to pdf 无需注册',
@@ -2558,7 +2558,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'png-to-pdf': {
     title: 'Png To Pdf',
-    metaDescription: 'Png To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Png To Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'png to pdf 免费在线',
       'png to pdf 无需注册',
@@ -2631,7 +2631,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'webp-to-pdf': {
     title: 'Webp To Pdf',
-    metaDescription: 'Webp To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Webp To Pdf 免费在线 - 无需注册，无需注册。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'webp to pdf 免费在线',
       'webp to pdf 无需注册',
@@ -2704,7 +2704,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'repair-pdf': {
     title: 'Repair Pdf',
-    metaDescription: 'Repair Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上修復 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'repair pdf 免费在线',
       'repair pdf 无需注册',
@@ -2777,7 +2777,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'ocr-pdf': {
     title: 'Ocr Pdf',
-    metaDescription: 'Ocr Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Ocr Pdf 免费在线 - 无需注册，无需注册。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'ocr pdf 免费在线',
       'ocr pdf 无需注册',
@@ -2850,7 +2850,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'flaten-pdf': {
     title: 'Flaten Pdf',
-    metaDescription: 'Flaten Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上拼合 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'flaten pdf free online',
       'flaten pdf no registration',
@@ -2909,7 +2909,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-pdfa': {
     title: 'Pdf To Pdfa',
-    metaDescription: 'Pdf To Pdfa free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf 到 Pdfa 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to pdfa 免费在线',
       'pdf to pdfa 无需注册',
@@ -2982,7 +2982,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'sign-pdf': {
     title: 'Sign Pdf',
-    metaDescription: 'Sign Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上簽署 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'sign pdf 免费在线',
       'sign pdf 无需注册',
@@ -3055,7 +3055,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'annotate-pdf': {
     title: 'Annotate Pdf',
-    metaDescription: 'Annotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上註釋 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'annotate pdf 免费在线',
       'annotate pdf 无需注册',
@@ -3128,7 +3128,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'redact-pdf': {
     title: 'Redact Pdf',
-    metaDescription: 'Redact Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上編輯 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'redact pdf 免费在线',
       'redact pdf 无需注册',
@@ -3201,7 +3201,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'compare-pdf': {
     title: 'Compare Pdf',
-    metaDescription: 'Compare Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上比較 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'compare pdf 免费在线',
       'compare pdf 无需注册',
@@ -3274,7 +3274,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'bookmark-pdf': {
     title: 'Bookmark Pdf',
-    metaDescription: 'Bookmark Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費在線添加 PDF 書籤 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'bookmark pdf 免费在线',
       'bookmark pdf 无需注册',
@@ -3347,7 +3347,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'header-footer-pdf': {
     title: 'Header Footer Pdf',
-    metaDescription: 'Header Footer Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `頁眉頁腳 Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'add header footer to pdf 免费在线',
       'add header footer to pdf 无需注册',
@@ -3420,7 +3420,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'background-pdf': {
     title: 'Background Pdf',
-    metaDescription: 'Background Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `背景 PDF 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'add background to pdf 免费在线',
       'add background to pdf 无需注册',
@@ -3493,7 +3493,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'bates-numbering': {
     title: 'Bates Numbering',
-    metaDescription: 'Bates Numbering free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `貝茨免費線上編號 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'bates numbering pdf 免费在线',
       'bates numbering pdf 无需注册',
@@ -3566,7 +3566,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-grayscale': {
     title: 'Pdf To Grayscale',
-    metaDescription: 'Pdf To Grayscale free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf 轉灰度免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to grayscale 免费在线',
       'pdf to grayscale 无需注册',
@@ -3639,7 +3639,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'optimize-pdf': {
     title: 'Optimize Pdf',
-    metaDescription: 'Optimize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Optimize Pdf free online - no registration, no sign-up.在瀏覽器中安全地處理您的 PDF 文件。`,
     keywords: [
       'optimize pdf 免费在线',
       'optimize pdf 无需注册',
@@ -3712,7 +3712,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'form-filler': {
     title: 'Form Filler',
-    metaDescription: 'Form Filler free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上填寫表格 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'fill pdf forms 免费在线',
       'fill pdf forms 无需注册',
@@ -3785,7 +3785,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'create-pdf': {
     title: 'Create Pdf',
-    metaDescription: 'Create Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上建立 PDF - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'create pdf 免费在线',
       'create pdf 无需注册',
@@ -3858,7 +3858,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'merge-pdf-template': {
     title: 'Merge Pdf Template',
-    metaDescription: 'Merge Pdf Template free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上合併 Pdf 範本 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'merge pdf with template 免费在线',
       'merge pdf with template 无需注册',
@@ -3931,7 +3931,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'split-pdf-template': {
     title: 'Split Pdf Template',
-    metaDescription: 'Split Pdf Template free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `線上免費分割 PDF 模板 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'split pdf with template 免费在线',
       'split pdf with template 无需注册',
@@ -4004,7 +4004,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'encrypt-pdf': {
     title: 'Encrypt Pdf',
-    metaDescription: 'Encrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上加密 Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'encrypt pdf 免费在线',
       'encrypt pdf 无需注册',
@@ -4077,7 +4077,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'decrypt-pdf': {
     title: 'Decrypt Pdf',
-    metaDescription: 'Decrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上解密 Pdf - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'decrypt pdf 免费在线',
       'decrypt pdf 无需注册',
@@ -4150,7 +4150,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'metadata-pdf': {
     title: 'Metadata Pdf',
-    metaDescription: 'Metadata Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `元資料 Pdf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'edit pdf metadata 免费在线',
       'edit pdf metadata 无需注册',
@@ -4223,7 +4223,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-viewer': {
     title: 'Pdf Viewer',
-    metaDescription: 'Pdf Viewer free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf Viewer free online - no registration, no sign-up.在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'view pdf 免费在线',
       'view pdf 无需注册',
@@ -4296,7 +4296,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-html': {
     title: 'Pdf To Html',
-    metaDescription: 'Pdf To Html free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Html free online - no registration, no sign-up.在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to html 免费在线',
       'pdf to html 无需注册',
@@ -4369,7 +4369,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-xml': {
     title: 'Pdf To Xml',
-    metaDescription: 'Pdf To Xml free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Xml free online - no registration, no sign-up.在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to xml 免费在线',
       'pdf to xml 无需注册',
@@ -4442,7 +4442,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-csv': {
     title: 'Pdf To Csv',
-    metaDescription: 'Pdf To Csv free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Csv 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to csv 免费在线',
       'pdf to csv 无需注册',
@@ -4515,7 +4515,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-rtf': {
     title: 'Pdf To Rtf',
-    metaDescription: 'Pdf To Rtf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Rtf 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to rtf 免费在线',
       'pdf to rtf 无需注册',
@@ -4588,7 +4588,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-epub': {
     title: 'Pdf To Epub',
-    metaDescription: 'Pdf To Epub free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Epub 免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to epub 免费在线',
       'pdf to epub 无需注册',
@@ -4661,7 +4661,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-compare-text': {
     title: 'Pdf Compare Text',
-    metaDescription: 'Pdf Compare Text free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上 Pdf 比較文字 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'compare pdf text 免费在线',
       'compare pdf text 无需注册',
@@ -4734,7 +4734,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-redact-all': {
     title: 'Pdf Redact All',
-    metaDescription: 'Pdf Redact All free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf Redact All 線上免費 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'redact all pdf 免费在线',
       'redact all pdf 无需注册',
@@ -4807,7 +4807,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-find-replace': {
     title: 'Pdf Find Replace',
-    metaDescription: 'Pdf Find Replace free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf 在線查找替換免費 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'find and replace pdf text 免费在线',
       'find and replace pdf text 无需注册',
@@ -4880,7 +4880,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'pdf-to-images': {
     title: 'Pdf To Images',
-    metaDescription: 'Pdf To Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf 轉圖免費線上 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'pdf to images 免费在线',
       'pdf to images 无需注册',
@@ -4953,7 +4953,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'extract-images': {
     title: 'Extract Images',
-    metaDescription: 'Extract Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上擷取圖片 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'extract images from pdf 免费在线',
       'extract images from pdf 无需注册',
@@ -5026,7 +5026,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'compress-images': {
     title: 'Compress Images',
-    metaDescription: 'Compress Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上壓縮圖片 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'compress images in pdf 免费在线',
       'compress images in pdf 无需注册',
@@ -5099,7 +5099,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'remove-blank-pages': {
     title: 'Remove Blank Pages',
-    metaDescription: 'Remove Blank Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上刪除空白頁 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'remove blank pages from pdf 免费在线',
       'remove blank pages from pdf 无需注册',
@@ -5172,7 +5172,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
   },
   'detect-pdf-scanners': {
     title: 'Detect Pdf Scanners',
-    metaDescription: 'Detect Pdf Scanners free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `免費線上偵測 Pdf 掃描器 - 無需註冊，無需註冊。在瀏覽器中安全地處理您的 PDF 檔案。`,
     keywords: [
       'detect pdf scanners 免费在线',
       'detect pdf scanners 无需注册',

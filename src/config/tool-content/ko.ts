@@ -3,7 +3,7 @@ import { ToolContent } from '@/types/tool';
 export const toolContentKo: Record<string, ToolContent> = {
   'pdf-multi-tool': {
     title: 'PDF 멀티 도구',
-    metaDescription: 'Pdf Multi Tool free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF Multi Tool 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf multi tool free online',
       'pdf multi tool no registration',
@@ -62,7 +62,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'merge-pdf': {
     title: 'PDF 병합',
-    metaDescription: 'Merge Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 병합하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'merge pdf free online',
       'merge pdf no registration',
@@ -121,7 +121,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'split-pdf': {
     title: 'PDF 분할',
-    metaDescription: 'Split Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 분할 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'split pdf free online',
       'split pdf no registration',
@@ -180,7 +180,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'compress-pdf': {
     title: 'PDF 압축',
-    metaDescription: 'Compress Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 압축하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'compress pdf free online',
       'compress pdf no registration',
@@ -239,7 +239,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-word': {
     title: 'Pdf To Word',
-    metaDescription: 'Pdf To Word free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Word 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to word free online',
       'pdf to word no registration',
@@ -298,7 +298,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-jpg': {
     title: 'PDF를 JPG로',
-    metaDescription: 'Pdf To Jpg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Jpg 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to jpg free online',
       'pdf to jpg no registration',
@@ -357,7 +357,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-excel': {
     title: 'Pdf To Excel',
-    metaDescription: 'Pdf To Excel free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 Excel로 변환 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to excel free online',
       'pdf to excel no registration',
@@ -416,7 +416,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-powerpoint': {
     title: 'Pdf To Powerpoint',
-    metaDescription: 'Pdf To Powerpoint free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Powerpoint 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to powerpoint free online',
       'pdf to powerpoint no registration',
@@ -475,7 +475,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-text': {
     title: 'Pdf To Text',
-    metaDescription: 'Pdf To Text free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Text 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to text free online',
       'pdf to text no registration',
@@ -534,7 +534,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'word-to-pdf': {
     title: 'Word To Pdf',
-    metaDescription: 'Word To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Word To Pdf 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'word to pdf free online',
       'word to pdf no registration',
@@ -593,7 +593,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'jpg-to-pdf': {
     title: 'JPG를 PDF로',
-    metaDescription: 'Jpg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Jpg To Pdf 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'jpg to pdf free online',
       'jpg to pdf no registration',
@@ -652,7 +652,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'excel-to-pdf': {
     title: 'Excel To Pdf',
-    metaDescription: 'Excel To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Excel을 PDF로 온라인 무료로 변환 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'excel to pdf free online',
       'excel to pdf no registration',
@@ -711,7 +711,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'powerpoint-to-pdf': {
     title: 'Powerpoint To Pdf',
-    metaDescription: 'Powerpoint To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PowerPoint에서 PDF로 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'powerpoint to pdf free online',
       'powerpoint to pdf no registration',
@@ -770,7 +770,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'text-to-pdf': {
     title: 'Text To Pdf',
-    metaDescription: 'Text To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 텍스트를 PDF로 변환 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'text to pdf free online',
       'text to pdf no registration',
@@ -829,7 +829,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'html-to-pdf': {
     title: 'Html To Pdf',
-    metaDescription: 'Html To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Html To Pdf 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'html to pdf free online',
       'html to pdf no registration',
@@ -888,7 +888,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'rotate-pdf': {
     title: 'Rotate Pdf',
-    metaDescription: 'Rotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 회전하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'rotate pdf free online',
       'rotate pdf no registration',
@@ -947,7 +947,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'unlock-pdf': {
     title: 'Unlock Pdf',
-    metaDescription: 'Unlock Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 잠금해제하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'unlock pdf free online',
       'unlock pdf no registration',
@@ -1006,7 +1006,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'protect-pdf': {
     title: 'Protect Pdf',
-    metaDescription: 'Protect Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 PDF를 무료로 보호하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'protect pdf free online',
       'protect pdf no registration',
@@ -1065,7 +1065,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'add-watermark': {
     title: '워터마크 추가',
-    metaDescription: 'Add Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `워터마크를 온라인으로 무료로 추가하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'add watermark free online',
       'add watermark no registration',
@@ -1124,7 +1124,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'remove-watermark': {
     title: 'Remove Watermark',
-    metaDescription: 'Remove Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 워터마크를 무료로 제거하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'remove watermark free online',
       'remove watermark no registration',
@@ -1183,7 +1183,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'add-page-numbers': {
     title: 'Add Page Numbers',
-    metaDescription: 'Add Page Numbers free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 페이지 번호를 추가하세요. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'add page numbers free online',
       'add page numbers no registration',
@@ -1242,7 +1242,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'remove-pages': {
     title: 'Remove Pages',
-    metaDescription: 'Remove Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 페이지 제거 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'remove pages free online',
       'remove pages no registration',
@@ -1301,7 +1301,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'extract-pages': {
     title: '페이지 추출',
-    metaDescription: 'Extract Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 페이지 추출 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'extract pages free online',
       'extract pages no registration',
@@ -1360,7 +1360,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'reorganize-pdf': {
     title: 'Reorganize Pdf',
-    metaDescription: 'Reorganize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 재구성하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'reorganize pdf free online',
       'reorganize pdf no registration',
@@ -1419,7 +1419,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'insert-pdf': {
     title: 'Insert Pdf',
-    metaDescription: 'Insert Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 삽입하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'insert pdf free online',
       'insert pdf no registration',
@@ -1478,7 +1478,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'replace-pdf': {
     title: 'Replace Pdf',
-    metaDescription: 'Replace Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 교체하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'replace pdf free online',
       'replace pdf no registration',
@@ -1537,7 +1537,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'crop-pdf': {
     title: 'PDF 자르기',
-    metaDescription: 'Crop Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 자르기 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'crop pdf free online',
       'crop pdf no registration',
@@ -1596,7 +1596,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'resize-pdf': {
     title: 'Resize Pdf',
-    metaDescription: 'Resize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 크기 조정 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'resize pdf free online',
       'resize pdf no registration',
@@ -1655,7 +1655,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-svg': {
     title: 'Pdf To Svg',
-    metaDescription: 'Pdf To Svg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Svg 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to svg free online',
       'pdf to svg no registration',
@@ -1714,7 +1714,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-png': {
     title: 'PDF를 PNG로',
-    metaDescription: 'Pdf To Png free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Png 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to png free online',
       'pdf to png no registration',
@@ -1773,7 +1773,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-webp': {
     title: 'PDF를 WebP로',
-    metaDescription: 'Pdf To Webp free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Webp 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to webp free online',
       'pdf to webp no registration',
@@ -1832,7 +1832,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'heic-to-pdf': {
     title: 'HEIC를 PDF로',
-    metaDescription: 'Heic To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Heic To Pdf 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'heic to pdf free online',
       'heic to pdf no registration',
@@ -1891,7 +1891,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'raw-to-pdf': {
     title: 'Raw To Pdf',
-    metaDescription: 'Raw To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Raw To Pdf 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'raw to pdf free online',
       'raw to pdf no registration',
@@ -1950,7 +1950,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'tiff-to-pdf': {
     title: 'TIFF를 PDF로',
-    metaDescription: 'Tiff To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Tiff To Pdf 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'tiff to pdf free online',
       'tiff to pdf no registration',
@@ -2009,7 +2009,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'svg-to-pdf': {
     title: 'SVG를 PDF로',
-    metaDescription: 'Svg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Svg To Pdf 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'svg to pdf free online',
       'svg to pdf no registration',
@@ -2068,7 +2068,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'png-to-pdf': {
     title: 'PNG를 PDF로',
-    metaDescription: 'Png To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Png To Pdf 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'png to pdf free online',
       'png to pdf no registration',
@@ -2127,7 +2127,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'webp-to-pdf': {
     title: 'WebP를 PDF로',
-    metaDescription: 'Webp To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Webp To Pdf 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'webp to pdf free online',
       'webp to pdf no registration',
@@ -2186,7 +2186,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'repair-pdf': {
     title: 'PDF 복구',
-    metaDescription: 'Repair Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 온라인으로 무료로 복구하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'repair pdf free online',
       'repair pdf no registration',
@@ -2245,7 +2245,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'ocr-pdf': {
     title: 'OCR PDF (텍스트 인식)',
-    metaDescription: 'Ocr Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Ocr PDF 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'ocr pdf free online',
       'ocr pdf no registration',
@@ -2304,7 +2304,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'flaten-pdf': {
     title: 'Flaten Pdf',
-    metaDescription: 'Flaten Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Flaten PDF 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'flaten pdf free online',
       'flaten pdf no registration',
@@ -2363,7 +2363,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-pdfa': {
     title: 'PDF를 PDF/A로 변환',
-    metaDescription: 'Pdf To Pdfa free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF를 Pdfa로 온라인 무료로 제공 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to pdfa free online',
       'pdf to pdfa no registration',
@@ -2422,7 +2422,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'sign-pdf': {
     title: 'PDF 서명',
-    metaDescription: 'Sign Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF에 무료로 온라인으로 서명하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'sign pdf free online',
       'sign pdf no registration',
@@ -2481,7 +2481,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'annotate-pdf': {
     title: 'Annotate Pdf',
-    metaDescription: 'Annotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 PDF에 주석을 달 수 있습니다. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'annotate pdf free online',
       'annotate pdf no registration',
@@ -2540,7 +2540,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'redact-pdf': {
     title: 'Redact Pdf',
-    metaDescription: 'Redact Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 편집 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'redact pdf free online',
       'redact pdf no registration',
@@ -2599,7 +2599,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'compare-pdf': {
     title: 'Compare Pdf',
-    metaDescription: 'Compare Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 비교 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'compare pdf free online',
       'compare pdf no registration',
@@ -2658,7 +2658,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'bookmark-pdf': {
     title: 'Bookmark Pdf',
-    metaDescription: 'Bookmark Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `북마크 PDF 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'bookmark pdf free online',
       'bookmark pdf no registration',
@@ -2717,7 +2717,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'header-footer-pdf': {
     title: 'Header Footer Pdf',
-    metaDescription: 'Header Footer Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `머리글 바닥글 PDF는 온라인에서 무료로 제공됩니다. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'header footer pdf free online',
       'header footer pdf no registration',
@@ -2776,7 +2776,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'background-pdf': {
     title: 'Background Pdf',
-    metaDescription: 'Background Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `배경 PDF 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'background pdf free online',
       'background pdf no registration',
@@ -2835,7 +2835,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'bates-numbering': {
     title: 'Bates Numbering',
-    metaDescription: 'Bates Numbering free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Bates 번호 매기기는 온라인에서 무료입니다. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'bates numbering free online',
       'bates numbering no registration',
@@ -2894,7 +2894,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-grayscale': {
     title: 'Pdf To Grayscale',
-    metaDescription: 'Pdf To Grayscale free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Grayscale 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to grayscale free online',
       'pdf to grayscale no registration',
@@ -2953,7 +2953,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'optimize-pdf': {
     title: 'Optimize Pdf',
-    metaDescription: 'Optimize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF 무료 온라인 최적화 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'optimize pdf free online',
       'optimize pdf no registration',
@@ -3012,7 +3012,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'form-filler': {
     title: '양식 작성',
-    metaDescription: 'Form Filler free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `양식 작성기는 온라인으로 무료입니다. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'form filler free online',
       'form filler no registration',
@@ -3071,7 +3071,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'create-pdf': {
     title: 'Create Pdf',
-    metaDescription: 'Create Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 PDF를 생성하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'create pdf free online',
       'create pdf no registration',
@@ -3130,7 +3130,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'merge-pdf-template': {
     title: 'Merge Pdf Template',
-    metaDescription: 'Merge Pdf Template free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 템플릿 병합 ​​- 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'merge pdf template free online',
       'merge pdf template no registration',
@@ -3189,7 +3189,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'split-pdf-template': {
     title: 'Split Pdf Template',
-    metaDescription: 'Split Pdf Template free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `분할 PDF 템플릿 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'split pdf template free online',
       'split pdf template no registration',
@@ -3248,7 +3248,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'encrypt-pdf': {
     title: 'PDF 암호 설정',
-    metaDescription: 'Encrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 PDF를 암호화하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'encrypt pdf free online',
       'encrypt pdf no registration',
@@ -3307,7 +3307,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'decrypt-pdf': {
     title: 'PDF 암호 해제',
-    metaDescription: 'Decrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `무료 온라인 PDF 해독 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'decrypt pdf free online',
       'decrypt pdf no registration',
@@ -3366,7 +3366,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'metadata-pdf': {
     title: 'Metadata Pdf',
-    metaDescription: 'Metadata Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `메타데이터 PDF 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'metadata pdf free online',
       'metadata pdf no registration',
@@ -3425,7 +3425,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-viewer': {
     title: 'Pdf Viewer',
-    metaDescription: 'Pdf Viewer free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF 뷰어 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf viewer free online',
       'pdf viewer no registration',
@@ -3484,7 +3484,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-html': {
     title: 'Pdf To Html',
-    metaDescription: 'Pdf To Html free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Html 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to html free online',
       'pdf to html no registration',
@@ -3543,7 +3543,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-xml': {
     title: 'Pdf To Xml',
-    metaDescription: 'Pdf To Xml free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Xml 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to xml free online',
       'pdf to xml no registration',
@@ -3602,7 +3602,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-csv': {
     title: 'Pdf To Csv',
-    metaDescription: 'Pdf To Csv free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Csv 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to csv free online',
       'pdf to csv no registration',
@@ -3661,7 +3661,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-rtf': {
     title: 'Pdf To Rtf',
-    metaDescription: 'Pdf To Rtf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Rtf 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to rtf free online',
       'pdf to rtf no registration',
@@ -3720,7 +3720,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-epub': {
     title: 'Pdf To Epub',
-    metaDescription: 'Pdf To Epub free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Epub 온라인 무료 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to epub free online',
       'pdf to epub no registration',
@@ -3779,7 +3779,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-compare-text': {
     title: 'Pdf Compare Text',
-    metaDescription: 'Pdf Compare Text free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF 비교 텍스트는 온라인에서 무료로 제공됩니다. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf compare text free online',
       'pdf compare text no registration',
@@ -3838,7 +3838,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-redact-all': {
     title: 'Pdf Redact All',
-    metaDescription: 'Pdf Redact All free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF 수정 온라인에서 모두 무료입니다. 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf redact all free online',
       'pdf redact all no registration',
@@ -3897,7 +3897,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-find-replace': {
     title: 'Pdf Find Replace',
-    metaDescription: 'Pdf Find Replace free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF 찾기 무료 온라인 교체 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf find replace free online',
       'pdf find replace no registration',
@@ -3956,7 +3956,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'pdf-to-images': {
     title: 'Pdf To Images',
-    metaDescription: 'Pdf To Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Images 무료 온라인 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'pdf to images free online',
       'pdf to images no registration',
@@ -4015,7 +4015,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'extract-images': {
     title: 'Extract Images',
-    metaDescription: 'Extract Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 이미지 추출 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'extract images free online',
       'extract images no registration',
@@ -4074,7 +4074,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'compress-images': {
     title: 'Compress Images',
-    metaDescription: 'Compress Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 무료로 이미지를 압축하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'compress images free online',
       'compress images no registration',
@@ -4133,7 +4133,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'remove-blank-pages': {
     title: '빈 페이지 제거',
-    metaDescription: 'Remove Blank Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `온라인에서 빈 페이지를 무료로 제거하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'remove blank pages free online',
       'remove blank pages no registration',
@@ -4192,7 +4192,7 @@ export const toolContentKo: Record<string, ToolContent> = {
   },
   'detect-pdf-scanners': {
     title: 'Detect Pdf Scanners',
-    metaDescription: 'Detect Pdf Scanners free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF 스캐너를 온라인에서 무료로 감지하세요 - 등록이나 가입이 필요하지 않습니다. `,
     keywords: [
       'detect pdf scanners free online',
       'detect pdf scanners no registration',

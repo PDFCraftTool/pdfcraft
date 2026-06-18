@@ -3,7 +3,7 @@ import { ToolContent } from '@/types/tool';
 export const toolContentJa: Record<string, ToolContent> = {
   'pdf-multi-tool': {
     title: 'PDFマルチツール',
-    metaDescription: 'Pdf Multi Tool free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで無料の PDF マルチツール - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf multi tool free online',
       'pdf multi tool no registration',
@@ -62,7 +62,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'merge-pdf': {
     title: 'PDF結合',
-    metaDescription: 'Merge Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で結合 - 登録やサインアップは必要ありません。`,
     keywords: [
       'merge pdf free online',
       'merge pdf no registration',
@@ -121,7 +121,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'split-pdf': {
     title: 'PDF分割',
-    metaDescription: 'Split Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で分割 - 登録やサインアップは必要ありません。`,
     keywords: [
       'split pdf free online',
       'split pdf no registration',
@@ -180,7 +180,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'compress-pdf': {
     title: 'PDF圧縮',
-    metaDescription: 'Compress Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで PDF を無料で圧縮 - 登録やサインアップは必要ありません。`,
     keywords: [
       'compress pdf free online',
       'compress pdf no registration',
@@ -239,7 +239,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-word': {
     title: 'Pdf To Word',
-    metaDescription: 'Pdf To Word free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで PDF To Word を無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to word free online',
       'pdf to word no registration',
@@ -298,7 +298,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-jpg': {
     title: 'PDFからJPG',
-    metaDescription: 'Pdf To Jpg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインでPDFからJPGへ無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to jpg free online',
       'pdf to jpg no registration',
@@ -357,7 +357,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-excel': {
     title: 'PDFをExcelに変換',
-    metaDescription: 'Pdf To Excel free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF To Excel をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to excel free online',
       'pdf to excel no registration',
@@ -416,7 +416,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-powerpoint': {
     title: 'Pdf To Powerpoint',
-    metaDescription: 'Pdf To Powerpoint free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Powerpoint をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to powerpoint free online',
       'pdf to powerpoint no registration',
@@ -475,7 +475,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-text': {
     title: 'Pdf To Text',
-    metaDescription: 'Pdf To Text free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで無料で PDF To Text - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to text free online',
       'pdf to text no registration',
@@ -534,7 +534,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'word-to-pdf': {
     title: 'WordをPDFに変換',
-    metaDescription: 'Word To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで Word To Pdf を無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'word to pdf free online',
       'word to pdf no registration',
@@ -593,7 +593,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'jpg-to-pdf': {
     title: 'JPGからPDF',
-    metaDescription: 'Jpg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Jpg To Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'jpg to pdf free online',
       'jpg to pdf no registration',
@@ -652,7 +652,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'excel-to-pdf': {
     title: 'ExcelをPDFに変換',
-    metaDescription: 'Excel To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Excel To Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'excel to pdf free online',
       'excel to pdf no registration',
@@ -711,7 +711,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'powerpoint-to-pdf': {
     title: 'Powerpoint To Pdf',
-    metaDescription: 'Powerpoint To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Powerpoint To Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'powerpoint to pdf free online',
       'powerpoint to pdf no registration',
@@ -770,7 +770,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'text-to-pdf': {
     title: 'Text To Pdf',
-    metaDescription: 'Text To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Text To Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'text to pdf free online',
       'text to pdf no registration',
@@ -829,7 +829,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'html-to-pdf': {
     title: 'Html To Pdf',
-    metaDescription: 'Html To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Html To Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'html to pdf free online',
       'html to pdf no registration',
@@ -888,7 +888,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'rotate-pdf': {
     title: 'PDF回転',
-    metaDescription: 'Rotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Rotate Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'rotate pdf free online',
       'rotate pdf no registration',
@@ -947,7 +947,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'unlock-pdf': {
     title: 'Unlock Pdf',
-    metaDescription: 'Unlock Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Unlock Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'unlock pdf free online',
       'unlock pdf no registration',
@@ -1006,7 +1006,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'protect-pdf': {
     title: 'Protect Pdf',
-    metaDescription: 'Protect Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で保護 - 登録やサインアップは必要ありません。`,
     keywords: [
       'protect pdf free online',
       'protect pdf no registration',
@@ -1065,7 +1065,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'add-watermark': {
     title: '透かし追加',
-    metaDescription: 'Add Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Add Watermark 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'add watermark free online',
       'add watermark no registration',
@@ -1124,7 +1124,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'remove-watermark': {
     title: 'Remove Watermark',
-    metaDescription: 'Remove Watermark free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `ウォーターマークはオンラインで無料で削除できます - 登録やサインアップは必要ありません。`,
     keywords: [
       'remove watermark free online',
       'remove watermark no registration',
@@ -1183,7 +1183,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'add-page-numbers': {
     title: 'Add Page Numbers',
-    metaDescription: 'Add Page Numbers free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインでページ番号を無料で追加できます - 登録やサインアップは必要ありません。`,
     keywords: [
       'add page numbers free online',
       'add page numbers no registration',
@@ -1242,7 +1242,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'remove-pages': {
     title: 'Remove Pages',
-    metaDescription: 'Remove Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `ページをオンラインで無料で削除 - 登録やサインアップは必要ありません。`,
     keywords: [
       'remove pages free online',
       'remove pages no registration',
@@ -1301,7 +1301,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'extract-pages': {
     title: 'ページ抽出',
-    metaDescription: 'Extract Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `ページをオンラインで無料で抽出 - 登録やサインアップは必要ありません。`,
     keywords: [
       'extract pages free online',
       'extract pages no registration',
@@ -1360,7 +1360,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'reorganize-pdf': {
     title: 'Reorganize Pdf',
-    metaDescription: 'Reorganize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で再編成 - 登録やサインアップは必要ありません。`,
     keywords: [
       'reorganize pdf free online',
       'reorganize pdf no registration',
@@ -1419,7 +1419,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'insert-pdf': {
     title: 'Insert Pdf',
-    metaDescription: 'Insert Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で挿入 - 登録やサインアップは必要ありません。`,
     keywords: [
       'insert pdf free online',
       'insert pdf no registration',
@@ -1478,7 +1478,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'replace-pdf': {
     title: 'Replace Pdf',
-    metaDescription: 'Replace Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で置き換えます - 登録やサインアップは必要ありません。`,
     keywords: [
       'replace pdf free online',
       'replace pdf no registration',
@@ -1537,7 +1537,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'crop-pdf': {
     title: 'PDFトリミング',
-    metaDescription: 'Crop Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料でトリミング - 登録やサインアップは必要ありません。`,
     keywords: [
       'crop pdf free online',
       'crop pdf no registration',
@@ -1596,7 +1596,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'resize-pdf': {
     title: 'Resize Pdf',
-    metaDescription: 'Resize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF のサイズをオンラインで無料で変更 - 登録やサインアップは不要です。`,
     keywords: [
       'resize pdf free online',
       'resize pdf no registration',
@@ -1655,7 +1655,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-svg': {
     title: 'PDFをSVGに変換',
-    metaDescription: 'Pdf To Svg free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで無料で Pdf To Svg - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to svg free online',
       'pdf to svg no registration',
@@ -1714,7 +1714,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-png': {
     title: 'PDFからPNG',
-    metaDescription: 'Pdf To Png free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Pdf To Png はオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to png free online',
       'pdf to png no registration',
@@ -1773,7 +1773,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-webp': {
     title: 'PDFからWebP',
-    metaDescription: 'Pdf To Webp free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで無料で PDF To Webp - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to webp free online',
       'pdf to webp no registration',
@@ -1832,7 +1832,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'heic-to-pdf': {
     title: 'HEICからPDF',
-    metaDescription: 'Heic To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Heic To Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'heic to pdf free online',
       'heic to pdf no registration',
@@ -1891,7 +1891,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'raw-to-pdf': {
     title: 'Raw To Pdf',
-    metaDescription: 'Raw To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Raw To Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'raw to pdf free online',
       'raw to pdf no registration',
@@ -1950,7 +1950,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'tiff-to-pdf': {
     title: 'TIFFからPDF',
-    metaDescription: 'Tiff To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Tiff To Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'tiff to pdf free online',
       'tiff to pdf no registration',
@@ -2009,7 +2009,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'svg-to-pdf': {
     title: 'SVGからPDF',
-    metaDescription: 'Svg To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Svg To Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'svg to pdf free online',
       'svg to pdf no registration',
@@ -2068,7 +2068,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'png-to-pdf': {
     title: 'PNGからPDF',
-    metaDescription: 'Png To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Png To Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'png to pdf free online',
       'png to pdf no registration',
@@ -2127,7 +2127,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'webp-to-pdf': {
     title: 'WebPからPDF',
-    metaDescription: 'Webp To Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで無料の Webp To Pdf - 登録やサインアップは必要ありません。`,
     keywords: [
       'webp to pdf free online',
       'webp to pdf no registration',
@@ -2186,7 +2186,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'repair-pdf': {
     title: 'PDF修復',
-    metaDescription: 'Repair Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `無料でオンラインで PDF を修復 - 登録やサインアップは必要ありません。`,
     keywords: [
       'repair pdf free online',
       'repair pdf no registration',
@@ -2245,7 +2245,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'ocr-pdf': {
     title: 'OCR PDF',
-    metaDescription: 'Ocr Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Ocr Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'ocr pdf free online',
       'ocr pdf no registration',
@@ -2304,7 +2304,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'flaten-pdf': {
     title: 'Flaten Pdf',
-    metaDescription: 'Flaten Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Flaten Pdf をオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'flaten pdf free online',
       'flaten pdf no registration',
@@ -2363,7 +2363,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-pdfa': {
     title: 'PDFをPDF/Aに変換',
-    metaDescription: 'Pdf To Pdfa free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで PDF To Pdfa を無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to pdfa free online',
       'pdf to pdfa no registration',
@@ -2422,7 +2422,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'sign-pdf': {
     title: 'PDF署名',
-    metaDescription: 'Sign Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインで無料で PDF に署名 - 登録やサインアップは必要ありません。`,
     keywords: [
       'sign pdf free online',
       'sign pdf no registration',
@@ -2481,7 +2481,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'annotate-pdf': {
     title: 'Annotate Pdf',
-    metaDescription: 'Annotate Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF にオンラインで無料で注釈を付けることができます - 登録やサインアップは必要ありません。`,
     keywords: [
       'annotate pdf free online',
       'annotate pdf no registration',
@@ -2540,7 +2540,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'redact-pdf': {
     title: 'Redact Pdf',
-    metaDescription: 'Redact Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `Redact Pdf をオンラインで無料 - 登録やサインアップは不要です。`,
     keywords: [
       'redact pdf free online',
       'redact pdf no registration',
@@ -2599,7 +2599,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'compare-pdf': {
     title: 'Compare Pdf',
-    metaDescription: 'Compare Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で比較 - 登録やサインアップは不要です。`,
     keywords: [
       'compare pdf free online',
       'compare pdf no registration',
@@ -2658,7 +2658,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'bookmark-pdf': {
     title: 'Bookmark Pdf',
-    metaDescription: 'Bookmark Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料でブックマーク - 登録やサインアップは必要ありません。`,
     keywords: [
       'bookmark pdf free online',
       'bookmark pdf no registration',
@@ -2717,7 +2717,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'header-footer-pdf': {
     title: 'Header Footer Pdf',
-    metaDescription: 'Header Footer Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `ヘッダー フッター PDF をオンラインで無料 - 登録やサインアップは不要です。`,
     keywords: [
       'header footer pdf free online',
       'header footer pdf no registration',
@@ -2776,7 +2776,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'background-pdf': {
     title: 'Background Pdf',
-    metaDescription: 'Background Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `背景PDFをオンラインで無料 - 登録やサインアップは不要です。`,
     keywords: [
       'background pdf free online',
       'background pdf no registration',
@@ -2835,7 +2835,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'bates-numbering': {
     title: 'Bates Numbering',
-    metaDescription: 'Bates Numbering free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `ベイツ ナンバリングはオンラインで無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'bates numbering free online',
       'bates numbering no registration',
@@ -2894,7 +2894,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-grayscale': {
     title: 'Pdf To Grayscale',
-    metaDescription: 'Pdf To Grayscale free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `オンラインでPDFをグレースケールに無料 - 登録やサインアップは必要ありません。`,
     keywords: [
       'pdf to grayscale free online',
       'pdf to grayscale no registration',
@@ -2953,7 +2953,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'optimize-pdf': {
     title: 'Optimize Pdf',
-    metaDescription: 'Optimize Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: `PDF をオンラインで無料で最適化 - 登録やサインアップは必要ありません。`,
     keywords: [
       'optimize pdf free online',
       'optimize pdf no registration',
@@ -3012,7 +3012,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'form-filler': {
     title: 'フォーム記入',
-    metaDescription: 'Form Filler free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Form Filler 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'form filler free online',
       'form filler no registration',
@@ -3071,7 +3071,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'create-pdf': {
     title: 'Create Pdf',
-    metaDescription: 'Create Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Create Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'create pdf free online',
       'create pdf no registration',
@@ -3130,7 +3130,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'merge-pdf-template': {
     title: 'Merge Pdf Template',
-    metaDescription: 'Merge Pdf Template free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Merge Pdf Template 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'merge pdf template free online',
       'merge pdf template no registration',
@@ -3189,7 +3189,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'split-pdf-template': {
     title: 'Split Pdf Template',
-    metaDescription: 'Split Pdf Template free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Split Pdf Template 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'split pdf template free online',
       'split pdf template no registration',
@@ -3248,7 +3248,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'encrypt-pdf': {
     title: 'PDF暗号化',
-    metaDescription: 'Encrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Encrypt Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'encrypt pdf free online',
       'encrypt pdf no registration',
@@ -3307,7 +3307,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'decrypt-pdf': {
     title: 'PDF復号化',
-    metaDescription: 'Decrypt Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Decrypt Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'decrypt pdf free online',
       'decrypt pdf no registration',
@@ -3366,7 +3366,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'metadata-pdf': {
     title: 'Metadata Pdf',
-    metaDescription: 'Metadata Pdf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Metadata Pdf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'metadata pdf free online',
       'metadata pdf no registration',
@@ -3425,7 +3425,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-viewer': {
     title: 'Pdf Viewer',
-    metaDescription: 'Pdf Viewer free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf Viewer 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf viewer free online',
       'pdf viewer no registration',
@@ -3484,7 +3484,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-html': {
     title: 'Pdf To Html',
-    metaDescription: 'Pdf To Html free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf To Html 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf to html free online',
       'pdf to html no registration',
@@ -3543,7 +3543,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-xml': {
     title: 'Pdf To Xml',
-    metaDescription: 'Pdf To Xml free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf To Xml 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf to xml free online',
       'pdf to xml no registration',
@@ -3602,7 +3602,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-csv': {
     title: 'Pdf To Csv',
-    metaDescription: 'Pdf To Csv free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf To Csv 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf to csv free online',
       'pdf to csv no registration',
@@ -3661,7 +3661,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-rtf': {
     title: 'Pdf To Rtf',
-    metaDescription: 'Pdf To Rtf free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf To Rtf 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf to rtf free online',
       'pdf to rtf no registration',
@@ -3720,7 +3720,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-epub': {
     title: 'Pdf To Epub',
-    metaDescription: 'Pdf To Epub free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf To Epub 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf to epub free online',
       'pdf to epub no registration',
@@ -3779,7 +3779,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-compare-text': {
     title: 'Pdf Compare Text',
-    metaDescription: 'Pdf Compare Text free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf Compare Text 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf compare text free online',
       'pdf compare text no registration',
@@ -3838,7 +3838,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-redact-all': {
     title: 'Pdf Redact All',
-    metaDescription: 'Pdf Redact All free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf Redact All 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf redact all free online',
       'pdf redact all no registration',
@@ -3897,7 +3897,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-find-replace': {
     title: 'Pdf Find Replace',
-    metaDescription: 'Pdf Find Replace free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf Find Replace 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf find replace free online',
       'pdf find replace no registration',
@@ -3956,7 +3956,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'pdf-to-images': {
     title: 'Pdf To Images',
-    metaDescription: 'Pdf To Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Pdf To Images 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'pdf to images free online',
       'pdf to images no registration',
@@ -4015,7 +4015,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'extract-images': {
     title: 'PDFから画像を抽出',
-    metaDescription: 'Extract Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Extract Images 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'extract images free online',
       'extract images no registration',
@@ -4074,7 +4074,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'compress-images': {
     title: 'Compress Images',
-    metaDescription: 'Compress Images free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Compress Images 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'compress images free online',
       'compress images no registration',
@@ -4133,7 +4133,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'remove-blank-pages': {
     title: '空白ページ削除',
-    metaDescription: 'Remove Blank Pages free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Remove Blank Pages 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'remove blank pages free online',
       'remove blank pages no registration',
@@ -4192,7 +4192,7 @@ export const toolContentJa: Record<string, ToolContent> = {
   },
   'detect-pdf-scanners': {
     title: 'Detect Pdf Scanners',
-    metaDescription: 'Detect Pdf Scanners free online - no registration, no sign-up. Process your PDF files securely in your browser.',
+    metaDescription: 'Detect Pdf Scanners 無料オンライン - 登録不要、サインアップ不要。ブラウザでPDFファイルを安全に処理します。',
     keywords: [
       'detect pdf scanners free online',
       'detect pdf scanners no registration',
