@@ -3,7 +3,7 @@
  * Defines supported locales and routing configuration
  */
 
-export const locales = ['en', 'ja', 'ko', 'es', 'fr', 'de', 'zh', 'zh-TW', 'pt', 'ar', 'it', 'id', 'vi', 'ro'] as const;
+export const locales = ['en', 'ja', 'ko', 'es', 'fr', 'de', 'zh', 'zh-TW', 'pt', 'ar', 'it', 'id', 'vi', 'ro', 'pl'] as const;
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'en';
@@ -28,7 +28,15 @@ export const localeConfig: Record<Locale, {
   id: { name: 'Indonesian', nativeName: 'Bahasa Indonesia', direction: 'ltr', dateFormat: 'DD/MM/YYYY' },
   vi: { name: 'Vietnamese', nativeName: 'Tiếng Việt', direction: 'ltr', dateFormat: 'DD/MM/YYYY' },
   ro: { name: 'Romanian', nativeName: 'Română', direction: 'ltr', dateFormat: 'DD.MM.YYYY' },
+  pl: { name: 'Polish', nativeName: 'Polski', direction: 'ltr', dateFormat: 'DD.MM.YYYY' },
 };
+
+// Keep locale-prefix handling in sync with the canonical locale registry. Sort
+// longer locale codes first so a code such as zh-TW is matched as a whole.
+const escapedLocaleCodes = locales
+  .map((locale) => locale.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  .sort((a, b) => b.length - a.length);
+const localePrefixPattern = new RegExp(`^/(?:${escapedLocaleCodes.join('|')})(?=/|$)`);
 
 /**
  * Check if a locale is RTL
@@ -61,9 +69,11 @@ export function getLocaleFromPath(path: string): Locale | null {
  */
 export function getLocalizedPath(path: string, locale: Locale): string {
   // Remove any existing locale prefix (must be followed by / or end of string)
-  const cleanPath = path.replace(/^\/(en|ja|ko|es|fr|de|zh-TW|zh|pt|ar|it|id|vi|ro)(\/|$)/, '/');
+  const cleanPath = path.replace(localePrefixPattern, '') || '/';
   // Normalize the path - ensure it starts with / and handle empty paths
-  const normalizedPath = cleanPath === '/' ? '/' : cleanPath.replace(/^\/+/, '/');
+  const normalizedPath = cleanPath === '/'
+    ? '/'
+    : `/${cleanPath.replace(/^\/+/, '')}`;
   // Add the new locale prefix
   return `/${locale}${normalizedPath === '/' ? '/' : normalizedPath}`;
 }
