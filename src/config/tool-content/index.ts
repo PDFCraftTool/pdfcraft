@@ -16,6 +16,7 @@ export { toolContentAr } from './ar';
 export { toolContentIt } from './it';
 export { toolContentId } from './id';
 export { toolContentVn } from './vi';
+export { toolContentPl } from './pl';
 
 import { toolContentEn } from './en';
 import { toolContentJa } from './ja';
@@ -30,9 +31,12 @@ import { toolContentAr } from './ar';
 import { toolContentIt } from './it';
 import { toolContentId } from './id';
 import { toolContentVn } from './vi';
+import { toolContentPl } from './pl';
 import { ToolContent } from '@/types/tool';
+import type { Locale } from '@/lib/i18n/config';
 
-export type Locale = 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'zh' | 'zh-TW' | 'pt' | 'ar' | 'it' | 'id' | 'vi' | 'ro';
+export type { Locale } from '@/lib/i18n/config';
+
 
 /**
  * Get tool content for a specific locale
@@ -41,7 +45,7 @@ export type Locale = 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'zh' | 'zh-TW' | 
  * ar falls back to en content for now
  */
 export function getToolContent(locale: Locale, toolId: string): ToolContent | undefined {
-  const contentMap: Record<string, Record<string, ToolContent>> = {
+  const contentMap: Record<Locale, Record<string, ToolContent>> = {
     en: toolContentEn,
     ja: toolContentJa,
     ko: toolContentKo,
@@ -56,6 +60,7 @@ export function getToolContent(locale: Locale, toolId: string): ToolContent | un
     id: toolContentId,
     vi: toolContentVn,
     ro: toolContentEn, // Fallback to English for Romanian tool content for now
+    pl: toolContentPl,
   };
 
   const localeContent = contentMap[locale];
