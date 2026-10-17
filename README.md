@@ -200,7 +200,28 @@ Navigate to `/workflow` or click on "Workflow Editor" in the navigation menu.
 
 ## 🚀 Getting Started
 
-To run this project locally, follow these steps:
+[![Launch on PicoRunner](https://picorunner.com/badges/launch.svg)](https://picorunner.com/launch/?repository=https%3A%2F%2Fgithub.com%2FPDFCraftTool%2Fpdfcraft)
+
+PicoRunner installs dependencies from the lockfile, builds the static export, and opens
+PDFCraft on `127.0.0.1:4322`. No account or API key is required. The first setup
+includes the bundled LibreOffice WebAssembly assets and may take several minutes.
+Documents are processed in the browser; downloaded PDFs remain in your browser's
+download location. Saved projects, workflows, and preferences use browser storage
+for this local origin, so there are no repository data directories to preserve.
+
+To serve the production export manually with the isolation headers required by WASM:
+
+```bash
+npm ci
+npm run build
+npm run serve:local -- --host 127.0.0.1 --port 4322
+```
+
+Open `http://127.0.0.1:4322/en/`. This local server serves only `out/`; `next start`
+does not support the project's `output: 'export'` configuration. Keep using your
+normal static host or Docker setup for public deployment.
+
+To run this project locally in development, follow these steps:
 
 ### Prerequisites
 
@@ -315,7 +336,8 @@ services:
 
 - `npm run dev`: Starts the development server with Turbopack. Automatically runs `predev` to decompress LibreOffice WASM files.
 - `npm run build`: Builds the application for production. Automatically runs `postbuild` to decompress WASM files in `out/`.
-- `npm run start`: Starts the production server.
+- `npm run serve:local`: Serves the production static export on loopback with WASM isolation headers. Supports `--host`, `--port`, `HOST`, and `PORT`.
+- `npm run start`: Next.js server command; not compatible with the current static-export configuration.
 - `npm run lint`: Lints the code using ESLint.
 - `npm run test`: Runs tests using Vitest.
 
