@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { configurePdfjsWorker } from '@/lib/pdf/loader';
 import { saveBlobFile } from '@/lib/tauri-bridge';
+import { useSelectAllShortcut } from '@/hooks/useSelectAllShortcut';
 
 export interface PDFMultiToolProps {
   className?: string;
@@ -265,6 +266,11 @@ export function PDFMultiTool({ className = '' }: PDFMultiToolProps) {
   const handleDeselectAll = useCallback(() => {
     setPagePreviews(prev => prev.map(p => ({ ...p, selected: false })));
   }, []);
+
+  useSelectAllShortcut({
+    onSelectAll: handleSelectAll,
+    enabled: pagePreviews.length > 0 && !showAddBlankModal,
+  });
 
   // Delete
   const handleDeletePage = useCallback((index: number) => {

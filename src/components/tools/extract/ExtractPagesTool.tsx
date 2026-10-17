@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { extractPages, parsePageSelection } from '@/lib/pdf/processors/extract';
 import { configurePdfjsWorker } from '@/lib/pdf/loader';
+import { useSelectAllShortcut } from '@/hooks/useSelectAllShortcut';
 import type { ProcessOutput } from '@/types/pdf';
 
 export interface ExtractPagesToolProps {
@@ -166,6 +167,11 @@ export function ExtractPagesTool({ className = '' }: ExtractPagesToolProps) {
     setSelectedPages(new Set(pagePreviews.map(p => p.pageNumber)));
     setResult(null);
   }, [pagePreviews]);
+
+  useSelectAllShortcut({
+    onSelectAll: handleSelectAll,
+    enabled: pagePreviews.length > 0,
+  });
 
   /**
    * Deselect all pages

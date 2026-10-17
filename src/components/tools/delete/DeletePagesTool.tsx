@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { deletePages, parsePageSelection } from '@/lib/pdf/processors/delete';
 import { configurePdfjsWorker } from '@/lib/pdf/loader';
+import { useSelectAllShortcut } from '@/hooks/useSelectAllShortcut';
 import type { ProcessOutput } from '@/types/pdf';
 
 export interface DeletePagesToolProps {
@@ -168,6 +169,11 @@ export function DeletePagesTool({ className = '' }: DeletePagesToolProps) {
     setSelectedPages(new Set(allButOne));
     setResult(null);
   }, [pagePreviews]);
+
+  useSelectAllShortcut({
+    onSelectAll: handleSelectAll,
+    enabled: pagePreviews.length > 0,
+  });
 
   /**
    * Deselect all pages
