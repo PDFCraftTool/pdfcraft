@@ -273,6 +273,8 @@ export {
   getFormFields,
   type FormFieldValue,
   type FormFillerOptions,
+  type FormFieldInfo,
+  type FormFieldType,
 } from './form-filler';
 
 // Form creator processor
