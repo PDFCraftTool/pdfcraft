@@ -248,6 +248,7 @@ export function generateWebPageSchema(
     ro: 'ro-RO',
     pl: 'pl-PL',
     cs: 'cs-CZ',
+    hi: 'hi-IN',
   };
 
   return {

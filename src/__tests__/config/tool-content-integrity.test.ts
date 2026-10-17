@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getAllTools } from '@/config/tools';
-import { getToolContent, toolContentEn, toolContentPl, toolContentCs } from '@/config/tool-content';
+import { getToolContent, toolContentEn, toolContentPl, toolContentCs, toolContentHi } from '@/config/tool-content';
 
 describe('tool content integrity', () => {
   it('provides fallback content for every configured tool to avoid 404 pages', () => {
@@ -45,6 +45,24 @@ describe('tool content integrity', () => {
     expect(getToolContent('cs', 'merge-pdf')?.title).toBe('Spojit soubory do PDF');
     expect(getToolContent('cs', 'split-pdf')?.title).toBe('Rozdělit PDF');
     expect(getToolContent('cs', 'compress-pdf')?.title).toBe('Komprimovat PDF');
+  });
+
+  it('provides complete Hindi tool content without English fallback', () => {
+    const englishToolIds = Object.keys(toolContentEn);
+    const configuredToolIds = getAllTools().map((tool) => tool.id);
+    const missingTools = englishToolIds.filter((toolId) => !toolContentHi[toolId]);
+    const missingConfiguredTools = configuredToolIds.filter((toolId) => !toolContentHi[toolId]);
+    const fallbackTools = englishToolIds.filter(
+      (toolId) => getToolContent('hi', toolId) !== toolContentHi[toolId]
+    );
+
+    expect(missingTools).toEqual([]);
+    expect(missingConfiguredTools).toEqual([]);
+    expect(Object.keys(toolContentHi).sort()).toEqual(englishToolIds.sort());
+    expect(fallbackTools).toEqual([]);
+    expect(getToolContent('hi', 'merge-pdf')?.title).toBe('PDF मर्ज करें');
+    expect(getToolContent('hi', 'split-pdf')?.title).toBe('PDF विभाजित करें');
+    expect(getToolContent('hi', 'compress-pdf')?.title).toBe('PDF कंप्रेस करें');
   });
 
   it('keeps Chinese tool titles localized instead of falling back to English slugs', () => {

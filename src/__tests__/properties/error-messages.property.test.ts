@@ -27,6 +27,7 @@ import viMessages from '../../../messages/vi.json';
 import roMessages from '../../../messages/ro.json';
 import plMessages from '../../../messages/pl.json';
 import csMessages from '../../../messages/cs.json';
+import hiMessages from '../../../messages/hi.json';
 
 // Map of locale to messages
 const LOCALE_MESSAGES: Record<Locale, Record<string, unknown>> = {
@@ -47,6 +48,7 @@ const LOCALE_MESSAGES: Record<Locale, Record<string, unknown>> = {
   ro: roMessages,
   pl: plMessages,
   cs: csMessages,
+  hi: hiMessages,
 };
 
 /**

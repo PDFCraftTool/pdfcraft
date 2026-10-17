@@ -76,6 +76,23 @@ describe('message catalog integrity', () => {
     }
   });
 
+  it('keeps Hindi messages structurally and token-compatible with English', () => {
+    const english = JSON.parse(readFileSync(join(messagesDir, 'en.json'), 'utf8')) as MessageCatalog;
+    const hindi = JSON.parse(readFileSync(join(messagesDir, 'hi.json'), 'utf8')) as MessageCatalog;
+
+    expect(getCatalogShape(hindi).sort()).toEqual(getCatalogShape(english).sort());
+
+    for (const [path, englishMessage] of getStringLeaves(english)) {
+      const hindiMessage = getNestedValue(hindi, path);
+
+      expect(hindiMessage, path).toEqual(expect.any(String));
+      expect(getInterpolationArguments(hindiMessage as string), path)
+        .toEqual(getInterpolationArguments(englishMessage));
+      expect(getRichTextTags(hindiMessage as string), path)
+        .toEqual(getRichTextTags(englishMessage));
+    }
+  });
+
   it('defines edit PDF iframe patch labels for every locale', () => {
     const requiredKeys = [
       'common.editPdf.unnamedUser',

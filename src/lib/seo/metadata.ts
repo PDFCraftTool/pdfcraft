@@ -272,6 +272,7 @@ export function getOpenGraphLocale(locale: Locale): string {
     ro: 'ro_RO',
     pl: 'pl_PL',
     cs: 'cs_CZ',
+    hi: 'hi_IN',
   };
   return ogLocaleMap[locale] || 'en_US';
 }
