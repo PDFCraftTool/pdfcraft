@@ -10,6 +10,8 @@ import { saveBlobFile, isTauri, getSystemPrinters, printPdfFile, type SystemPrin
 import { Modal } from '@/components/ui';
 import { withBasePath } from '@/lib/utils/path';
 
+export const SELECTED_PRINTER_STORAGE_KEY = 'pdfcraft-selected-printer';
+
 export interface PDFReaderToolProps {
     className?: string;
 }
@@ -123,8 +125,17 @@ export function PDFReaderTool({ className = '' }: PDFReaderToolProps) {
             const list = await getSystemPrinters();
             setPrinters(list);
             if (list.length > 0) {
-                const defaultPrinter = list.find((p) => p.is_default);
-                setSelectedPrinter(defaultPrinter ? defaultPrinter.name : list[0].name);
+                let savedPrinter: string | null = null;
+                try {
+                    savedPrinter = localStorage.getItem(SELECTED_PRINTER_STORAGE_KEY);
+                } catch {}
+
+                if (savedPrinter && list.some((p) => p.name === savedPrinter)) {
+                    setSelectedPrinter(savedPrinter);
+                } else {
+                    const defaultPrinter = list.find((p) => p.is_default);
+                    setSelectedPrinter(defaultPrinter ? defaultPrinter.name : list[0].name);
+                }
             } else {
                 setSelectedPrinter('');
             }
@@ -133,6 +144,13 @@ export function PDFReaderTool({ className = '' }: PDFReaderToolProps) {
         } finally {
             setIsLoadingPrinters(false);
         }
+    }, []);
+
+    const handlePrinterChange = useCallback((printerName: string) => {
+        setSelectedPrinter(printerName);
+        try {
+            localStorage.setItem(SELECTED_PRINTER_STORAGE_KEY, printerName);
+        } catch {}
     }, []);
 
     const handleTriggerPrint = useCallback(() => {
@@ -169,8 +187,30 @@ export function PDFReaderTool({ className = '' }: PDFReaderToolProps) {
         return () => window.removeEventListener('message', handleMessage);
     }, [handleTriggerPrint]);
 
+    // Listen for Ctrl+P / Cmd+P print shortcut
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (!file) return;
+
+            if ((event.ctrlKey || event.metaKey) && !event.altKey && event.key.toLowerCase() === 'p') {
+                event.preventDefault();
+                if (!isPrintModalOpen && !isPrinting) {
+                    handleTriggerPrint();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [file, isPrintModalOpen, isPrinting, handleTriggerPrint]);
+
     const handleExecutePrint = useCallback(async () => {
         if (!file) return;
+        if (selectedPrinter) {
+            try {
+                localStorage.setItem(SELECTED_PRINTER_STORAGE_KEY, selectedPrinter);
+            } catch {}
+        }
         setIsPrinting(true);
         setPrintStatus(null);
         try {
@@ -341,7 +381,7 @@ export function PDFReaderTool({ className = '' }: PDFReaderToolProps) {
                                         </label>
                                         <select
                                             value={selectedPrinter}
-                                            onChange={(e) => setSelectedPrinter(e.target.value)}
+                                            onChange={(e) => handlePrinterChange(e.target.value)}
                                             disabled={isPrinting}
                                             className="w-full px-3 py-2 text-sm rounded-md border border-[hsl(var(--color-input))] bg-[hsl(var(--color-background))] text-[hsl(var(--color-foreground))] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         >
