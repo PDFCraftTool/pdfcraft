@@ -60,11 +60,20 @@ function pushUndo(entry) {
   state.redo = [];
 }
 
+// Thai fallback: Thai documents name their face many ways, and a browser only
+// has the ones that happen to be installed. Without a Thai-capable family at
+// the end of the stack every Thai glyph in the overlay falls back to a latin
+// face and paints as .notdef boxes.
+const THAI_FALLBACK =
+  "'Noto Sans Thai', 'Leelawadee UI', Tahoma, Thonburi, 'Sukhumvit Set', sans-serif";
+
 const WEB_FALLBACK = (family, kind) => {
   if (kind === 'mono') return `"${family}", 'Courier New', monospace`;
-  if (kind === 'serif') return `"${family}", 'Times New Roman', Times, serif`;
+  if (kind === 'serif')
+    return `"${family}", 'Times New Roman', Times, serif, ${THAI_FALLBACK}`;
   const f = (family || '').toLowerCase();
-  if (f.includes('georgia')) return "Georgia, 'Times New Roman', serif";
+  if (f.includes('georgia'))
+    return `Georgia, 'Times New Roman', serif, ${THAI_FALLBACK}`;
   if (f.includes('courier') || f.includes('mono'))
     return "'Courier New', monospace";
   if (
@@ -75,10 +84,10 @@ const WEB_FALLBACK = (family, kind) => {
     f.includes('garamond') ||
     f.includes('book')
   )
-    return "'Times New Roman', Times, serif";
+    return `'Times New Roman', Times, serif, ${THAI_FALLBACK}`;
   if (family && !/helvetica|arial/i.test(family))
-    return `"${family}", Helvetica, Arial, sans-serif`;
-  return 'Helvetica, Arial, sans-serif';
+    return `"${family}", Helvetica, Arial, ${THAI_FALLBACK}`;
+  return `Helvetica, Arial, ${THAI_FALLBACK}`;
 };
 
 const rgbaToCss = (n) =>

@@ -577,6 +577,98 @@ async function loadBundledChineseFont() {
   }
 }
 
+// Preload bundled Thai font (Sarabun) for universal Thai editing support.
+// Thai documents reference their face by many names (TH SarabunPSK, Angsana
+// New, Cordia New, ...). When the machine does not have that exact face the
+// engine cannot embed Thai glyphs and pdfium substitutes a latin base-14 font,
+// so every Thai character lands in the PDF as .notdef - the "blank squares"
+// reported for Thai files. Mounting one bundled OFL face under those names
+// keeps Thai text editable and round-trippable on any machine.
+const THAI_FONT_FAMILIES = [
+  'Sarabun',
+  'Sarabun New',
+  'TH Sarabun New',
+  'TH SarabunPSK',
+  'TH Sarabun PSK',
+  'TH SarabunPSK New',
+  'Angsana New',
+  'AngsanaUPC',
+  'Cordia New',
+  'CordiaUPC',
+  'Browallia New',
+  'BrowalliaUPC',
+  'Leelawadee UI',
+  'Leelawadee',
+  'Tahoma',
+  'Noto Sans Thai',
+  'Thonburi',
+  'Sukhumvit Set',
+  'Kanit',
+  'Prompt',
+  'Arial Unicode MS',
+];
+
+async function loadBundledThaiFont() {
+  try {
+    const PE = window.PdfEngine;
+    if (!PE?.localFonts) {
+      console.warn('[DirectEditor] PdfEngine.localFonts not ready yet');
+      return;
+    }
+    const [regular, bold] = await Promise.all([
+      fetch('/fonts/Sarabun-Regular.ttf').then((r) =>
+        r.ok ? r.arrayBuffer() : null
+      ),
+      fetch('/fonts/Sarabun-Bold.ttf')
+        .then((r) => (r.ok ? r.arrayBuffer() : null))
+        .catch(() => null),
+    ]);
+    if (!regular) {
+      console.warn('[DirectEditor] Bundled Thai font not found');
+      return;
+    }
+    const bytes = { regular: new Uint8Array(regular), bold: null };
+    if (bold) bytes.bold = new Uint8Array(bold);
+    const styleFiles = {
+      '': bytes.regular,
+      '|00': bytes.regular,
+      '|01': bytes.regular,
+      '|10': bytes.bold || bytes.regular,
+      '|11': bytes.bold || bytes.regular,
+    };
+    for (const fam of THAI_FONT_FAMILIES) {
+      for (const [sk, buf] of Object.entries(styleFiles)) {
+        // A locally installed face is a better match than ours - keep it.
+        if (!PE.localFonts.has(fam + sk)) PE.localFonts.set(fam + sk, buf);
+      }
+    }
+    console.log(
+      `[DirectEditor] Bundled Thai font (Sarabun) mounted for ${THAI_FONT_FAMILIES.length} family names`
+    );
+
+    // Offer the bundled face in the font picker even when system font access
+    // is unavailable (Safari/Firefox, or a denied Local Font Access prompt).
+    const sel = document.getElementById('fFamily');
+    if (sel) {
+      const PREFERRED = [
+        ['TH Sarabun New', isZh ? '泰文 (TH Sarabun New)' : 'TH Sarabun New (Thai)'],
+        ['Sarabun', 'Sarabun (Thai)'],
+        ['Noto Sans Thai', 'Noto Sans Thai'],
+      ];
+      for (let i = PREFERRED.length - 1; i >= 0; i--) {
+        const [val, label] = PREFERRED[i];
+        if ([...sel.options].some((o) => o.value === val)) continue;
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = label;
+        sel.insertBefore(opt, sel.firstChild);
+      }
+    }
+  } catch (err) {
+    console.warn('[DirectEditor] Error loading bundled Thai font:', err);
+  }
+}
+
 // Initialize on DOM Ready
 async function init() {
   console.log('[DirectEditor] Initializing controller...');
@@ -596,6 +688,7 @@ async function init() {
     const ready = await appModule.engineReady;
     console.log('[DirectEditor] WASM engine status:', ready);
     await loadBundledChineseFont();
+    await loadBundledThaiFont();
   } catch (e) {
     console.error('[DirectEditor] WASM engine initialization error:', e);
   }
