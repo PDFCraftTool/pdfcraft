@@ -305,7 +305,7 @@ fn print_pdf_file(data: Vec<u8>, printer_name: Option<String>) -> Result<(), Str
     }
 }
 
-/// Port used by the loopback asset server in production builds.
+/// Ports the loopback asset server may use in production builds, in order of preference.
 ///
 /// Production builds normally serve the frontend through the `tauri://localhost`
 /// custom protocol. WKWebView does not treat custom schemes as a secure context, so
@@ -314,7 +314,22 @@ fn print_pdf_file(data: Vec<u8>, printer_name: Option<String>) -> Result<(), Str
 /// (Emscripten pthreads) needs for the Office -> PDF tools. Serving the same assets
 /// over `http://127.0.0.1:<port>` gives the page a trustworthy origin, so the
 /// isolation headers actually take effect.
-const LOCALHOST_PORT: u16 = 9527;
+///
+/// 9527 comes first, as before. Another program may already listen on it (Splashtop
+/// Streamer's SRManager does, on 127.0.0.1:9527): the window then loads that program's
+/// server instead and stays black. So the server takes the first free port of this short
+/// range, which is the same port from one launch to the next on a given machine and keeps
+/// the page's origin (and what it saves) stable. `capabilities/default.json` allows
+/// exactly these origins.
+const LOCALHOST_PORTS: std::ops::RangeInclusive<u16> = 9527..=9536;
+
+/// The first port of `LOCALHOST_PORTS` nothing is listening on (9527 if all are taken).
+fn pick_loopback_port() -> u16 {
+    LOCALHOST_PORTS
+        .clone()
+        .find(|&port| std::net::TcpListener::bind(("127.0.0.1", port)).is_ok())
+        .unwrap_or(*LOCALHOST_PORTS.start())
+}
 
 /// Waits until the loopback asset server accepts connections.
 ///
@@ -371,6 +386,7 @@ fn main() {
     }
 
     let use_loopback = !cfg!(dev);
+    let loopback_port = pick_loopback_port();
 
     let mut context = tauri::generate_context!();
 
@@ -387,7 +403,7 @@ fn main() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(
-            tauri_plugin_localhost::Builder::new(LOCALHOST_PORT)
+            tauri_plugin_localhost::Builder::new(loopback_port)
                 .host("127.0.0.1")
                 .on_request(|_request, response| {
                     // `app.security.headers` only applies to the custom protocol, so the
@@ -401,15 +417,15 @@ fn main() {
         )
         .setup(move |app| {
             if use_loopback {
-                if !wait_for_loopback(LOCALHOST_PORT, std::time::Duration::from_secs(5)) {
+                if !wait_for_loopback(loopback_port, std::time::Duration::from_secs(5)) {
                     eprintln!(
-                        "pdfcraft: loopback asset server did not come up on port {LOCALHOST_PORT}"
+                        "pdfcraft: loopback asset server did not come up on port {loopback_port}"
                     );
                 }
                 let mut window_config = app.config().app.windows[0].clone();
                 window_config.create = false;
                 window_config.url = tauri::WebviewUrl::External(
-                    format!("http://127.0.0.1:{LOCALHOST_PORT}/")
+                    format!("http://127.0.0.1:{loopback_port}/")
                         .parse()
                         .expect("loopback url is valid"),
                 );

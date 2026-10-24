@@ -4,7 +4,19 @@
   "description": "Default capability for the main window",
   "windows": ["main"],
   "remote": {
-    "urls": ["http://127.0.0.1:9527", "http://localhost:9527"]
+    "urls": [
+      "http://127.0.0.1:9527",
+      "http://127.0.0.1:9528",
+      "http://127.0.0.1:9529",
+      "http://127.0.0.1:9530",
+      "http://127.0.0.1:9531",
+      "http://127.0.0.1:9532",
+      "http://127.0.0.1:9533",
+      "http://127.0.0.1:9534",
+      "http://127.0.0.1:9535",
+      "http://127.0.0.1:9536",
+      "http://localhost:9527"
+    ]
   },
   "permissions": [
     "core:default",
