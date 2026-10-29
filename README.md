@@ -407,3 +407,5 @@ This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE)
 <div align="center">
   Built with ❤️ by the PDFCraft Team
 </div>
+
+In **Edit PDF**, hold **Shift** while dragging an image/object resize handle to preserve its original aspect ratio. Release Shift for free resizing. The opposite corner stays fixed.

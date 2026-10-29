@@ -7784,7 +7784,8 @@ function stagePointHandlers() {
         drag.b0,
         drag.corner,
         px - drag.startPx,
-        py - drag.startPy
+        py - drag.startPy,
+        e.shiftKey
       );
       const r = objRectView(nb);
       const box = ov.querySelector('.obj-box');
@@ -7815,7 +7816,8 @@ function stagePointHandlers() {
           drag.b0,
           drag.corner,
           px - drag.startPx,
-          py - drag.startPy
+          py - drag.startPy,
+          e.shiftKey
         );
         const sx = nb.w / Math.max(0.01, drag.b0.w),
           sy = nb.h / Math.max(0.01, drag.b0.h);
@@ -8025,7 +8027,7 @@ function stagePointHandlers() {
   });
 }
 
-function resizedBounds(b, corner, dx, dy) {
+function resizedBounds(b, corner, dx, dy, preserveAspect = false) {
   let { x, y, w, h } = b;
   if (corner.includes('e')) w = Math.max(4, b.w + dx);
   if (corner.includes('w')) {
@@ -8036,6 +8038,19 @@ function resizedBounds(b, corner, dx, dy) {
   if (corner.includes('s')) {
     h = Math.max(4, b.h - dy);
     y = b.y + (b.h - h);
+  }
+  if (preserveAspect && b.w > 0 && b.h > 0) {
+    const horizontal = corner.includes('e') || corner.includes('w');
+    const vertical = corner.includes('n') || corner.includes('s');
+    const dw = horizontal ? (corner.includes('w') ? -dx : dx) / b.w : 0;
+    const dh = vertical ? (corner.includes('s') ? -dy : dy) / b.h : 0;
+    // Follow the dominant proportional movement while keeping both dimensions
+    // above the existing minimum and the opposite corner fixed.
+    const scale = Math.max(4 / b.w, 4 / b.h, 1 + (Math.abs(dw) >= Math.abs(dh) ? dw : dh));
+    w = b.w * scale;
+    h = b.h * scale;
+    x = corner.includes('w') ? b.x + b.w - w : b.x;
+    y = corner.includes('s') ? b.y + b.h - h : b.y;
   }
   return { x, y, w, h };
 }
