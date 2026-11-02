@@ -4,6 +4,7 @@ import { fixPageSize } from '@/lib/pdf/processors/fix-page-size';
 import { createNUpPDF } from '@/lib/pdf/processors/n-up';
 import { combineSinglePage } from '@/lib/pdf/processors/combine-single-page';
 import { resizePDFPagesUniform } from '@/lib/pdf/processors/pdf-page-resizer-uniform';
+import { createBooklet } from '@/lib/pdf/processors/booklet';
 import { imposeBookletFolding } from '@/lib/pdf/processors/booklet-folding-simulator';
 import { overlayPDF } from '@/lib/pdf/processors/overlay';
 import { rotatePDF } from '@/lib/pdf/processors/rotate';
@@ -52,6 +53,10 @@ describe('tools that embed pages cope with blank pages that have no content stre
 
   it('booklet folding', async () => {
     expect(await pageCount(await imposeBookletFolding(await fixture(), {}))).toBeGreaterThan(0);
+  });
+
+  it('booklet', async () => {
+    expect(await pageCount(await createBooklet(await fixture(), {}))).toBeGreaterThan(0);
   });
 
   it('overlay with a blank base page', async () => {
