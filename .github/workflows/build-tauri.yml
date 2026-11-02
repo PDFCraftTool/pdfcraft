@@ -112,6 +112,11 @@ jobs:
               APPIMAGETOOL="appimagetool"
             fi
 
+            # Extraction can leave owner-only permissions. AppImage users must
+            # be able to read files and traverse/execute existing directories/programs.
+            # Capital X preserves non-executable data files (unlike chmod +x).
+            chmod -R a+rX squashfs-root
+
             # Repackage AppImage without conflicting libraries
             rm -f "$GITHUB_WORKSPACE/$APPIMAGE_FILE"
             APPIMAGE_EXTRACT_AND_RUN=1 ARCH=x86_64 "$APPIMAGETOOL" squashfs-root "$GITHUB_WORKSPACE/$APPIMAGE_FILE"
