@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * Standard page sizes in points (72 points = 1 inch)
@@ -156,7 +157,7 @@ export class FixPageSizeProcessor extends BasePDFProcessor {
         this.updateProgress(progress, `Processing page ${i + 1} of ${pageCount}...`);
 
         // Get the source page
-        const [embeddedPage] = await newPdf.embedPages([sourcePdf.getPage(i)]);
+        const [embeddedPage] = await newPdf.embedPages([ensurePageContents(sourcePdf.getPage(i))]);
         const sourceWidth = embeddedPage.width;
         const sourceHeight = embeddedPage.height;
 

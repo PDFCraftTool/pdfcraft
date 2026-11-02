@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * Combine orientation options
@@ -186,7 +187,7 @@ export class CombineSinglePagePDFProcessor extends BasePDFProcessor {
       // Pre-embed all pages at once to avoid duplicate font embedding
       // This is crucial for CJK PDFs where fonts can be very large
       this.updateProgress(20, 'Embedding pages...');
-      const embeddedPages = await newPdf.embedPages(sourcePages);
+      const embeddedPages = await newPdf.embedPages(sourcePages.map(ensurePageContents));
 
       // Draw each embedded page
       const progressPerPage = 60 / totalPages;

@@ -13,6 +13,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 export interface OverlayOptions {
   /** 'overlay' puts the layer PDF on top, 'underlay' puts it underneath */
@@ -137,8 +138,8 @@ export class OverlayPDFProcessor extends BasePDFProcessor {
           const { width: lWidth, height: lHeight } = layerPage.getSize();
 
           // Embed pages
-          const [embeddedBase] = await outputPdf.embedPages([basePage]);
-          const [embeddedLayer] = await outputPdf.embedPages([layerPage]);
+          const [embeddedBase] = await outputPdf.embedPages([ensurePageContents(basePage)]);
+          const [embeddedLayer] = await outputPdf.embedPages([ensurePageContents(layerPage)]);
 
           // Create destination page matching original size
           const destinationPage = outputPdf.addPage([width, height]);

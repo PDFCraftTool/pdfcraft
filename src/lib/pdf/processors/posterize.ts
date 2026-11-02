@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * Posterize options
@@ -265,7 +266,7 @@ export class PosterizePDFProcessor extends BasePDFProcessor {
             const outputPage = newPdf.addPage([pageWidth, pageHeight]);
 
             // Embed the cropped page
-            const embeddedPage = await newPdf.embedPage(copiedPage, {
+            const embeddedPage = await newPdf.embedPage(ensurePageContents(copiedPage), {
               left: Math.max(0, sx),
               bottom: Math.max(0, sy),
               right: Math.min(sx + sWidth, sourceWidth),
