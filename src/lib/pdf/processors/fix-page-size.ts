@@ -155,10 +155,15 @@ export class FixPageSizeProcessor extends BasePDFProcessor {
         const progress = 40 + Math.floor((i / pageCount) * 50);
         this.updateProgress(progress, `Processing page ${i + 1} of ${pageCount}...`);
 
-        // Get the source page
-        const [embeddedPage] = await newPdf.embedPages([sourcePdf.getPage(i)]);
-        const sourceWidth = embeddedPage.width;
-        const sourceHeight = embeddedPage.height;
+        // Get the source page. Pages with /Rotate (common in scans) are shown
+        // turned in a viewer, so lay them out by their displayed size and draw
+        // them turned the same way.
+        const sourcePage = sourcePdf.getPage(i);
+        const [embeddedPage] = await newPdf.embedPages([sourcePage]);
+        const quarterTurns = ((sourcePage.getRotation().angle % 360) + 360) % 360 / 90;
+        const turned = quarterTurns % 2 === 1;
+        const sourceWidth = turned ? embeddedPage.height : embeddedPage.width;
+        const sourceHeight = turned ? embeddedPage.width : embeddedPage.height;
 
         // Determine final dimensions based on orientation
         let finalWidth = targetDimensions.width;
@@ -196,11 +201,16 @@ export class FixPageSizeProcessor extends BasePDFProcessor {
         );
 
         // Draw the embedded page
+        const shownWidth = sourceWidth * scale.x;
+        const shownHeight = sourceHeight * scale.y;
         newPage.drawPage(embeddedPage, {
-          x,
-          y,
-          xScale: scale.x,
-          yScale: scale.y,
+          // Origin of the unturned page so that, once turned clockwise by
+          // /Rotate, it fills the box whose lower-left corner is (x, y).
+          x: quarterTurns === 2 || quarterTurns === 3 ? x + shownWidth : x,
+          y: quarterTurns === 1 || quarterTurns === 2 ? y + shownHeight : y,
+          xScale: turned ? scale.y : scale.x,
+          yScale: turned ? scale.x : scale.y,
+          rotate: pdfLib.degrees(-quarterTurns * 90),
         });
       }
 
