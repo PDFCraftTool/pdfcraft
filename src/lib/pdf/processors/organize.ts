@@ -148,12 +148,13 @@ export class OrganizePDFProcessor extends BasePDFProcessor {
       } catch (pymupdfErr) {
         console.warn('PyMuPDF organize failed or not available, falling back to pdf-lib:', pymupdfErr);
         
-        // Fallback to pdf-lib (original logic)
-        // Create a new PDF document
-        const newPdf = await pdfLib.PDFDocument.create();
-
-        // Copy pages in the new order
-        const progressPerPage = 60 / organizeOptions.pageOrder.length;
+        // Fallback to pdf-lib. Reorder inside the source document instead of
+        // copying pages into a new one, so forms, outlines, links, attachments,
+        // page labels and metadata are kept. A page used more than once keeps
+        // the original for its first occurrence and gets a copy for the rest.
+        const sourcePages = sourcePdf.getPages();
+        const used = new Set<number>();
+        const orderedPages = [];
 
         for (let i = 0; i < organizeOptions.pageOrder.length; i++) {
           if (this.checkCancelled()) {
@@ -167,18 +168,28 @@ export class OrganizePDFProcessor extends BasePDFProcessor {
           const pageIndex = pageNum - 1; // Convert to 0-based index
 
           this.updateProgress(
-            30 + (i * progressPerPage),
-            `Copying page ${pageNum}...`
+            30 + (i * 60 / organizeOptions.pageOrder.length),
+            `Arranging page ${pageNum}...`
           );
 
-          const [copiedPage] = await newPdf.copyPages(sourcePdf, [pageIndex]);
-          newPdf.addPage(copiedPage);
+          if (used.has(pageIndex)) {
+            const [copiedPage] = await sourcePdf.copyPages(sourcePdf, [pageIndex]);
+            orderedPages.push(copiedPage);
+          } else {
+            used.add(pageIndex);
+            orderedPages.push(sourcePages[pageIndex]);
+          }
         }
+
+        for (let i = totalPages - 1; i >= 0; i--) {
+          sourcePdf.removePage(i);
+        }
+        orderedPages.forEach(page => sourcePdf.addPage(page));
 
         this.updateProgress(90, 'Saving reorganized PDF...');
 
         // Save the new PDF
-        const pdfBytes = await newPdf.save({ useObjectStreams: true });
+        const pdfBytes = await sourcePdf.save({ useObjectStreams: true });
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
         this.updateProgress(100, 'Complete!');
