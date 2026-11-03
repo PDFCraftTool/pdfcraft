@@ -20,6 +20,7 @@ export { toolContentVn } from './vi';
 export { toolContentPl } from './pl';
 export { toolContentCs } from './cs';
 export { toolContentHi } from './hi';
+export { toolContentSv } from './sv';
 
 import { toolContentEn } from './en';
 import { toolContentJa } from './ja';
@@ -38,6 +39,7 @@ import { toolContentVn } from './vi';
 import { toolContentPl } from './pl';
 import { toolContentCs } from './cs';
 import { toolContentHi } from './hi';
+import { toolContentSv } from './sv';
 import { ToolContent } from '@/types/tool';
 import type { Locale } from '@/lib/i18n/config';
 
@@ -70,6 +72,7 @@ export function getToolContent(locale: Locale, toolId: string): ToolContent | un
     pl: toolContentPl,
     cs: toolContentCs,
     hi: toolContentHi,
+    sv: toolContentSv,
   };
 
   const localeContent = contentMap[locale];

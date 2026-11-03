@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getAllTools } from '@/config/tools';
-import { getToolContent, toolContentEn, toolContentPl, toolContentCs, toolContentHi } from '@/config/tool-content';
+import { getToolContent, toolContentEn, toolContentPl, toolContentCs, toolContentHi, toolContentSv } from '@/config/tool-content';
 
 describe('tool content integrity', () => {
   it('provides fallback content for every configured tool to avoid 404 pages', () => {
@@ -63,6 +63,24 @@ describe('tool content integrity', () => {
     expect(getToolContent('hi', 'merge-pdf')?.title).toBe('PDF मर्ज करें');
     expect(getToolContent('hi', 'split-pdf')?.title).toBe('PDF विभाजित करें');
     expect(getToolContent('hi', 'compress-pdf')?.title).toBe('PDF कंप्रेस करें');
+  });
+
+  it('provides complete Swedish tool content without English fallback', () => {
+    const englishToolIds = Object.keys(toolContentEn);
+    const configuredToolIds = getAllTools().map((tool) => tool.id);
+    const missingTools = englishToolIds.filter((toolId) => !toolContentSv[toolId]);
+    const missingConfiguredTools = configuredToolIds.filter((toolId) => !toolContentSv[toolId]);
+    const fallbackTools = englishToolIds.filter(
+      (toolId) => getToolContent('sv', toolId) !== toolContentSv[toolId]
+    );
+
+    expect(missingTools).toEqual([]);
+    expect(missingConfiguredTools).toEqual([]);
+    expect(Object.keys(toolContentSv).sort()).toEqual(englishToolIds.sort());
+    expect(fallbackTools).toEqual([]);
+    expect(getToolContent('sv', 'merge-pdf')?.title).toBe('Sammanfoga filer och PDF');
+    expect(getToolContent('sv', 'split-pdf')?.title).toBe('Dela PDF');
+    expect(getToolContent('sv', 'compress-pdf')?.title).toBe('Komprimera PDF');
   });
 
   it('keeps Chinese tool titles localized instead of falling back to English slugs', () => {

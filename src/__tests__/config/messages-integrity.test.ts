@@ -93,6 +93,23 @@ describe('message catalog integrity', () => {
     }
   });
 
+  it('keeps Swedish messages structurally and token-compatible with English', () => {
+    const english = JSON.parse(readFileSync(join(messagesDir, 'en.json'), 'utf8')) as MessageCatalog;
+    const swedish = JSON.parse(readFileSync(join(messagesDir, 'sv.json'), 'utf8')) as MessageCatalog;
+
+    expect(getCatalogShape(swedish).sort()).toEqual(getCatalogShape(english).sort());
+
+    for (const [path, englishMessage] of getStringLeaves(english)) {
+      const swedishMessage = getNestedValue(swedish, path);
+
+      expect(swedishMessage, path).toEqual(expect.any(String));
+      expect(getInterpolationArguments(swedishMessage as string), path)
+        .toEqual(getInterpolationArguments(englishMessage));
+      expect(getRichTextTags(swedishMessage as string), path)
+        .toEqual(getRichTextTags(englishMessage));
+    }
+  });
+
   it('defines edit PDF iframe patch labels for every locale', () => {
     const requiredKeys = [
       'common.editPdf.unnamedUser',

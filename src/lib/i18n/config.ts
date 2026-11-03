@@ -3,7 +3,7 @@
  * Defines supported locales and routing configuration
  */
 
-export const locales = ['en', 'ja', 'ko', 'es', 'fr', 'de', 'zh', 'zh-TW', 'pt', 'ar', 'he', 'it', 'id', 'vi', 'ro', 'pl', 'cs', 'hi'] as const;
+export const locales = ['en', 'ja', 'ko', 'es', 'fr', 'de', 'zh', 'zh-TW', 'pt', 'ar', 'he', 'it', 'id', 'vi', 'ro', 'pl', 'cs', 'hi', 'sv'] as const;
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'en';
@@ -32,6 +32,7 @@ export const localeConfig: Record<Locale, {
   pl: { name: 'Polish', nativeName: 'Polski', direction: 'ltr', dateFormat: 'DD.MM.YYYY' },
   cs: { name: 'Czech', nativeName: 'Čeština', direction: 'ltr', dateFormat: 'DD.MM.YYYY' },
   hi: { name: 'Hindi', nativeName: 'हिन्दी', direction: 'ltr', dateFormat: 'DD/MM/YYYY' },
+  sv: { name: 'Swedish', nativeName: 'Svenska', direction: 'ltr', dateFormat: 'YYYY-MM-DD' },
 };
 
 // Keep locale-prefix handling in sync with the canonical locale registry. Sort

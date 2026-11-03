@@ -249,6 +249,7 @@ export function generateWebPageSchema(
     pl: 'pl-PL',
     cs: 'cs-CZ',
     hi: 'hi-IN',
+    sv: 'sv-SE',
   };
 
   return {
