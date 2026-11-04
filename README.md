@@ -411,4 +411,5 @@ This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE)
   Built with ❤️ by the PDFCraft Team
 </div>
 
+In **Edit PDF**, hold **Shift** while dragging an image/object resize handle to preserve its original aspect ratio. Release Shift for free resizing. The opposite corner stays fixed.
 In the PDF reader, open **Tools → Right-to-left page order** to place the first page of a spread on the right. This works in vertical, page-by-page and wrapped scrolling without mirroring page contents or changing the interface language. The toggle is unavailable in horizontal scrolling, which retains its existing page order. The choice is remembered on this device when browser storage is available.
