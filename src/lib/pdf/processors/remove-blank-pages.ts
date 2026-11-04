@@ -104,16 +104,18 @@ export class RemoveBlankPagesProcessor extends BasePDFProcessor {
 
       // Load with pdf-lib for manipulation
       const sourcePdf = await pdfLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-      const newPdf = await pdfLib.PDFDocument.create();
-
       const pagesToKeep = Array.from({ length: totalPages }, (_, i) => i)
         .filter(i => !blankPages.includes(i + 1));
 
-      const copiedPages = await newPdf.copyPages(sourcePdf, pagesToKeep);
-      copiedPages.forEach(page => newPdf.addPage(page));
+      // Remove the blank pages from the source document itself (rather than
+      // copying the kept pages into a new one) so forms, outlines, links,
+      // attachments, page labels and metadata are kept.
+      for (let i = totalPages - 1; i >= 0; i--) {
+        if (blankPages.includes(i + 1)) sourcePdf.removePage(i);
+      }
 
       this.updateProgress(95, 'Saving PDF...');
-      const pdfBytes = await newPdf.save({ useObjectStreams: true });
+      const pdfBytes = await sourcePdf.save({ useObjectStreams: true });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
