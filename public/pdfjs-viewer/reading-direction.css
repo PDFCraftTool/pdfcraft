@@ -1,0 +1,8 @@
+/* Reverse pairs without mirroring page contents or changing the interface language.
+   Horizontal mode retains PDF.js's existing layout/navigation. */
+#viewer.spreadRtl:not(.scrollHorizontal) .spread {
+  direction: rtl;
+}
+#spreadRtl::before {
+  display: none;
+}
