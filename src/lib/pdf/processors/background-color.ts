@@ -45,50 +45,47 @@ export class BackgroundColorProcessor extends BasePDFProcessor {
         ? Array.from({ length: totalPages }, (_, i) => i)
         : (bgOptions.pages as number[]).map(p => p - 1);
 
-      // Create new PDF with background
-      const newPdf = await pdfLib.PDFDocument.create();
+      this.updateProgress(30, 'Adding background color...');
 
-      this.updateProgress(30, 'Embedding pages...');
-
-      // Pre-embed all pages at once to avoid duplicate font embedding
-      // This is crucial for CJK PDFs where fonts can be very large
+      // Paint the background underneath each page's existing content, inside the
+      // source document, so forms, outlines, links, attachments, page labels,
+      // metadata and selectable text are kept (rather than re-drawing every
+      // page as an embedded image of itself in a new document).
       const sourcePages = sourcePdf.getPages();
-      const embeddedPages = await newPdf.embedPages(sourcePages);
-
-      this.updateProgress(40, 'Adding background color...');
+      const fill = pdfLib.rgb(bgOptions.color.r, bgOptions.color.g, bgOptions.color.b);
 
       for (let i = 0; i < totalPages; i++) {
         if (this.checkCancelled()) {
           return this.createErrorOutput(PDFErrorCode.PROCESSING_CANCELLED, 'Processing was cancelled.');
         }
 
-        const sourcePage = sourcePages[i];
-        const { width, height } = sourcePage.getSize();
-
-        // Create new page with same dimensions
-        const newPage = newPdf.addPage([width, height]);
-
-        // Add background if this page should be processed
         if (pagesToProcess.includes(i)) {
-          newPage.drawRectangle({
-            x: 0,
-            y: 0,
+          const page = sourcePages[i];
+          const { x, y, width, height } = page.getCropBox();
+
+          // drawRectangle appends its own balanced q ... Q stream after the
+          // (now wrapped) existing content; move it to the bottom of the stack.
+          page.drawRectangle({
+            x,
+            y,
             width,
             height,
-            color: pdfLib.rgb(bgOptions.color.r, bgOptions.color.g, bgOptions.color.b),
+            color: fill,
             opacity: bgOptions.opacity,
           });
+          const contents = page.node.Contents();
+          if (contents instanceof pdfLib.PDFArray && contents.size() > 1) {
+            const background = contents.get(contents.size() - 1);
+            contents.remove(contents.size() - 1);
+            contents.insert(0, background);
+          }
         }
 
-        // Use pre-embedded page
-        const embeddedPage = embeddedPages[i];
-        newPage.drawPage(embeddedPage, { x: 0, y: 0, width, height });
-
-        this.updateProgress(40 + (50 * (i + 1) / totalPages), `Processing page ${i + 1}...`);
+        this.updateProgress(30 + (60 * (i + 1) / totalPages), `Processing page ${i + 1}...`);
       }
 
       this.updateProgress(95, 'Saving PDF...');
-      const pdfBytes = await newPdf.save({
+      const pdfBytes = await sourcePdf.save({
         useObjectStreams: true,
       });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
