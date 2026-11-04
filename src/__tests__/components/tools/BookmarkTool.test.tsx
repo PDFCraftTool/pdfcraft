@@ -295,4 +295,127 @@ describe('BookmarkTool', () => {
     expect(pages).toEqual([changed ? 4 : 2, 3, 4]);
   });
 
+  it('selects row ranges with Shift and toggles individual rows with Ctrl/Cmd', async () => {
+    await renderAndLoad();
+    fireEvent.click(screen.getByText('Cover'));
+    fireEvent.click(screen.getByText('Page 3'), { shiftKey: true });
+    for (const title of ['Cover', 'Page 2', 'Page 3']) {
+      expect(screen.getByRole('checkbox', { name: `Select "${title}"` })).toBeChecked();
+    }
+    fireEvent.click(screen.getByText('Page 2'), { ctrlKey: true });
+    expect(screen.getByRole('checkbox', { name: 'Select "Page 2"' })).not.toBeChecked();
+    fireEvent.click(screen.getByText('Contents'), { metaKey: true });
+    expect(screen.getByRole('checkbox', { name: 'Select "Contents"' })).toBeChecked();
+  });
+
+  it('moves nonadjacent selected bookmarks together in tree order', async () => {
+    await renderAndLoad();
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Select "Page 3"' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Select "Cover"' }));
+    dragBookmark('Page 3', 'Contents', 95);
+    fireEvent.click(screen.getByRole('button', { name: 'Save Bookmarks' }));
+    await waitFor(() => expect(processBookmarks).toHaveBeenCalledTimes(1));
+    expect(savedTitles()).toEqual(['Page 2', 'Contents', 'Chapter 1', 'Cover', 'Page 3']);
+  });
+
+  it('nests a selection once and can return it to the top level', async () => {
+    await renderAndLoad();
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Select "Cover"' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Select "Page 2"' }));
+    dragBookmark('Cover', 'Contents', 50);
+    fireEvent.click(screen.getByRole('button', { name: 'Move selected to top level' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Save Bookmarks' }));
+    await waitFor(() => expect(processBookmarks).toHaveBeenCalledTimes(1));
+    expect(savedTitles()).toEqual(['Page 3', 'Contents', 'Chapter 1', 'Cover', 'Page 2']);
+    const roots = vi.mocked(processBookmarks).mock.calls[0][1].bookmarks!;
+    expect(roots.map(x => x.title)).toEqual(['Page 3', 'Contents', 'Cover', 'Page 2']);
+  });
+
+  it('does not lose a multi-selection when dropped into a selected subtree', async () => {
+    await renderAndLoad();
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Select "Cover"' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Select "Contents"' }));
+    dragBookmark('Cover', 'Chapter 1', 50);
+    fireEvent.click(screen.getByRole('button', { name: 'Save Bookmarks' }));
+    await waitFor(() => expect(processBookmarks).toHaveBeenCalledTimes(1));
+    expect(savedTitles()).toEqual(['Cover', 'Page 2', 'Page 3', 'Contents', 'Chapter 1']);
+  });
+
+  it('saves moved parents only once with child order, styles and destination views intact', async () => {
+    const pdf = await PDFDocument.create();
+    for (let i = 0; i < 4; i++) pdf.addPage([612, 792]);
+    const bytes = new Uint8Array(await pdf.save());
+    persistence.file = new File([bytes], 'multi.pdf', { type: 'application/pdf' });
+    Object.defineProperty(persistence.file, 'arrayBuffer', { value: async () => bytes.buffer });
+    persistence.realProcessor = true;
+    persistence.outline = [
+      { title: 'Cover', dest: [0, {name:'XYZ'}, 12, 240, 1.5], bold: true, color:[255,0,0], items: [] },
+      { title: 'Page 2', dest: [1, {name:'FitH'}, null], items: [] },
+      { title: 'Page 3', dest: [2, {name:'Fit'}], items: [] },
+      { title: 'Contents', dest: [2, {name:'FitR'}, 10,20,300,400], items:[
+        {title:'Chapter 1', dest:[3,{name:'FitV'},22], italic:true, items:[]},
+      ] },
+    ];
+    await renderAndLoad();
+    for (const title of ['Contents','Chapter 1','Cover']) {
+      fireEvent.click(screen.getByRole('checkbox', {name:`Select "${title}"`}));
+    }
+    dragBookmark('Contents', 'Page 2', 50);
+    await act(async () => { fireEvent.click(screen.getByRole('button', {name:'Save Bookmarks'})); });
+    const output = await vi.mocked(processBookmarks).mock.results[0].value;
+    expect(output.success).toBe(true);
+    const buffer = await new Promise<ArrayBuffer>((resolve,reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as ArrayBuffer);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsArrayBuffer(output.result as Blob);
+    });
+    const saved = await PDFDocument.load(buffer);
+    const read = (first: unknown): any[] => {
+      const items: any[] = [];
+      let ref = first;
+      while (ref) {
+        const item = saved.context.lookup(ref as PDFRef, PDFDict);
+        const dest = item.lookup(PDFName.of('Dest'), PDFArray);
+        items.push({
+          title:item.lookup(PDFName.of('Title'), PDFHexString).decodeText(),
+          page:saved.getPages().findIndex(p => p.ref.toString() === dest.get(0).toString())+1,
+          view:dest.asArray().slice(1).map(x=>x.toString()),
+          flags:item.get(PDFName.of('F'))?.toString(),
+          color:item.get(PDFName.of('C'))?.toString(),
+          children:read(item.get(PDFName.of('First'))),
+        });
+        ref = item.get(PDFName.of('Next'));
+      }
+      return items;
+    };
+    const tree = read(saved.catalog.lookup(PDFName.of('Outlines'), PDFDict).get(PDFName.of('First')));
+    expect(tree.map(x=>x.title)).toEqual(['Page 2','Page 3']);
+    const moved = tree[0].children;
+    expect(moved.map((x:any)=>x.title)).toEqual(['Cover','Contents']);
+    expect(moved[0]).toMatchObject({page:1,view:['/XYZ','12','240','1.5'],flags:'2',color:'[ 1 0 0 ]'});
+    expect(moved[1]).toMatchObject({page:3,view:['/FitR','10','20','300','400']});
+    expect(moved[1].children).toHaveLength(1);
+    expect(moved[1].children[0]).toMatchObject({title:'Chapter 1',page:4,view:['/FitV','22'],flags:'1'});
+  });
+
+  it('handles a fast drag sequence without waiting for React renders between events', async () => {
+    await renderAndLoad();
+    for (const title of ['Cover','Page 3']) fireEvent.click(screen.getByRole('checkbox',{name:`Select "${title}"`}));
+    const source = screen.getByText('Cover').closest('[draggable="true"]')!;
+    const target = screen.getByText('Contents').closest('[draggable="true"]')!;
+    vi.spyOn(target,'getBoundingClientRect').mockReturnValue({top:0,height:100} as DOMRect);
+    const start = createEvent.dragStart(source,{dataTransfer:{setData:vi.fn(),effectAllowed:''}});
+    const over = createEvent.dragOver(target);
+    Object.defineProperty(over,'clientY',{value:95});
+    act(() => {
+      source.dispatchEvent(start);
+      target.dispatchEvent(over);
+      target.dispatchEvent(createEvent.drop(target));
+    });
+    fireEvent.click(screen.getByRole('button',{name:'Save Bookmarks'}));
+    await waitFor(()=>expect(processBookmarks).toHaveBeenCalledTimes(1));
+    expect(savedTitles()).toEqual(['Page 2','Contents','Chapter 1','Cover','Page 3']);
+  });
+
 });
