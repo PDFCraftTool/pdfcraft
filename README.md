@@ -44,6 +44,9 @@ This project is built with modern web technologies to provide a slick, app-like 
 - **🎨 Modern UI**: Clean, accessible, and responsive design built with Tailwind CSS.
 - **🌐 Multi-language**: Supports English, Spanish, French, German, Portuguese, Japanese, Korean, and Chinese.
 
+### Rotating PDFs
+
+Standard right-angle rotations preserve the original document's editable form fields, bookmarks, internal page links, custom page labels, attachments, and title/author metadata. This applies to all-page and selected-page rotations, including pages that already have a rotation. Arbitrary-angle rotation continues to rebuild page content through embedding and does not provide the same preservation guarantees.
 ### Editing bookmark destinations
 
 Editing titles or reorganizing existing local page bookmarks preserves their original position, zoom and fit mode, including named destinations. Changing a bookmark's target page explicitly resets its view to the top of the new page. New bookmarks retain the existing page-top default.
@@ -409,3 +412,4 @@ This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE)
 </div>
 
 In **Edit PDF**, hold **Shift** while dragging an image/object resize handle to preserve its original aspect ratio. Release Shift for free resizing. The opposite corner stays fixed.
+In the PDF reader, open **Tools → Right-to-left page order** to place the first page of a spread on the right. This works in vertical, page-by-page and wrapped scrolling without mirroring page contents or changing the interface language. The toggle is unavailable in horizontal scrolling, which retains its existing page order. The choice is remembered on this device when browser storage is available.
