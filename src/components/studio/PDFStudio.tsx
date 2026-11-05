@@ -146,6 +146,7 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const multiFileInputRef = useRef<HTMLInputElement>(null);
+  const tabStripRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const iframeCleanupRef = useRef<(() => void) | null>(null);
   const handleKeyDownRef = useRef<((e: KeyboardEvent) => void) | null>(null);
@@ -182,6 +183,44 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
       return next;
     });
   }, []);
+
+  // Let a vertical mouse wheel scroll the horizontal tab strip (trackpads already scroll it sideways)
+  const hasDocuments = documents.length > 0;
+  useEffect(() => {
+    const strip = tabStripRef.current;
+    if (!strip) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      if (strip.scrollWidth <= strip.clientWidth) return;
+      // deltaMode 1 = lines (Firefox mouse wheels), 2 = pages
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? strip.clientWidth : 1;
+      e.preventDefault();
+      strip.scrollLeft += e.deltaY * unit;
+    };
+
+    strip.addEventListener('wheel', handleWheel, { passive: false });
+    return () => strip.removeEventListener('wheel', handleWheel);
+  }, [hasDocuments]);
+
+  // Keep the active tab visible when it changes (keyboard cycling, opening or closing documents)
+  const activeDocIdForStrip = activeDoc?.id;
+  useEffect(() => {
+    const strip = tabStripRef.current;
+    if (!strip || !activeDocIdForStrip) return;
+    const tab = Array.from(strip.children).find(
+      (el) => (el as HTMLElement).dataset.docId === activeDocIdForStrip
+    );
+    if (!tab) return;
+
+    const stripRect = strip.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    if (tabRect.left < stripRect.left) {
+      strip.scrollLeft -= stripRect.left - tabRect.left;
+    } else if (tabRect.right > stripRect.right) {
+      strip.scrollLeft += tabRect.right - stripRect.right;
+    }
+  }, [activeDocIdForStrip]);
 
   // Update object URL when currentBlob changes
   useEffect(() => {
@@ -979,13 +1018,17 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
       {documents.length > 0 && (
         <div className="h-10 flex-shrink-0 border-b border-[hsl(var(--color-border)/0.8)] bg-[hsl(var(--color-muted)/0.35)] px-3 flex items-center justify-between z-20">
           {/* Scrollable Document Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-1 flex-1 min-w-0 mr-2">
+          <div
+            ref={tabStripRef}
+            className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-1 flex-1 min-w-0 mr-2"
+          >
             {documents.map((doc) => {
               const isActive = doc.id === activeDoc?.id;
               const isModified = doc.historyStack.length > 0;
               return (
                 <div
                   key={doc.id}
+                  data-doc-id={doc.id}
                   onClick={() => handleSelectDocument(doc.id)}
                   className={`group flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all border shrink-0 max-w-[220px] select-none ${
                     isActive
