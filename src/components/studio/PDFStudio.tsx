@@ -149,6 +149,7 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const iframeCleanupRef = useRef<(() => void) | null>(null);
   const handleKeyDownRef = useRef<((e: KeyboardEvent) => void) | null>(null);
+  const handleAddFilesRef = useRef<((files: FileList | File[]) => void) | null>(null);
 
   // Synchronized state refs for stable event listeners
   const documentsRef = useRef(documents);
@@ -325,7 +326,17 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
     handleCloseDocumentRef.current = handleCloseDocument;
   }, [handleCloseDocument]);
 
-  // Handle Drag & Drop on Empty State and View Area
+  useLayoutEffect(() => {
+    handleAddFilesRef.current = handleAddFiles;
+  }, [handleAddFiles]);
+
+  // Handle Drag & Drop anywhere in the Studio window
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    if (e.dataTransfer.types.includes('Files')) {
+      e.preventDefault();
+    }
+  }, []);
+
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
@@ -699,11 +710,38 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
       handleKeyDownRef.current?.(e);
     };
 
+    // Route PDF drops on the viewer to Studio so they open as a new tab instead of
+    // replacing the viewer's document behind Studio's back. Non-PDF drops (e.g. images
+    // for the viewer's signature dialog) are left to the viewer.
+    const hasPdfItem = (dt: DataTransfer | null) =>
+      !!dt && Array.from(dt.items || []).some((item) => item.kind === 'file' && item.type === 'application/pdf');
+
+    const handleIframeDragOver = (e: DragEvent) => {
+      if (!hasPdfItem(e.dataTransfer)) return;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const handleIframeDrop = (e: DragEvent) => {
+      const files = Array.from(e.dataTransfer?.files || []);
+      const hasPdf = files.some(
+        (f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
+      );
+      if (!hasPdf) return;
+      e.preventDefault();
+      e.stopPropagation();
+      handleAddFilesRef.current?.(files);
+    };
+
     try {
       iframeWin.addEventListener('keydown', handleIframeKeyDown);
+      iframeWin.addEventListener('dragover', handleIframeDragOver, true);
+      iframeWin.addEventListener('drop', handleIframeDrop, true);
       iframeCleanupRef.current = () => {
         try {
           iframeWin.removeEventListener('keydown', handleIframeKeyDown);
+          iframeWin.removeEventListener('dragover', handleIframeDragOver, true);
+          iframeWin.removeEventListener('drop', handleIframeDrop, true);
         } catch {}
       };
     } catch {}
@@ -721,7 +759,11 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
   }, [activeDocId, pdfUrl, attachIframeListener]);
 
   return (
-    <div className={`h-screen flex flex-col bg-[hsl(var(--color-background))] select-none ${className}`.trim()}>
+    <div
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      className={`h-screen flex flex-col bg-[hsl(var(--color-background))] select-none ${className}`.trim()}
+    >
       {/* Studio Header (Compact Toolbar - 52px) */}
       <header className="h-[52px] flex-shrink-0 border-b border-[hsl(var(--color-border))] bg-[hsl(var(--color-card)/0.9)] backdrop-blur-md px-4 flex items-center justify-between z-30 relative">
         {/* Left: Brand & File Info */}
@@ -1105,11 +1147,7 @@ export const PDFStudio: React.FC<PDFStudioProps> = ({
           </>
         ) : (
           /* Empty Workspace Welcome & Import Screen */
-          <div
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={handleDrop}
-            className="flex-1 flex flex-col items-center justify-center p-6 text-center"
-          >
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
             <input
               ref={fileInputRef}
               type="file"

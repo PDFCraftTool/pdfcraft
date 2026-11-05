@@ -2053,7 +2053,23 @@ export const StudioToolDrawer: React.FC<StudioToolDrawerProps> = ({
               <label className="text-xs font-semibold text-[hsl(var(--color-foreground))] block">
                 {isZh ? '选择要并入的文件' : 'Select Files to Append'}
               </label>
-              <label className="border-2 border-dashed border-[hsl(var(--color-border))] hover:border-[hsl(var(--color-primary))] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition-colors bg-[hsl(var(--color-muted)/0.3)]">
+              <label
+                data-testid="studio-append-dropzone"
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (isApplying) return;
+                  const dropped = Array.from(e.dataTransfer.files || []);
+                  if (dropped.length > 0) {
+                    setAppendFiles((prev) => [...prev, ...dropped]);
+                  }
+                }}
+                className="border-2 border-dashed border-[hsl(var(--color-border))] hover:border-[hsl(var(--color-primary))] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition-colors bg-[hsl(var(--color-muted)/0.3)]"
+              >
                 <Upload className="w-5 h-5 text-[hsl(var(--color-muted-foreground))] mb-1" />
                 <span className="text-xs font-medium text-[hsl(var(--color-foreground))]">
                   {isZh ? '点击或拖拽添加外部文件' : 'Click or drop files'}

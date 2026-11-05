@@ -36,6 +36,27 @@ describe('Studio append file selection', () => {
     }));
   });
 
+  it('adds files dropped on the dropzone without letting the drop bubble up', async () => {
+    const parentDrop = vi.fn();
+    const onApply = vi.fn().mockResolvedValue(undefined);
+    render(
+      <div onDrop={parentDrop}>
+        <StudioToolDrawer toolId="merge-pdf" onClose={vi.fn()} onApply={onApply}
+          isApplying={false} locale="en" />
+      </div>
+    );
+    const dropped = files();
+    fireEvent.drop(screen.getByTestId('studio-append-dropzone'), {
+      dataTransfer: { files: dropped, types: ['Files'] },
+    });
+    expect(parentDrop).not.toHaveBeenCalled();
+    expect(screen.getByText('Selected files: 3')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Append' }));
+    await waitFor(() => expect(onApply).toHaveBeenCalledWith('merge-pdf', {
+      additionalFiles: dropped,
+    }));
+  });
+
   it('moves files in both directions and submits the displayed order', async () => {
     const { choose, onApply } = setup();
     const [first, second, third] = files();
