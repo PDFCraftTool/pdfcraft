@@ -12,6 +12,7 @@ vi.mock('@/lib/pdf/loader', () => {
     getWidth: () => 300,
     getHeight: () => 400,
     drawPage: vi.fn(),
+    node: { Contents: () => ({}) },
   };
 
   const mockPdfLib = {

@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * Standard page sizes in points (72 points = 1 inch)

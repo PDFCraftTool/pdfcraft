@@ -410,3 +410,9 @@ This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE)
 <div align="center">
   Built with ❤️ by the PDFCraft Team
 </div>
+
+### Organize several bookmarks
+
+In the bookmark editor, use Shift+click for a visible range and Ctrl/Cmd+click (or checkboxes) to toggle individual bookmarks. Drag any selected row to move the selection in document order: the top/bottom of a target row inserts before/after it, while its middle nests the selection. Moving a parent carries its children once. Use **Move selected to top level** or the drop area below the tree to return a selection to the top level. Saving retains the hierarchy, page destinations, view positions and styles.
+In **Edit PDF**, hold **Shift** while dragging an image/object resize handle to preserve its original aspect ratio. Release Shift for free resizing. The opposite corner stays fixed.
+In the PDF reader, open **Tools → Right-to-left page order** to place the first page of a spread on the right. This works in vertical, page-by-page and wrapped scrolling without mirroring page contents or changing the interface language. The toggle is unavailable in horizontal scrolling, which retains its existing page order. The choice is remembered on this device when browser storage is available.

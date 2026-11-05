@@ -125,45 +125,25 @@ export class AddBlankPagePDFProcessor extends BasePDFProcessor {
         );
       }
 
-      this.updateProgress(30, 'Creating new PDF...');
+      this.updateProgress(30, 'Preparing blank pages...');
 
       // Get page size from first page or use provided size
       const firstPage = sourcePdf.getPage(0);
       const { width, height } = addOptions.pageSize || firstPage.getSize();
 
-      // Create new PDF
-      const newPdf = await pdfLib.PDFDocument.create();
-
-      // Copy pages before insertion point
-      if (addOptions.position > 0) {
-        const indicesBefore = Array.from({ length: addOptions.position }, (_, i) => i);
-        const copiedBefore = await newPdf.copyPages(sourcePdf, indicesBefore);
-        copiedBefore.forEach(page => newPdf.addPage(page));
-      }
-
       this.updateProgress(50, `Adding ${addOptions.count} blank page(s)...`);
 
-      // Add blank pages
+      // Insert into the source document itself (rather than copying every page
+      // into a new one) so forms, outlines, links, attachments, page labels
+      // and metadata are kept.
       for (let i = 0; i < addOptions.count; i++) {
-        newPdf.addPage([width, height]);
-      }
-
-      this.updateProgress(70, 'Copying remaining pages...');
-
-      // Copy pages after insertion point
-      if (addOptions.position < totalPages) {
-        const indicesAfter = Array.from(
-          { length: totalPages - addOptions.position },
-          (_, i) => addOptions.position + i
-        );
-        const copiedAfter = await newPdf.copyPages(sourcePdf, indicesAfter);
-        copiedAfter.forEach(page => newPdf.addPage(page));
+        sourcePdf.insertPage(addOptions.position + i, [width, height]);
       }
 
       this.updateProgress(90, 'Saving PDF...');
 
       // Save the new PDF
-      const pdfBytes = await newPdf.save({ useObjectStreams: true });
+      const pdfBytes = await sourcePdf.save({ useObjectStreams: true });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');

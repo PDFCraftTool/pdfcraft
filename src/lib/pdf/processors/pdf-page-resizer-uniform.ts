@@ -8,6 +8,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 export interface PdfPageResizerUniformOptions {
   targetSize: 'A4' | 'A3' | 'Letter';
@@ -68,7 +69,7 @@ export class PdfPageResizerUniformProcessor extends BasePDFProcessor {
           const { width: srcW, height: srcH } = srcPage.getSize();
 
           // Embed page as an image-like object (XObject)
-          const embeddedPage = await destDoc.embedPage(srcPage);
+          const embeddedPage = await destDoc.embedPage(ensurePageContents(srcPage));
 
           // Create a new blank page with uniform size
           const newPage = destDoc.addPage([targetDim.width, targetDim.height]);

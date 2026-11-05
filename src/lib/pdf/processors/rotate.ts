@@ -15,6 +15,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * Rotation options for PDF pages
@@ -164,7 +165,7 @@ export class RotatePDFProcessor extends BasePDFProcessor {
           }
         } else {
           // Arbitrary angle - embed and draw rotated
-          const embeddedPage = await outputPdf.embedPage(originalPage);
+          const embeddedPage = await outputPdf.embedPage(ensurePageContents(originalPage));
           const { width, height } = embeddedPage.scale(1);
 
           const angleRad = (totalRotation * Math.PI) / 180;

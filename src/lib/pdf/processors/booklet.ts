@@ -12,6 +12,7 @@ import type {
 } from '@/types/pdf';
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
+import { ensurePageContents } from '../page-contents';
 import { PDFDocument, PageSizes, degrees } from 'pdf-lib';
 
 /**
@@ -236,6 +237,7 @@ export class BookletPDFProcessor extends BasePDFProcessor {
                         // Only embed if page exists
                         if (pageNumber >= 1 && pageNumber <= totalPages) {
                             try {
+                                ensurePageContents(sourceDoc.getPage(pageNumber - 1));
                                 const [embeddedPage] = await outputDoc.embedPdf(sourceDoc, [pageNumber - 1]);
                                 const { width: srcW, height: srcH } = embeddedPage;
 

@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * N-Up options
@@ -216,7 +217,7 @@ export class NUpPDFProcessor extends BasePDFProcessor {
       // Pre-embed all pages at once to avoid duplicate font embedding
       // This is crucial for CJK PDFs where fonts can be very large
       this.updateProgress(35, 'Embedding pages...');
-      const embeddedPages = await newPdf.embedPages(sourcePages);
+      const embeddedPages = await newPdf.embedPages(sourcePages.map(ensurePageContents));
 
       if (this.checkCancelled()) {
         return this.createErrorOutput(
