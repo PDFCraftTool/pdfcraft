@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { parsePageLabelRange } from '../page-label-range';
 
 export interface PageLabelRule {
   /** 1-based page range string (e.g. "1-5", "odd", "even", "10-20,30-40" or empty for all) */
@@ -92,7 +93,7 @@ export class PageLabelsProcessor extends BasePDFProcessor {
 
       // Iterate in order; later rules will override earlier ones in case of conflict
       for (const rule of labelOptions.rules) {
-        const pageIndices = parsePageRange(rule.pageRange || '', totalPages);
+        const pageIndices = parsePageLabelRange(rule.pageRange || '', totalPages);
         for (const idx of pageIndices) {
           pageToRuleMap[idx] = rule;
         }
@@ -206,65 +207,6 @@ export class PageLabelsProcessor extends BasePDFProcessor {
   }
 }
 
-/**
- * Helper to parse a page range string and return matching 0-based page indices
- */
-function parsePageRange(rangeStr: string, totalPages: number): Set<number> {
-  const indices = new Set<number>();
-  const normalized = rangeStr.trim().toLowerCase();
-
-  // If page range is left empty, apply to all pages in the document
-  if (!normalized) {
-    for (let i = 0; i < totalPages; i++) {
-      indices.add(i);
-    }
-    return indices;
-  }
-
-  // Predefined keyword 'odd'
-  if (normalized === 'odd') {
-    for (let i = 0; i < totalPages; i += 2) {
-      indices.add(i);
-    }
-    return indices;
-  }
-
-  // Predefined keyword 'even'
-  if (normalized === 'even') {
-    for (let i = 1; i < totalPages; i += 2) {
-      indices.add(i);
-    }
-    return indices;
-  }
-
-  // Parse comma-separated items
-  const parts = normalized.split(',');
-  for (const part of parts) {
-    const trimmed = part.trim();
-    if (trimmed.includes('-')) {
-      const [startStr, endStr] = trimmed.split('-');
-      const start = parseInt(startStr, 10);
-      const end = parseInt(endStr, 10);
-      if (!isNaN(start) && !isNaN(end)) {
-        const from = Math.min(start, end);
-        const to = Math.max(start, end);
-        // Page ranges are 1-based, convert to 0-based index
-        for (let i = from; i <= to; i++) {
-          if (i >= 1 && i <= totalPages) {
-            indices.add(i - 1);
-          }
-        }
-      }
-    } else {
-      const val = parseInt(trimmed, 10);
-      if (!isNaN(val) && val >= 1 && val <= totalPages) {
-        indices.add(val - 1);
-      }
-    }
-  }
-  
-  return indices;
-}
 
 export function createPageLabelsProcessor(): PageLabelsProcessor {
   return new PageLabelsProcessor();

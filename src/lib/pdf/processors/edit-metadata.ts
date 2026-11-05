@@ -117,7 +117,8 @@ export class EditMetadataPDFProcessor extends BasePDFProcessor {
       // Load the PDF document
       const pdfDoc = await pdfLib.PDFDocument.load(arrayBuffer, {
         ignoreEncryption: false,
-        updateMetadata: true,
+        // Apply only the explicit edits below, including the modification-date option.
+        updateMetadata: false,
       });
 
       if (this.checkCancelled()) {

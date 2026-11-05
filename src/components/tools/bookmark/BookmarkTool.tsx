@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { moveBookmarkNodes } from '@/lib/pdf/bookmark-tree';
 import { FileUploader } from '../FileUploader';
 import { ProcessingProgress, ProcessingStatus } from '../ProcessingProgress';
 import { DownloadButton } from '../DownloadButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { processBookmarks, BookmarkItem, BookmarkOptions } from '@/lib/pdf/processors/bookmark';
+import { processBookmarks, parseBookmarkDestination, BookmarkItem, BookmarkOptions } from '@/lib/pdf/processors/bookmark';
 import type { ProcessOutput } from '@/types/pdf';
 
 // Store pdfjs module reference
@@ -36,6 +37,7 @@ interface BookmarkNode {
   id: string;
   title: string;
   pageNumber: number;
+  destination?: BookmarkItem['destination'];
   children: BookmarkNode[];
   color?: string;
   style?: 'bold' | 'italic' | 'bold-italic';
@@ -47,6 +49,7 @@ interface BookmarkNode {
  * Provides a visual interface for editing PDF bookmarks with PDF preview
  */
 export function BookmarkTool({ className = '' }: BookmarkToolProps) {
+  const isZh = useLocale().startsWith('zh');
   const t = useTranslations('common');
   const tTools = useTranslations('tools');
 
@@ -73,6 +76,9 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
   // UI state
   const [isExtractingBookmarks, setIsExtractingBookmarks] = useState(false);
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
+  const draggedIdsRef = useRef<Set<string>>(new Set());
+  const dragSourceRef = useRef<string | null>(null);
+  const dropTargetRef = useRef<{ id: string; position: 'before' | 'after' | 'inside' } | null>(null);
   const [dragOverNodeId, setDragOverNodeId] = useState<string | null>(null);
   const [dropPosition, setDropPosition] = useState<'before' | 'after' | 'inside' | null>(null);
 
@@ -145,6 +151,7 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
 
     for (const item of outline) {
       let pageNumber = 1;
+      let destination: BookmarkItem['destination'];
 
       // Get destination page
       if (item.dest) {
@@ -152,10 +159,14 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
           const dest = typeof item.dest === 'string'
             ? await doc.getDestination(item.dest)
             : item.dest;
-          if (dest && dest[0]) {
-            const pageRef = dest[0];
-            const pageIndex = await doc.getPageIndex(pageRef);
-            pageNumber = pageIndex + 1;
+          if (dest && dest[0] !== undefined && dest[0] !== null) {
+            const pageIndex = typeof dest[0] === 'number'
+              ? dest[0]
+              : await doc.getPageIndex(dest[0]);
+            if (Number.isInteger(pageIndex) && pageIndex >= 0 && pageIndex < doc.numPages) {
+              pageNumber = pageIndex + 1;
+              destination = parseBookmarkDestination({ type: dest[1]?.name, args: dest.slice(2) });
+            }
           }
         } catch (e) {
           console.warn('Failed to get destination for bookmark:', item.title);
@@ -181,6 +192,7 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
         id: `bm-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         title: item.title || 'Untitled',
         pageNumber,
+        destination,
         children: [],
         color,
         style,
@@ -240,12 +252,20 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
       setError(null);
       setResult(null);
       setBookmarks([]);
+      setCheckedIds(new Set());
+      lastCheckedIdRef.current = null;
+      setSelectedBookmarkId(null);
+      setEditingBookmark(null);
       setBookmarksCleared(false);
       loadPdf(files[0]);
     }
   }, [loadPdf]);
 
   const handleClearFile = useCallback(() => {
+    setCheckedIds(new Set());
+    lastCheckedIdRef.current = null;
+    setSelectedBookmarkId(null);
+    setEditingBookmark(null);
     setFile(null);
     setPdfDoc(null);
     setBookmarks([]);
@@ -362,7 +382,7 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
       idsToToggle = visibleIds.slice(start, end + 1);
     }
 
-    const shouldCheck = !checkedIds.has(id);
+    const shouldCheck = extendRange || !checkedIds.has(id);
     const next = new Set(checkedIds);
     idsToToggle.forEach(toggleId => (shouldCheck ? next.add(toggleId) : next.delete(toggleId)));
     setCheckedIds(next);
@@ -402,7 +422,13 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
     const updateIn = (nodes: BookmarkNode[]): BookmarkNode[] => {
       return nodes.map(node => {
         if (node.id === finalUpdate.id) {
-          return { ...finalUpdate, children: node.children };
+          return {
+            ...finalUpdate,
+            // A changed target page should start at its top, rather than reuse
+            // coordinates belonging to the old page.
+            destination: pageNum === node.pageNumber ? node.destination : undefined,
+            children: node.children,
+          };
         }
         return { ...node, children: updateIn(node.children) };
       });
@@ -449,108 +475,55 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
 
   // Drag and Drop handlers
   const handleDragStart = (e: React.DragEvent, id: string) => {
+    dragSourceRef.current = id;
+    dropTargetRef.current = null;
     setDraggedNodeId(id);
+    const moving = checkedIds.has(id) ? new Set(checkedIds) : new Set([id]);
+    draggedIdsRef.current = moving;
+    setCheckedIds(moving);
     e.dataTransfer.setData('text/plain', id);
     e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleDragOver = (e: React.DragEvent, targetId: string) => {
     e.preventDefault();
-    if (!draggedNodeId || draggedNodeId === targetId) return;
+    if (!dragSourceRef.current || dragSourceRef.current === targetId) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
     const mouseY = e.clientY - rect.top;
     const height = rect.height;
 
-    // Logic to determine drop position
-    if (mouseY < height * 0.25) {
-      setDropPosition('before');
-    } else if (mouseY > height * 0.75) {
-      setDropPosition('after');
-    } else {
-      setDropPosition('inside');
-    }
+    const position = mouseY < height * 0.25 ? 'before' : mouseY > height * 0.75 ? 'after' : 'inside';
+    // Drag events can arrive before React flushes a continuous-event render.
+    dropTargetRef.current = { id: targetId, position };
+    setDropPosition(position);
     setDragOverNodeId(targetId);
   };
 
   const handleDrop = (e: React.DragEvent, targetId: string) => {
     e.preventDefault();
-    if (!draggedNodeId || !dropPosition || draggedNodeId === targetId) {
-      setDraggedNodeId(null);
-      setDragOverNodeId(null);
-      setDropPosition(null);
-      return;
+    const drop = dropTargetRef.current;
+    if (dragSourceRef.current && dragSourceRef.current !== targetId && drop?.id === targetId) {
+      const moving = new Set(draggedIdsRef.current);
+      setBookmarks(prev => moveBookmarkNodes(prev, moving, targetId, drop.position));
+      setResult(null);
     }
-
-    handleMoveNode(draggedNodeId, targetId, dropPosition);
-    setDraggedNodeId(null);
-    setDragOverNodeId(null);
-    setDropPosition(null);
+    handleDragEnd();
   };
 
   const handleDragEnd = () => {
+    dragSourceRef.current = null;
+    dropTargetRef.current = null;
+    draggedIdsRef.current = new Set();
     setDraggedNodeId(null);
     setDragOverNodeId(null);
     setDropPosition(null);
   };
 
-  const handleMoveNode = useCallback((sourceId: string, targetId: string, position: 'before' | 'after' | 'inside') => {
-    setBookmarks(prev => {
-      let sourceNode: BookmarkNode | null = null;
-
-      // 1. Recursive removal of source node
-      const removeNode = (nodes: BookmarkNode[]): BookmarkNode[] => {
-        return nodes.filter(node => {
-          if (node.id === sourceId) {
-            sourceNode = { ...node };
-            return false;
-          }
-          if (node.children && node.children.length > 0) {
-            node.children = removeNode(node.children);
-          }
-          return true;
-        });
-      };
-
-      // Create a deep copy to avoid mutations
-      const nodesWithoutSource = removeNode(JSON.parse(JSON.stringify(prev)));
-      // A descendant target disappears with the source subtree. Do not commit
-      // the removal unless the target still exists (also covers stale targets).
-      const hasTarget = (nodes: BookmarkNode[]): boolean =>
-        nodes.some(node => node.id === targetId || hasTarget(node.children));
-      if (!sourceNode || !hasTarget(nodesWithoutSource)) return prev;
-
-      // 2. Recursive insertion at target
-      const insertNode = (nodes: BookmarkNode[]): BookmarkNode[] => {
-        const targetIndex = nodes.findIndex(node => node.id === targetId);
-        if (targetIndex !== -1) {
-          const result = [...nodes];
-          if (position === 'before') {
-            result.splice(targetIndex, 0, sourceNode!);
-          } else if (position === 'after') {
-            result.splice(targetIndex + 1, 0, sourceNode!);
-          } else if (position === 'inside') {
-            result[targetIndex] = {
-              ...result[targetIndex],
-              children: [...result[targetIndex].children, sourceNode!],
-              isExpanded: true
-            };
-          }
-          return result;
-        }
-
-        return nodes.map(node => {
-          if (node.children && node.children.length > 0) {
-            return { ...node, children: insertNode(node.children) };
-          }
-          return node;
-        });
-      };
-
-      return insertNode(nodesWithoutSource);
-    });
+  const handleMoveToRoot = () => {
+    setBookmarks(prev => moveBookmarkNodes(prev, checkedIds, null));
     setResult(null);
-  }, []);
+  };
 
   // Convert BookmarkNode[] to BookmarkItem[] for processor
   const convertToBookmarkItems = (nodes: BookmarkNode[]): BookmarkItem[] => {
@@ -558,6 +531,7 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
       id: node.id,
       title: node.title,
       pageNumber: node.pageNumber,
+      destination: node.destination,
       color: node.color,
       style: node.style,
       children: node.children.length > 0 ? convertToBookmarkItems(node.children) : undefined,
@@ -607,7 +581,7 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
 
   // Render bookmark tree item
   const renderBookmarkItem = (bookmark: BookmarkNode, depth: number = 0) => {
-    const isSelected = selectedBookmarkId === bookmark.id;
+    const isSelected = checkedIds.has(bookmark.id);
     const isEditing = editingBookmark?.id === bookmark.id;
 
     return (
@@ -627,9 +601,17 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
           } ${
             dragOverNodeId === bookmark.id && dropPosition === 'after' ? 'border-b-blue-500' : ''
           } ${
-            draggedNodeId === bookmark.id ? 'opacity-30' : ''
+            draggedNodeId && draggedIdsRef.current.has(bookmark.id) ? 'opacity-30' : ''
           }`}
-          onClick={() => handleBookmarkClick(bookmark)}
+          onClick={(e) => {
+            if (e.shiftKey || e.ctrlKey || e.metaKey) {
+              handleToggleChecked(bookmark.id, e.shiftKey);
+            } else {
+              setCheckedIds(new Set([bookmark.id]));
+              lastCheckedIdRef.current = bookmark.id;
+            }
+            handleBookmarkClick(bookmark);
+          }}
         >
           <input
             type="checkbox"
@@ -811,8 +793,8 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
       {file && pdfDoc && (
         <div className="grid lg:grid-cols-2 gap-6">
           {/* PDF Preview Panel */}
-          <Card variant="outlined" size="lg">
-            <div className="flex items-center justify-between mb-4">
+          <Card variant="outlined" size="lg" className="min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <h3 className="font-medium">{tTools('bookmark.pdfPreview') || 'PDF Preview'}</h3>
               <Button variant="ghost" size="sm" onClick={handleClearFile}>
                 {t('buttons.close') || 'Close'}
@@ -844,15 +826,20 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
 
             {/* Canvas */}
             <div className="flex justify-center bg-gray-100 rounded p-4 overflow-auto max-h-[600px]">
-              <canvas ref={canvasRef} className="shadow-lg" />
+              <canvas ref={canvasRef} className="shadow-lg max-w-full h-auto" />
             </div>
           </Card>
 
           {/* Bookmark Editor Panel */}
-          <Card variant="outlined" size="lg">
-            <div className="flex items-center justify-between mb-4">
+          <Card variant="outlined" size="lg" className="min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <h3 className="font-medium">{tTools('bookmark.bookmarksTitle') || 'Bookmarks'}</h3>
               <div className="flex flex-wrap justify-end gap-1">
+                {checkedCount > 0 && (
+                  <Button variant="secondary" size="sm" onClick={handleMoveToRoot} disabled={isProcessing}>
+                    {isZh ? '将选中书签移至顶层' : 'Move selected to top level'}
+                  </Button>
+                )}
                 {checkedCount > 0 && (
                   <Button
                     variant="ghost"
@@ -917,13 +904,31 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
               )}
             </div>
 
+            {bookmarks.length > 0 && (
+              <div
+                className="mt-2 rounded border border-dashed p-3 text-center text-sm text-gray-500"
+                onDragOver={(e) => { if (dragSourceRef.current) { e.preventDefault(); dropTargetRef.current = null; setDragOverNodeId(null); setDropPosition(null); } }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (dragSourceRef.current) {
+                    const moving = new Set(draggedIdsRef.current);
+                    setBookmarks(prev => moveBookmarkNodes(prev, moving, null));
+                    setResult(null);
+                  }
+                  handleDragEnd();
+                }}
+              >
+                {isZh ? '拖到此处移至顶层末尾' : 'Drop here to move to the end of the top level'}
+              </div>
+            )}
+
             {/* Hint */}
             <div className="mt-2 space-y-1">
               <p className="text-xs text-gray-500">
                 {tTools('bookmark.hint') || 'Click a bookmark to preview its page. Use +/✎/× to add child, edit, or delete.'}
               </p>
               <p className="text-xs text-gray-500">
-                {tTools('bookmark.selectHint') || 'Tick checkboxes to remove several bookmarks at once. Shift+click selects a range.'}
+                {isZh ? 'Shift+点击选择范围，Ctrl/Cmd+点击切换选择；拖动选中书签可批量整理，子书签会一同移动。' : 'Shift+click selects a range; Ctrl/Cmd+click toggles selection. Drag selected bookmarks together, including their children.'}
               </p>
               <p className="text-xs text-blue-500 font-medium">
                 {tTools('bookmark.dragHint') || 'Drag and drop to reorder bookmarks.'}

@@ -22,10 +22,28 @@ export interface BookmarkItem {
   id: string;
   title: string;
   pageNumber: number;
+  /** Original local destination view, retained when editing bookmark metadata. */
+  destination?: BookmarkDestination;
   children?: BookmarkItem[];
   expanded?: boolean;
   color?: string; // Hex color string like #RRGGBB
   style?: 'bold' | 'italic' | 'bold-italic';
+}
+
+export interface BookmarkDestination {
+  type: 'XYZ' | 'Fit' | 'FitH' | 'FitV' | 'FitR' | 'FitB' | 'FitBH' | 'FitBV';
+  args: (number | null)[];
+}
+
+/** Validate serialized view parameters before writing them into a PDF. */
+export function parseBookmarkDestination(value: unknown): BookmarkDestination | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const { type, args } = value as Partial<BookmarkDestination>;
+  const counts = { XYZ: 3, Fit: 0, FitH: 1, FitV: 1, FitR: 4, FitB: 0, FitBH: 1, FitBV: 1 };
+  if (typeof type !== 'string' || !Object.prototype.hasOwnProperty.call(counts, type) || !Array.isArray(args)) return undefined;
+  if (args.length !== counts[type] || !args.every(arg => arg === null || (typeof arg === 'number' && Number.isFinite(arg)))) return undefined;
+  if (type === 'FitR' && args.some(arg => arg === null)) return undefined;
+  return { type, args: [...args] };
 }
 
 /**
@@ -197,14 +215,10 @@ export class BookmarkProcessor extends BasePDFProcessor {
       // Get page dimensions for destination
       const { height } = page.getSize();
 
-      // Create destination array [pageRef, /XYZ, left, top, zoom]
-      const destArray = context.obj([
-        pageRef,
-        'XYZ',
-        0,
-        height,
-        null
-      ]);
+      const destination = parseBookmarkDestination(bookmark.destination);
+      const destArray = context.obj(destination
+        ? [pageRef, destination.type, ...destination.args]
+        : [pageRef, 'XYZ', 0, height, null]);
 
       // Create the outline item dictionary
       const itemDict = context.obj({

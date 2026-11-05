@@ -89,4 +89,7 @@ yarn.lock
 
 # AI / Agents & Knowledge graph
 .agents/
-graphify-out/
+graphify-out/
+
+docs/
+.scratch/

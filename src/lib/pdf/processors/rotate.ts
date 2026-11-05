@@ -125,8 +125,13 @@ export class RotatePDFProcessor extends BasePDFProcessor {
 
       this.updateProgress(30, 'Creating rotated PDF...');
 
-      // Create new PDF document
-      const newPdf = await pdfLib.PDFDocument.create();
+      // Right-angle rotations only change /Rotate. Keep the source document
+      // and page references so forms, outlines, attachments and links survive.
+      // Arbitrary-angle rendering still uses the existing embedding path.
+      const preserveDocument = sourcePdf.getPages().every((page, index) =>
+        normalizeAngle(page.getRotation().angle + (rotationsMap.get(index + 1) || 0)) % 90 === 0
+      );
+      const outputPdf = preserveDocument ? sourcePdf : await pdfLib.PDFDocument.create();
       const progressPerPage = 60 / totalPages;
 
       for (let i = 0; i < totalPages; i++) {
@@ -150,13 +155,16 @@ export class RotatePDFProcessor extends BasePDFProcessor {
         const totalRotation = normalizeAngle(currentRotation + rotation);
 
         if (totalRotation % 90 === 0) {
-          // Standard 90° rotation - use simple rotation
-          const [copiedPage] = await newPdf.copyPages(sourcePdf, [i]);
-          copiedPage.setRotation(pdfLib.degrees(totalRotation));
-          newPdf.addPage(copiedPage);
+          if (preserveDocument) {
+            originalPage.setRotation(pdfLib.degrees(totalRotation));
+          } else {
+            const [copiedPage] = await outputPdf.copyPages(sourcePdf, [i]);
+            copiedPage.setRotation(pdfLib.degrees(totalRotation));
+            outputPdf.addPage(copiedPage);
+          }
         } else {
           // Arbitrary angle - embed and draw rotated
-          const embeddedPage = await newPdf.embedPage(originalPage);
+          const embeddedPage = await outputPdf.embedPage(originalPage);
           const { width, height } = embeddedPage.scale(1);
 
           const angleRad = (totalRotation * Math.PI) / 180;
@@ -166,7 +174,7 @@ export class RotatePDFProcessor extends BasePDFProcessor {
           const newWidth = width * absCos + height * absSin;
           const newHeight = width * absSin + height * absCos;
 
-          const newPage = newPdf.addPage([newWidth, newHeight]);
+          const newPage = outputPdf.addPage([newWidth, newHeight]);
 
           const x = newWidth / 2 - (width / 2 * Math.cos(angleRad) - height / 2 * Math.sin(angleRad));
           const y = newHeight / 2 - (width / 2 * Math.sin(angleRad) + height / 2 * Math.cos(angleRad));
@@ -184,7 +192,7 @@ export class RotatePDFProcessor extends BasePDFProcessor {
       this.updateProgress(90, 'Saving rotated PDF...');
 
       // Save the rotated PDF with object streams enabled for better compression
-      const pdfBytes = await newPdf.save({
+      const pdfBytes = await outputPdf.save({
         useObjectStreams: true,
       });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });

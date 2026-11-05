@@ -34,7 +34,8 @@ See https://github.com/adobe-type-tools/cmap-resources
     <link rel="stylesheet" href="viewer.css">
 
   <script src="viewer.js" type="module"></script>
-  </head>
+    <link rel="stylesheet" href="reading-direction.css">
+</head>
 
   <body tabindex="0">
     <div id="outerContainer">
@@ -399,6 +400,10 @@ See https://github.com/adobe-type-tools/cmap-resources
                           <span data-l10n-id="pdfjs-spread-even-button-label"></span>
                         </button>
                       </div>
+
+                      <button id="spreadRtl" class="toolbarButton labeled" type="button" tabindex="0" aria-pressed="false" title="Read spread pages right to left (unavailable in horizontal scrolling)">
+                        <span>Right-to-left page order</span>
+                      </button>
 
                       <div id="imageAltTextSettingsSeparator" class="horizontalToolbarSeparator hidden"></div>
                       <button id="imageAltTextSettings" type="button" class="toolbarButton labeled hidden" tabindex="0" data-l10n-id="pdfjs-image-alt-text-settings-button" aria-controls="altTextSettingsDialog">
@@ -818,6 +823,8 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
+
+    <script src="reading-direction.js"></script>
 
     <!-- Auto-populate clipboard on text selection (matches native Linux Primary Selection behavior) -->
     <script>

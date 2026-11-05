@@ -8,6 +8,7 @@ import { DownloadButton } from '../DownloadButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { addPageLabels } from '@/lib/pdf/processors/page-labels';
+import { parsePageLabelRange } from '@/lib/pdf/page-label-range';
 import type { ProcessOutput } from '@/types/pdf';
 import { 
   Plus, 
@@ -131,7 +132,7 @@ export function AddPageLabelsTool() {
 
     // Later rules override earlier ones
     rules.forEach((rule, ruleIdx) => {
-      const indices = parsePageRangeForPreview(rule.pageRange || '', totalPages);
+      const indices = parsePageLabelRange(rule.pageRange || '', totalPages);
       indices.forEach(idx => {
         // Embed the unique rule order index as reference
         pageToRuleMap[idx] = { ...rule, startValue: ruleIdx }; 
@@ -578,58 +579,6 @@ function toAlphaForPreview(num: number, isUppercase: boolean): string {
     temp = Math.floor((temp - 1) / 26);
   }
   return result;
-}
-
-function parsePageRangeForPreview(rangeStr: string, totalPages: number): Set<number> {
-  const indices = new Set<number>();
-  const normalized = rangeStr.trim().toLowerCase();
-
-  if (!normalized) {
-    for (let i = 0; i < totalPages; i++) {
-      indices.add(i);
-    }
-    return indices;
-  }
-
-  if (normalized === 'odd') {
-    for (let i = 0; i < totalPages; i += 2) {
-      indices.add(i);
-    }
-    return indices;
-  }
-
-  if (normalized === 'even') {
-    for (let i = 1; i < totalPages; i += 2) {
-      indices.add(i);
-    }
-    return indices;
-  }
-
-  const parts = normalized.split(',');
-  for (const part of parts) {
-    const trimmed = part.trim();
-    if (trimmed.includes('-')) {
-      const [startStr, endStr] = trimmed.split('-');
-      const start = parseInt(startStr, 10);
-      const end = parseInt(endStr, 10);
-      if (!isNaN(start) && !isNaN(end)) {
-        const from = Math.min(start, end);
-        const to = Math.max(start, end);
-        for (let i = from; i <= to; i++) {
-          if (i >= 1 && i <= totalPages) {
-            indices.add(i - 1);
-          }
-        }
-      }
-    } else {
-      const val = parseInt(trimmed, 10);
-      if (!isNaN(val) && val >= 1 && val <= totalPages) {
-        indices.add(val - 1);
-      }
-    }
-  }
-  
-  return indices;
 }
 
 export default AddPageLabelsTool;

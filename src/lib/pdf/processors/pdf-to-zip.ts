@@ -52,6 +52,12 @@ export class PDFToZipProcessor implements PDFProcessor {
       const zip = new JSZip();
 
       const totalFiles = files.length;
+      // Reserve every input name before allocating suffixes so a duplicate
+      // cannot take the original name of a later file (e.g. report (2).pdf).
+      const reservedNames = new Set(files.map(file => file.name));
+      const usedNames = new Set<string>();
+      const archiveNames: string[] = [];
+      const nextSuffix = new Map<string, number>();
 
       // Add each PDF file to the ZIP
       for (let i = 0; i < files.length; i++) {
@@ -70,8 +76,20 @@ export class PDFToZipProcessor implements PDFProcessor {
         const file = files[i];
         const arrayBuffer = await file.arrayBuffer();
 
-        // Add file to ZIP with original filename
-        zip.file(file.name, arrayBuffer);
+        let archiveName = file.name;
+        if (usedNames.has(archiveName)) {
+          const dot = file.name.lastIndexOf('.');
+          const stem = dot > 0 ? file.name.slice(0, dot) : file.name;
+          const extension = dot > 0 ? file.name.slice(dot) : '';
+          let suffix = nextSuffix.get(file.name) ?? 2;
+          do {
+            archiveName = `${stem} (${suffix++})${extension}`;
+          } while (reservedNames.has(archiveName) || usedNames.has(archiveName));
+          nextSuffix.set(file.name, suffix);
+        }
+        usedNames.add(archiveName);
+        archiveNames.push(archiveName);
+        zip.file(archiveName, arrayBuffer);
 
         // Update progress
         this.progress = Math.round(((i + 1) / totalFiles) * 80);
@@ -108,7 +126,7 @@ export class PDFToZipProcessor implements PDFProcessor {
         metadata: {
           fileCount: files.length,
           totalSize: zipBlob.size,
-          filenames: files.map(f => f.name),
+          filenames: archiveNames,
         },
       };
     } catch (error) {
