@@ -66,7 +66,14 @@ export class PdfPageResizerUniformProcessor extends BasePDFProcessor {
         // Embed all pages of srcDoc
         for (let pIdx = 0; pIdx < srcPagesCount; pIdx++) {
           const [srcPage] = await destDoc.copyPages(srcDoc, [pIdx]);
-          const { width: srcW, height: srcH } = srcPage.getSize();
+
+          // Pages with /Rotate (common in scans) are shown turned in a viewer,
+          // so fit them by their displayed size and draw them turned.
+          const quarterTurns = ((srcDoc.getPage(pIdx).getRotation().angle % 360) + 360) % 360 / 90;
+          const turned = quarterTurns % 2 === 1;
+          const { width: pageW, height: pageH } = srcPage.getSize();
+          const srcW = turned ? pageH : pageW;
+          const srcH = turned ? pageW : pageH;
 
           // Embed page as an image-like object (XObject)
           const embeddedPage = await destDoc.embedPage(ensurePageContents(srcPage));
@@ -93,10 +100,13 @@ export class PdfPageResizerUniformProcessor extends BasePDFProcessor {
           const yOffset = (targetDim.height - drawH) / 2;
 
           newPage.drawPage(embeddedPage, {
-            x: xOffset,
-            y: yOffset,
-            width: drawW,
-            height: drawH,
+            // Origin of the unturned page so that, once turned clockwise by
+            // /Rotate, it fills the box whose lower-left corner is (xOffset, yOffset).
+            x: quarterTurns === 2 || quarterTurns === 3 ? xOffset + drawW : xOffset,
+            y: quarterTurns === 1 || quarterTurns === 2 ? yOffset + drawH : yOffset,
+            width: turned ? drawH : drawW,
+            height: turned ? drawW : drawH,
+            rotate: pdfLib.degrees(-quarterTurns * 90),
           });
 
           processedCount++;
