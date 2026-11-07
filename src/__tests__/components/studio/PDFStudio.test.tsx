@@ -1172,6 +1172,75 @@ describe('PDFStudio Component', () => {
       unmountZh();
     });
   });
+
+  describe('Document Tab Strip Scrolling', () => {
+    // Lays out three 180px tabs, 200px apart, in a 300px-wide strip that scrolls horizontally
+    const setupOverflowingStrip = () => {
+      render(<PDFStudio locale="en" />);
+      const uploadInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      fireEvent.change(uploadInput, {
+        target: {
+          files: [createDummyPdfFile('doc1.pdf'), createDummyPdfFile('doc2.pdf'), createDummyPdfFile('doc3.pdf')],
+        },
+      });
+
+      const tabs = ['doc1.pdf', 'doc2.pdf', 'doc3.pdf'].map(
+        (name) => screen.getByText(name).closest('[data-doc-id]') as HTMLElement
+      );
+      const strip = tabs[0].parentElement as HTMLElement;
+      Object.defineProperty(strip, 'scrollWidth', { value: 580, configurable: true });
+      Object.defineProperty(strip, 'clientWidth', { value: 300, configurable: true });
+      strip.getBoundingClientRect = () => ({ left: 0, right: 300 }) as DOMRect;
+      tabs.forEach((tab, i) => {
+        tab.getBoundingClientRect = () =>
+          ({ left: i * 200 - strip.scrollLeft, right: i * 200 + 180 - strip.scrollLeft }) as DOMRect;
+      });
+      return strip;
+    };
+
+    it('scrolls the tab strip horizontally with a vertical mouse wheel', () => {
+      const strip = setupOverflowingStrip();
+
+      // fireEvent returns false when the handler called preventDefault()
+      expect(fireEvent.wheel(strip, { deltaY: 120 })).toBe(false);
+      expect(strip.scrollLeft).toBe(120);
+
+      // Line-based deltas (Firefox mouse wheels) are converted to pixels
+      fireEvent.wheel(strip, { deltaY: -3, deltaMode: 1 });
+      expect(strip.scrollLeft).toBe(72);
+    });
+
+    it('leaves horizontal trackpad swipes and Ctrl+wheel zoom to the browser', () => {
+      const strip = setupOverflowingStrip();
+
+      expect(fireEvent.wheel(strip, { deltaX: 80, deltaY: 10 })).toBe(true);
+      expect(fireEvent.wheel(strip, { deltaY: 120, ctrlKey: true })).toBe(true);
+      expect(strip.scrollLeft).toBe(0);
+    });
+
+    it('does not capture the wheel when all tabs fit', () => {
+      const strip = setupOverflowingStrip();
+      Object.defineProperty(strip, 'scrollWidth', { value: 300, configurable: true });
+
+      expect(fireEvent.wheel(strip, { deltaY: 120 })).toBe(true);
+      expect(strip.scrollLeft).toBe(0);
+    });
+
+    it('scrolls the active tab into view when cycling to an off-screen document', () => {
+      const strip = setupOverflowingStrip();
+
+      // doc1 -> doc2 -> doc3: doc3 ends at 580px, past the 300px strip edge
+      fireEvent.keyDown(window, { key: ']', altKey: true });
+      fireEvent.keyDown(window, { key: ']', altKey: true });
+      expect(screen.getByTitle('doc3.pdf')).toBeInTheDocument();
+      expect(strip.scrollLeft).toBe(280);
+
+      // Wrapping around to doc1 brings the strip back to the start
+      fireEvent.keyDown(window, { key: ']', altKey: true });
+      expect(screen.getByTitle('doc1.pdf')).toBeInTheDocument();
+      expect(strip.scrollLeft).toBe(0);
+    });
+  });
 });
 
 
