@@ -16,7 +16,8 @@
     "test:coverage": "vitest run --coverage",
     "predev": "node scripts/decompress-wasm.mjs public && node scripts/ensure-pdfjs-viewer-js.js public",
     "postinstall": "node scripts/sync-pdfjs-workers.js && node scripts/decompress-wasm.mjs public && node scripts/ensure-pdfjs-viewer-js.js public",
-    "postbuild": "node scripts/decompress-wasm.mjs && node scripts/chunk-assets.mjs && node scripts/ensure-pdfjs-viewer-js.js out"
+    "postbuild": "node scripts/decompress-wasm.mjs && node scripts/chunk-assets.mjs && node scripts/ensure-pdfjs-viewer-js.js out",
+    "serve:local": "node scripts/serve-local.mjs"
   },
   "dependencies": {
     "@matbee/libreoffice-converter": "^2.5.0",
