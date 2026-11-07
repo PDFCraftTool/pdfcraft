@@ -188,6 +188,20 @@ export function scriptFallbackFamilies(cps) {
       ],
     ],
     [
+      [
+        [0x0400, 0x052f],
+        [0x2de0, 0x2dff],
+        [0xa640, 0xa69f],
+      ],
+      [
+        'Arial',
+        'Helvetica Neue',
+        'Noto Sans',
+        'Arial Unicode MS',
+        'Liberation Sans',
+      ],
+    ],
+    [
       [[0x0900, 0x097f]],
       [
         'Kohinoor Devanagari',
