@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, createEvent, waitFor, cleanup } from '@testing-library/react';
 import React from 'react';
 import { PDFStudio } from '@/components/studio/PDFStudio';
 import * as tauriBridge from '@/lib/tauri-bridge';
@@ -890,6 +890,48 @@ describe('PDFStudio Component', () => {
       fireEvent.keyDown(iframe2.contentWindow!, { key: 'w', code: 'KeyW', ctrlKey: true });
       expect(screen.queryByTitle('doc2.pdf')).not.toBeInTheDocument();
       expect(screen.getByTitle('doc3.pdf')).toBeInTheDocument();
+    });
+
+    it('opens a PDF dropped onto the viewer iframe as a new Studio tab', () => {
+      const file = createDummyPdfFile('first.pdf');
+      render(<PDFStudio locale="en" initialFile={file} />);
+
+      const iframe = screen.getByTitle('first.pdf') as HTMLIFrameElement;
+      const dropped = createDummyPdfFile('dropped-on-viewer.pdf');
+      fireEvent.drop(iframe.contentWindow!, {
+        dataTransfer: { files: [dropped], items: [{ kind: 'file', type: 'application/pdf' }], types: ['Files'] },
+      });
+
+      expect(screen.getByTitle('dropped-on-viewer.pdf')).toBeInTheDocument();
+      expect(screen.getByText('2 Documents')).toBeInTheDocument();
+    });
+
+    it('leaves non-PDF drops on the viewer iframe to the viewer', () => {
+      const file = createDummyPdfFile('first.pdf');
+      render(<PDFStudio locale="en" initialFile={file} />);
+
+      const iframe = screen.getByTitle('first.pdf') as HTMLIFrameElement;
+      const image = new File(['png'], 'signature.png', { type: 'image/png' });
+      const dropEvent = createEvent.drop(iframe.contentWindow!, {
+        dataTransfer: { files: [image], items: [{ kind: 'file', type: 'image/png' }], types: ['Files'] },
+      });
+      fireEvent(iframe.contentWindow!, dropEvent);
+
+      expect(dropEvent.defaultPrevented).toBe(false);
+      expect(screen.getByTitle('first.pdf')).toBeInTheDocument();
+      expect(screen.queryByText('2 Documents')).not.toBeInTheDocument();
+    });
+
+    it('removes iframe drop listeners on unmount', () => {
+      const file = createDummyPdfFile('drop-clean.pdf');
+      const { unmount } = render(<PDFStudio locale="en" initialFile={file} />);
+      const iframe = screen.getByTitle('drop-clean.pdf') as HTMLIFrameElement;
+      const removeSpy = vi.spyOn(iframe.contentWindow!, 'removeEventListener');
+
+      unmount();
+
+      expect(removeSpy).toHaveBeenCalledWith('drop', expect.any(Function), true);
+      expect(removeSpy).toHaveBeenCalledWith('dragover', expect.any(Function), true);
     });
 
     it('cleans up iframe event listener on unmount and active document change without memory leak', () => {
