@@ -12,7 +12,7 @@ import {
 } from '@/lib/pdf/remote-signing/csc-client';
 import { createCscRemoteSigner } from '@/lib/pdf/remote-signing/csc-remote-signer';
 import { signPdfRemote } from '@/lib/pdf/processors/digital-sign';
-import { extractSignatures } from '@/lib/pdf/processors/validate-signature';
+import { extractSignatures, validatePdfSignatures } from '@/lib/pdf/processors/validate-signature';
 
 // ---------------------------------------------------------------------------
 // test PKI: a CA and a signing certificate, both RSA
@@ -328,5 +328,63 @@ describe('signPdfRemote', () => {
     const [cred] = await client.listCredentials();
     const remote = createCscRemoteSigner(client, cred, { secrets: { PIN: '0000' } });
     await expect(signPdfRemote(await samplePdf(), remote)).rejects.toThrow(/Invalid PIN/);
+  });
+});
+
+describe('validatePdfSignatures', () => {
+  let pki: Pki;
+  beforeAll(() => {
+    pki = makePki();
+  });
+
+  async function signSamplePdf() {
+    const { fetchImpl } = mockCsc({ version: 'v2', pki });
+    const client = new CscClient({ baseUrl: 'https://csc.example.test/api', fetchImpl });
+    await client.info();
+    await client.login('alice', 'secret');
+    const [cred] = await client.listCredentials();
+    const remote = createCscRemoteSigner(client, cred, { secrets: { PIN: '1234' } });
+    return signPdfRemote(await samplePdf(), remote, { signatureInfo: { reason: 'Approval' } });
+  }
+
+  it('accepts the signatures the app itself produces', async () => {
+    const signed = await signSamplePdf();
+    const [result] = await validatePdfSignatures(signed);
+
+    expect(result.isValid).toBe(true);
+    expect(result.coverageStatus).toBe('full');
+    expect(result.signerName).toBe('Remote Signer');
+    expect(result.reason).toBe('Approval');
+    expect(result.algorithms).toMatchObject({ digest: 'SHA-256', signature: 'RSA with SHA-256' });
+  });
+
+  it('rejects a document modified after signing', async () => {
+    const signed = await signSamplePdf();
+    const tampered = signed.slice();
+    // Flip a byte inside the first ByteRange segment (the header area).
+    tampered[5] ^= 0xff;
+
+    const [result] = await validatePdfSignatures(tampered);
+    expect(result.isValid).toBe(false);
+    expect(result.errorMessage).toBeDefined();
+  });
+
+  it('rejects a signature whose contents were corrupted', async () => {
+    const signed = await signSamplePdf();
+    const corrupted = signed.slice();
+    const text = new TextDecoder('latin1').decode(corrupted);
+    const contentsAt = text.indexOf('/Contents <');
+    expect(contentsAt).toBeGreaterThanOrEqual(0);
+    // Keep it a valid hex digit so the signature is still extracted, then rejected.
+    const firstHex = contentsAt + '/Contents <'.length;
+    corrupted[firstHex] = corrupted[firstHex] === 0x30 ? 0x31 : 0x30;
+
+    const [result] = await validatePdfSignatures(corrupted);
+    expect(result.isValid).toBe(false);
+  });
+
+  it('finds no signatures on unsigned documents', async () => {
+    const results = await validatePdfSignatures(await samplePdf());
+    expect(results).toEqual([]);
   });
 });
