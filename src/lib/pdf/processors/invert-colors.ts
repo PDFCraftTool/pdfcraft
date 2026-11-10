@@ -113,7 +113,7 @@ export class InvertColorsProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_inverted.pdf'), { pageCount: pagesToProcess.length });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_inverted.pdf'), { pageCount: pagesToProcess.length });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to invert colors.', error instanceof Error ? error.message : 'Unknown error');

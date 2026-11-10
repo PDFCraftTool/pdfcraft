@@ -375,7 +375,7 @@ export class WatermarkProcessor extends BasePDFProcessor {
             const flattenedBytes = await flattenedDoc.save({ useObjectStreams: true });
             const blob = new Blob([new Uint8Array(flattenedBytes)], { type: 'application/pdf' });
             this.updateProgress(100, 'Complete!');
-            return this.createSuccessOutput(blob, file.name.replace('.pdf', '_watermarked.pdf'), { pageCount: numPages });
+            return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_watermarked.pdf'), { pageCount: numPages });
           }
         } catch (flattenError) {
           console.warn('Flattening failed, falling back to standard PDF:', flattenError);
@@ -384,7 +384,7 @@ export class WatermarkProcessor extends BasePDFProcessor {
 
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_watermarked.pdf'), { pageCount: totalPages });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_watermarked.pdf'), { pageCount: totalPages });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to add watermark.', error instanceof Error ? error.message : 'Unknown error');

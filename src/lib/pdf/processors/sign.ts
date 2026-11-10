@@ -156,7 +156,7 @@ export class SignProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_signed.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_signed.pdf'), {
         signatureCount: signOptions.signatures.length
       });
 
