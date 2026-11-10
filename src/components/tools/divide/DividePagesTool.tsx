@@ -393,7 +393,7 @@ export function DividePagesTool({ className = '' }: DividePagesToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', `_divided_${divisionType}.pdf`)}
+              filename={file.name.replace(/\.pdf$/i, `_divided_${divisionType}.pdf`)}
               variant="secondary"
               size="lg"
               showFileSize

@@ -529,7 +529,7 @@ export function RemoveBlankPagesTool({ className = '' }: RemoveBlankPagesToolPro
           <div className="flex gap-3 justify-center max-w-xs mx-auto">
             <DownloadButton 
               file={result} 
-              filename={file?.name.replace('.pdf', '_no_blanks.pdf') || 'cleaned_document.pdf'} 
+              filename={file?.name.replace(/\.pdf$/i, '_no_blanks.pdf') || 'cleaned_document.pdf'} 
               variant="primary" 
               size="lg" 
               className="flex-1 font-bold shadow-lg"

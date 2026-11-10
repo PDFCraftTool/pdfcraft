@@ -245,7 +245,7 @@ export function FormFillerTool({ className = '' }: FormFillerToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_filled.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_filled.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

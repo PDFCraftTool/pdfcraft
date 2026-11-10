@@ -473,7 +473,7 @@ export function RotateCustomTool({ className = '' }: RotateCustomToolProps) {
                     {result && (
                         <DownloadButton
                             file={result}
-                            filename={file.name.replace('.pdf', '_custom_rotated.pdf')}
+                            filename={file.name.replace(/\.pdf$/i, '_custom_rotated.pdf')}
                             variant="secondary"
                             size="lg"
                             showFileSize

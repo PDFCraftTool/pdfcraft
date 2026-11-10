@@ -540,7 +540,7 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
         {result && (
           <DownloadButton
             file={result}
-            filename={pdfFile ? `${pdfFile.name.replace('.pdf', '')}_signed.pdf` : 'signed.pdf'}
+            filename={pdfFile ? `${pdfFile.name.replace(/\.pdf$/i, '')}_signed.pdf` : 'signed.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

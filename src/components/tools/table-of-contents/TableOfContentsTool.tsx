@@ -247,7 +247,7 @@ export function TableOfContentsTool({ className = '' }: TableOfContentsToolProps
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_with_toc.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_with_toc.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

@@ -324,7 +324,7 @@ export function SanitizePDFTool({ className = '' }: SanitizePDFToolProps) {
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_sanitized.pdf` : 'sanitized.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_sanitized.pdf` : 'sanitized.pdf'}
             variant="secondary"
             size="lg"
             showFileSize
