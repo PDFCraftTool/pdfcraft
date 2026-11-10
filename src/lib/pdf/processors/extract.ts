@@ -171,14 +171,13 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
       } catch (pymupdfErr) {
         console.warn('PyMuPDF extract failed or not available, falling back to pdf-lib:', pymupdfErr);
         
-        // Fallback to pdf-lib (original logic)
-        // Create a new PDF document
-        const newPdf = await pdfLib.PDFDocument.create();
+        // Fallback to pdf-lib: drop the pages that were not selected from the
+        // source document itself, so forms, links, page labels, metadata and
+        // attachments survive (rebuilding the document would lose them).
+        const keep = new Set(uniquePages.map(pageNum => pageNum - 1));
+        const progressPerPage = 60 / totalPages;
 
-        // Copy pages
-        const progressPerPage = 60 / uniquePages.length;
-
-        for (let i = 0; i < uniquePages.length; i++) {
+        for (let pageIndex = totalPages - 1; pageIndex >= 0; pageIndex--) {
           if (this.checkCancelled()) {
             return this.createErrorOutput(
               PDFErrorCode.PROCESSING_CANCELLED,
@@ -186,22 +185,20 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
             );
           }
 
-          const pageNum = uniquePages[i];
-          const pageIndex = pageNum - 1; // Convert to 0-based index
-
           this.updateProgress(
-            30 + (i * progressPerPage),
-            `Extracting page ${pageNum}...`
+            30 + ((totalPages - 1 - pageIndex) * progressPerPage),
+            `Extracting page ${pageIndex + 1}...`
           );
 
-          const [copiedPage] = await newPdf.copyPages(sourcePdf, [pageIndex]);
-          newPdf.addPage(copiedPage);
+          if (!keep.has(pageIndex)) {
+            sourcePdf.removePage(pageIndex);
+          }
         }
 
         this.updateProgress(90, 'Saving extracted pages...');
 
         // Save the new PDF
-        const pdfBytes = await newPdf.save({ useObjectStreams: true });
+        const pdfBytes = await sourcePdf.save({ useObjectStreams: true });
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
         this.updateProgress(100, 'Complete!');
