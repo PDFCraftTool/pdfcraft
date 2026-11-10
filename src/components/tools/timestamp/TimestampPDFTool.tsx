@@ -385,7 +385,7 @@ export function TimestampPDFTool({ className = '' }: TimestampPDFToolProps) {
                     <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex gap-2">
                       <DownloadButton
                         file={result}
-                        filename={file.name.replace('.pdf', '_timestamped.pdf')}
+                        filename={file.name.replace(/\.pdf$/i, '_timestamped.pdf')}
                         variant="secondary"
                         size="md"
                         className="flex-1 font-bold"

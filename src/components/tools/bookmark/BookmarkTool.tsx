@@ -964,7 +964,7 @@ export function BookmarkTool({ className = '' }: BookmarkToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_bookmarked.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_bookmarked.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

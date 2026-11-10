@@ -162,7 +162,7 @@ export function PDFToPDFATool({ className = '' }: PDFToPDFAToolProps) {
                                     </div>
                                 </div>
                                 {batchFile.status === 'completed' && batchFile.result && (
-                                    <DownloadButton file={batchFile.result} filename={`${batchFile.file.name.replace('.pdf', '')}_pdfa.pdf`} variant="ghost" size="sm" />
+                                    <DownloadButton file={batchFile.result} filename={`${batchFile.file.name.replace(/\.pdf$/i, '')}_pdfa.pdf`} variant="ghost" size="sm" />
                                 )}
                                 {batchFile.status === 'pending' && !isProcessing && (
                                     <button onClick={() => removeFile(batchFile.id)} className="p-1 text-[hsl(var(--color-muted-foreground))] hover:text-red-500 transition-colors" aria-label="Remove file">

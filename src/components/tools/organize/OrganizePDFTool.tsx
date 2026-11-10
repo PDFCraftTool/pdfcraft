@@ -582,7 +582,7 @@ export function OrganizePDFTool({ className = '' }: OrganizePDFToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_organized.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_organized.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

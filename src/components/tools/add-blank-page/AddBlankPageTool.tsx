@@ -333,7 +333,7 @@ export function AddBlankPageTool({ className = '' }: AddBlankPageToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_blank_pages_added.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_blank_pages_added.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

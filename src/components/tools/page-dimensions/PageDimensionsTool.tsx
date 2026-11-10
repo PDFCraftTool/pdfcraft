@@ -288,7 +288,7 @@ export function PageDimensionsTool({ className = '' }: PageDimensionsToolProps) 
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_dimensions.json` : 'dimensions.json'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_dimensions.json` : 'dimensions.json'}
             variant="secondary"
             size="lg"
             showFileSize

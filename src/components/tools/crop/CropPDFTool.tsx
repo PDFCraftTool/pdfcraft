@@ -632,7 +632,7 @@ export function CropPDFTool({ className = '' }: CropPDFToolProps) {
             <div className="text-green-700 font-medium">
               {tTools('cropPdf.successMessage') || 'PDF cropped successfully!'}
             </div>
-            <DownloadButton file={result} filename={state.file.name.replace('.pdf', '_cropped.pdf')} variant="primary" size="lg" />
+            <DownloadButton file={result} filename={state.file.name.replace(/\.pdf$/i, '_cropped.pdf')} variant="primary" size="lg" />
           </div>
         </div>
       )}

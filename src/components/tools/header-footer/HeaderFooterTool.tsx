@@ -569,7 +569,7 @@ export function HeaderFooterTool({ className = '' }: HeaderFooterToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_headerfooter.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_headerfooter.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

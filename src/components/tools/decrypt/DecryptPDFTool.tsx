@@ -285,7 +285,7 @@ export function DecryptPDFTool({ className = '' }: DecryptPDFToolProps) {
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_decrypted.pdf` : 'decrypted.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_decrypted.pdf` : 'decrypted.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

@@ -85,7 +85,7 @@ export function InvertColorsTool({ className = '' }: InvertColorsToolProps) {
           {result && (
             <DownloadButton 
               file={result} 
-              filename={file.name.replace('.pdf', '_inverted.pdf')} 
+              filename={file.name.replace(/\.pdf$/i, '_inverted.pdf')} 
               variant="secondary" 
               size="lg" 
               showFileSize 
