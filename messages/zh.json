@@ -1704,7 +1704,29 @@
       "errorParse": "解析证书失败",
       "errorPEM": "读取 PEM 文件失败。",
       "errorType": "请选择 .pfx, .p12, 或 .pem 文件。",
-      "errorImgType": "请选择 PNG 或 JPEG 图片。"
+      "errorImgType": "请选择 PNG 或 JPEG 图片。",
+      "modeFile": "证书文件",
+      "modeRemote": "远程签名服务",
+      "remoteServiceUrlLabel": "签名服务地址",
+      "remoteServiceUrlHint": "您的信任服务提供商提供的 CSC API 地址。只要实现了 Cloud Signature Consortium API（v1 或 v2），并允许来自本站的请求，任何服务商均可使用。",
+      "remoteConnectButton": "连接",
+      "remoteUsernameLabel": "用户名",
+      "remotePasswordLabel": "密码",
+      "remoteSignInButton": "登录",
+      "remoteClientIdLabel": "OAuth 客户端 ID",
+      "remoteOAuthButton": "通过服务商登录",
+      "remoteRedirectHint": "请在您的服务商处注册此重定向 URI：",
+      "remoteCredentialLabel": "签名证书",
+      "remotePinLabel": "PIN 码",
+      "remoteOtpLabel": "一次性验证码",
+      "remoteOptional": "可选",
+      "remoteSendOtp": "发送验证码",
+      "remoteResendOtp": "重新发送验证码",
+      "remoteOAuthCredentialHint": "点击“签署 PDF”后，您将在服务商的页面上确认签名。",
+      "remoteImplicitHint": "您的服务商会在其自身一侧（例如在其手机应用中）确认此签名。",
+      "remotePrivacyNote": "您的 PDF 保留在浏览器中，只有签名数据的 32 字节哈希值会发送给签名服务。",
+      "remoteNoCredentials": "此账户下未找到任何签名证书。",
+      "remoteSigningProgress": "正在等待签名服务……"
     },
     "validateSign": {
       "uploadLabel": "上传已签名的 PDF",
@@ -1810,7 +1832,12 @@
       "saveButton": "保存元数据",
       "editAnother": "编辑另一个PDF",
       "modificationNote": "保存时修改日期将自动更新。",
-      "successMessage": "元数据更新成功！点击下载按钮保存文件。"
+      "successMessage": "元数据更新成功！点击下载按钮保存文件。",
+      "datesSection": "文档日期",
+      "creationDate": "创建日期",
+      "creationDateHelp": "文档最初创建的日期。",
+      "modificationDate": "修改日期",
+      "modificationDateHelp": "留空则在保存时自动设为当前日期和时间。"
     },
     "editPdf": {
       "uploadLabel": "上传PDF进行编辑",
@@ -1843,7 +1870,15 @@
         "fontSize": "字号",
         "inkColor": "墨水颜色",
         "inkThickness": "墨水粗细"
-      }
+      },
+      "textHistory": "文字修改历史",
+      "textUndo": "撤销文字",
+      "textRedo": "重做文字",
+      "textUndoApplied": "已撤销上一次文字修改。",
+      "textRedoApplied": "已重做文字修改。",
+      "overflowAppliedWarning": "替换后的文字超出了原区域，导出前请目视检查结果。",
+      "fallbackFontWarning": "无法沿用原字体，已改用备用字体，请检查字符和间距。",
+      "signatureInvalidatedWarning": "此 PDF 含有数字签名，编辑其内容会使现有签名失效。"
     },
     "imageToPdf": {
       "uploadLabel": "上传图片",
