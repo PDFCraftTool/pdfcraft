@@ -3,7 +3,7 @@ import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRa
 import { overlayPDF } from '@/lib/pdf/processors/overlay';
 
 function asFile(bytes: Uint8Array, name: string): File {
-  const file = new File([bytes], name, { type: 'application/pdf' });
+  const file = new File([bytes as BlobPart], name, { type: 'application/pdf' });
   Object.defineProperty(file, 'arrayBuffer', { value: async () => bytes.buffer });
   return file;
 }
