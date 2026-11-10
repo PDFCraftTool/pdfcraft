@@ -184,7 +184,7 @@ export class PdfScratchpadCanvasProcessor extends BasePDFProcessor {
 
       this.updateProgress(100, 'Complete!');
 
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_with_scratchpad.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_with_scratchpad.pdf'), {
         pagesProcessed: pageCount,
         padPosition: canvasOptions.padPosition,
         padSize: canvasOptions.padSize,

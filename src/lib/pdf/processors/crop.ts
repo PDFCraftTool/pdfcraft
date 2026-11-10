@@ -58,7 +58,7 @@ export class CropProcessor extends BasePDFProcessor {
       const suffix = isDestructive ? '_cropped_flattened.pdf' : '_cropped.pdf';
       const blob = new Blob([new Uint8Array(pdfBytes).buffer as ArrayBuffer], { type: 'application/pdf' });
 
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', suffix), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, suffix), {
         pagesCropped: Object.keys(cropOptions.cropData).length
       });
 

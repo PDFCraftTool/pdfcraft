@@ -169,7 +169,7 @@ export class HeaderFooterProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_headerfooter.pdf'), { pageCount: totalPages });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_headerfooter.pdf'), { pageCount: totalPages });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to add header/footer.', error instanceof Error ? error.message : 'Unknown error');

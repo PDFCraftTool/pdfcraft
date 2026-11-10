@@ -279,7 +279,7 @@ export class FormCreatorProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_form.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_form.pdf'), {
         fieldsCreated: createdCount,
         flattened: formOptions.flattenForm || false,
       });

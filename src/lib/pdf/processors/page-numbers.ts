@@ -167,7 +167,7 @@ export class PageNumbersProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_numbered.pdf'), { pageCount: totalPages });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_numbered.pdf'), { pageCount: totalPages });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to add page numbers.', error instanceof Error ? error.message : 'Unknown error');

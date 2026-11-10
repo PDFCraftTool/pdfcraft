@@ -201,7 +201,7 @@ export class FormFillerProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_filled.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_filled.pdf'), {
         totalFields: fields.length,
         filledFields: filledCount,
         flattened: formOptions.flatten,
