@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 import { ensurePageContents } from '../page-contents';
 
 /**
@@ -214,7 +215,12 @@ export class PosterizePDFProcessor extends BasePDFProcessor {
         }
 
         const sourcePage = sourcePages[pageIndex];
-        const { width: sourceWidth, height: sourceHeight } = sourcePage.getSize();
+        // Tiles are cut from the page as displayed: pages with /Rotate (common
+        // in scans) are shown turned, so lay the grid out on the displayed
+        // size and map each tile back to page space.
+        const view = getPageView(sourcePage);
+        const { width: sourceWidth, height: sourceHeight } = view;
+        const quarterTurns = ((sourcePage.getRotation().angle % 360) + 360) % 360 / 90;
 
         // Determine orientation for this page
         let orientation = posterizeOptions.orientation;
@@ -251,47 +257,54 @@ export class PosterizePDFProcessor extends BasePDFProcessor {
             const sWidth = tileWidth + (col > 0 ? overlap : 0) + (col < cols - 1 ? overlap : 0);
             const sHeight = tileHeight + (row > 0 ? overlap : 0) + (row < rows - 1 ? overlap : 0);
 
-            // Copy the page and set crop box
-            const [copiedPage] = await newPdf.copyPages(sourcePdf, [pageIndex]);
+            // Displayed tile bounds, then the same rectangle in page space
+            const left = Math.max(0, sx);
+            const bottom = Math.max(0, sy);
+            const right = Math.min(sx + sWidth, sourceWidth);
+            const top = Math.min(sy + sHeight, sourceHeight);
+            const corner = view.place(left, bottom);
+            const opposite = view.place(right, top);
+            const bounds = {
+              left: Math.min(corner.x, opposite.x),
+              bottom: Math.min(corner.y, opposite.y),
+              right: Math.max(corner.x, opposite.x),
+              top: Math.max(corner.y, opposite.y),
+            };
 
-            // Set crop box to extract the tile
-            copiedPage.setCropBox(
-              Math.max(0, sx),
-              Math.max(0, sy),
-              Math.min(sWidth, sourceWidth - sx),
-              Math.min(sHeight, sourceHeight - sy)
-            );
+            // Copy the page and set crop box to extract the tile
+            const [copiedPage] = await newPdf.copyPages(sourcePdf, [pageIndex]);
+            copiedPage.setCropBox(bounds.left, bounds.bottom, bounds.right - bounds.left, bounds.top - bounds.bottom);
 
             // Create a new page with target dimensions
             const outputPage = newPdf.addPage([pageWidth, pageHeight]);
 
             // Embed the cropped page
-            const embeddedPage = await newPdf.embedPage(ensurePageContents(copiedPage), {
-              left: Math.max(0, sx),
-              bottom: Math.max(0, sy),
-              right: Math.min(sx + sWidth, sourceWidth),
-              top: Math.min(sy + sHeight, sourceHeight),
-            });
+            const embeddedPage = await newPdf.embedPage(ensurePageContents(copiedPage), bounds);
 
-            // Calculate scaling
-            const scaleX = pageWidth / embeddedPage.width;
-            const scaleY = pageHeight / embeddedPage.height;
+            // Calculate scaling from the displayed tile size
+            const tileShownWidth = right - left;
+            const tileShownHeight = top - bottom;
+            const scaleX = pageWidth / tileShownWidth;
+            const scaleY = pageHeight / tileShownHeight;
             const scale = scalingMode === 'fit'
               ? Math.min(scaleX, scaleY)
               : Math.max(scaleX, scaleY);
 
-            const scaledWidth = embeddedPage.width * scale;
-            const scaledHeight = embeddedPage.height * scale;
+            const scaledWidth = tileShownWidth * scale;
+            const scaledHeight = tileShownHeight * scale;
 
             // Center the tile on the output page
             const x = (pageWidth - scaledWidth) / 2;
             const y = (pageHeight - scaledHeight) / 2;
 
             outputPage.drawPage(embeddedPage, {
-              x,
-              y,
-              width: scaledWidth,
-              height: scaledHeight,
+              // Origin of the unturned tile so that, once turned clockwise by
+              // /Rotate, it fills the box whose lower-left corner is (x, y).
+              x: quarterTurns === 2 || quarterTurns === 3 ? x + scaledWidth : x,
+              y: quarterTurns === 1 || quarterTurns === 2 ? y + scaledHeight : y,
+              xScale: scale,
+              yScale: scale,
+              rotate: pdfLib.degrees(-quarterTurns * 90),
             });
           }
         }
