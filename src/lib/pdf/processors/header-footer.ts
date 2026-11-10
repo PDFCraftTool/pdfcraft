@@ -7,6 +7,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 export interface HeaderFooterOptions {
   header?: {
@@ -107,7 +108,7 @@ export class HeaderFooterProcessor extends BasePDFProcessor {
         if (hfOptions.skipFirstPage && i === 0) continue;
 
         const page = pdf.getPage(i);
-        const { width, height } = page.getSize();
+        const { width, height, place } = getPageView(page);
         const margin = hfOptions.margin || 30;
         const fontSize = hfOptions.fontSize || 10;
         const pageNum = i + 1;
@@ -121,23 +122,28 @@ export class HeaderFooterProcessor extends BasePDFProcessor {
             .replace(/{date}/g, currentDate);
         };
 
+        const drawAt = (text: string, x: number, y: number) => {
+          const at = place(x, y);
+          page.drawText(text, { x: at.x, y: at.y, size: fontSize, font, color, rotate: pdfLib.degrees(at.angle) });
+        };
+
         // Draw header
         if (hfOptions.header) {
           const headerY = height - margin;
 
           if (hfOptions.header.left) {
             const text = replacePlaceholders(hfOptions.header.left);
-            page.drawText(text, { x: margin, y: headerY, size: fontSize, font, color });
+            drawAt(text, margin, headerY);
           }
           if (hfOptions.header.center) {
             const text = replacePlaceholders(hfOptions.header.center);
             const textWidth = font.widthOfTextAtSize(text, fontSize);
-            page.drawText(text, { x: (width - textWidth) / 2, y: headerY, size: fontSize, font, color });
+            drawAt(text, (width - textWidth) / 2, headerY);
           }
           if (hfOptions.header.right) {
             const text = replacePlaceholders(hfOptions.header.right);
             const textWidth = font.widthOfTextAtSize(text, fontSize);
-            page.drawText(text, { x: width - margin - textWidth, y: headerY, size: fontSize, font, color });
+            drawAt(text, width - margin - textWidth, headerY);
           }
         }
 
@@ -147,17 +153,17 @@ export class HeaderFooterProcessor extends BasePDFProcessor {
 
           if (hfOptions.footer.left) {
             const text = replacePlaceholders(hfOptions.footer.left);
-            page.drawText(text, { x: margin, y: footerY, size: fontSize, font, color });
+            drawAt(text, margin, footerY);
           }
           if (hfOptions.footer.center) {
             const text = replacePlaceholders(hfOptions.footer.center);
             const textWidth = font.widthOfTextAtSize(text, fontSize);
-            page.drawText(text, { x: (width - textWidth) / 2, y: footerY, size: fontSize, font, color });
+            drawAt(text, (width - textWidth) / 2, footerY);
           }
           if (hfOptions.footer.right) {
             const text = replacePlaceholders(hfOptions.footer.right);
             const textWidth = font.widthOfTextAtSize(text, fontSize);
-            page.drawText(text, { x: width - margin - textWidth, y: footerY, size: fontSize, font, color });
+            drawAt(text, width - margin - textWidth, footerY);
           }
         }
 
