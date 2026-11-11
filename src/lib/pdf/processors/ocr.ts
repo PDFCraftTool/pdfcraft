@@ -16,9 +16,180 @@ import { BasePDFProcessor } from '../processor';
 import { loadPdfjs, loadPdfLib } from '../loader';
 
 /**
- * Supported OCR languages
+ * Supported OCR languages (single source of truth for every OCR entry point:
+ * standalone tool, Studio and workflow nodes)
  */
-export type OCRLanguage = 'eng' | 'chi_sim' | 'chi_tra' | 'jpn' | 'kor' | 'spa' | 'fra' | 'deu' | 'por' | 'ara' | 'hun' | 'ori';
+export const OCR_LANGUAGES = [
+  'eng',
+  'chi_sim',
+  'chi_tra',
+  'jpn',
+  'jpn_vert',
+  'kor',
+  'spa',
+  'fra',
+  'deu',
+  'por',
+  'ara',
+  'hun',
+  'ori',
+] as const;
+
+export type OCRLanguage = (typeof OCR_LANGUAGES)[number];
+
+/**
+ * Languages whose Tesseract output inserts spurious spaces between characters
+ * (CJK scripts without word separators). Korean is excluded because it uses spaces.
+ */
+const CJK_LANGUAGES: ReadonlySet<string> = new Set(['jpn', 'jpn_vert', 'chi_sim', 'chi_tra']);
+
+/**
+ * Tesseract page segmentation modes used here
+ * (https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html#page-segmentation-method)
+ */
+const PSM_AUTO = '3';
+const PSM_SINGLE_BLOCK_VERT_TEXT = '5';
+
+/**
+ * Default OCR languages for a UI locale. Pairs the local script with English,
+ * because Asian documents commonly mix in Latin words and numbers.
+ */
+export function getDefaultOcrLanguages(locale?: string): OCRLanguage[] {
+  switch (locale) {
+    case 'ja':
+      return ['jpn', 'eng'];
+    case 'zh':
+      return ['chi_sim', 'eng'];
+    case 'zh-TW':
+      return ['chi_tra', 'eng'];
+    case 'ko':
+      return ['kor', 'eng'];
+    default:
+      return ['eng'];
+  }
+}
+
+/**
+ * Parse a page range string such as "1-3, 5" into sorted unique page numbers.
+ * An empty string means "all pages" and returns [].
+ */
+export function parseOcrPageRange(rangeStr: string): number[] {
+  if (!rangeStr.trim()) return [];
+
+  const pages = new Set<number>();
+  for (const part of rangeStr.split(',')) {
+    const trimmed = part.trim();
+    if (trimmed.includes('-')) {
+      const [start, end] = trimmed.split('-').map(s => parseInt(s.trim(), 10));
+      if (!isNaN(start) && !isNaN(end)) {
+        for (let i = start; i <= end; i++) pages.add(i);
+      }
+    } else {
+      const num = parseInt(trimmed, 10);
+      if (!isNaN(num)) pages.add(num);
+    }
+  }
+
+  return Array.from(pages).sort((a, b) => a - b);
+}
+
+/**
+ * Remove whitespace that Tesseract inserts between CJK characters
+ * (e.g. "日 本 語 の 文 書" -> "日本語の文書"). Spaces next to Latin text are kept.
+ */
+const CJK_CHAR = '[\\u3001-\\u303F\\u3040-\\u309F\\u30A0-\\u30FF\\u31F0-\\u31FF\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF\\uFF00-\\uFFEF]';
+const CJK_SPACING_RE = new RegExp(`(${CJK_CHAR})[ \\t\\u3000]+(?=${CJK_CHAR})`, 'g');
+
+export function normalizeCjkSpacing(text: string): string {
+  return text.replace(CJK_SPACING_RE, '$1');
+}
+
+/**
+ * A recognized word in PDF coordinates (origin bottom-left, y = bottom edge)
+ */
+export interface OcrWord {
+  text: string;
+  confidence: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fontSize: number;
+  /** True for a vertical (tategaki) run of characters */
+  vertical?: boolean;
+  /** Per-character boxes from Tesseract symbols, when available */
+  chars?: Array<{ text: string; x: number; y: number; width: number; height: number }>;
+}
+
+/**
+ * Collect words from a Tesseract result. Newer tesseract.js versions only return the
+ * block tree (blocks -> paragraphs -> lines -> words), so flatten it when the flat
+ * `words` array is missing or empty.
+ */
+export function collectOcrWords(data: { words?: any[]; blocks?: any[] | null }): any[] {
+  if (Array.isArray(data.words) && data.words.length > 0) {
+    return data.words;
+  }
+
+  const words: any[] = [];
+  for (const block of data.blocks || []) {
+    for (const paragraph of block?.paragraphs || []) {
+      for (const line of paragraph?.lines || []) {
+        for (const word of line?.words || []) {
+          words.push(word);
+        }
+      }
+    }
+  }
+  return words;
+}
+
+/**
+ * Character boxes for a vertical word, top to bottom.
+ * Uses Tesseract's per-symbol boxes when they match the text; otherwise splits the
+ * column evenly by character count.
+ */
+export function layoutVerticalChars(
+  word: Pick<OcrWord, 'text' | 'x' | 'y' | 'width' | 'height' | 'chars'>
+): Array<{ text: string; x: number; y: number; width: number; height: number }> {
+  const chars = Array.from((word.text || '').trim());
+  if (chars.length === 0) return [];
+
+  if (word.chars && word.chars.length === chars.length) {
+    return word.chars.filter(c => (c.text || '').trim().length > 0);
+  }
+
+  const step = word.height / chars.length;
+  const top = word.y + word.height;
+  return chars.map((text, i) => ({
+    text,
+    x: word.x,
+    y: top - (i + 1) * step,
+    width: word.width,
+    height: step,
+  }));
+}
+
+/**
+ * Tesseract parameters required for the selected languages.
+ * Returns null when Tesseract defaults should be kept.
+ */
+export function getTesseractParameters(languages: OCRLanguage[]): Record<string, string> | null {
+  const params: Record<string, string> = {};
+
+  if (languages.some(l => CJK_LANGUAGES.has(l))) {
+    params.preserve_interword_spaces = '1';
+  }
+
+  if (languages.includes('jpn_vert')) {
+    // Vertical only: treat the page as one block of vertical text.
+    // Mixed with other scripts: let layout analysis find vertical and horizontal lines.
+    const verticalOnly = languages.every(l => l === 'jpn_vert' || l === 'eng');
+    params.tessedit_pageseg_mode = verticalOnly ? PSM_SINGLE_BLOCK_VERT_TEXT : PSM_AUTO;
+  }
+
+  return Object.keys(params).length > 0 ? params : null;
+}
 
 /**
  * OCR options
@@ -59,7 +230,8 @@ export const OCR_LANGUAGE_NAMES: Record<OCRLanguage, string> = {
   eng: 'English',
   chi_sim: 'Chinese (Simplified)',
   chi_tra: 'Chinese (Traditional)',
-  jpn: 'Japanese',
+  jpn: 'Japanese (Horizontal)',
+  jpn_vert: 'Japanese (Vertical)',
   kor: 'Korean',
   spa: 'Spanish',
   fra: 'French',
@@ -75,6 +247,7 @@ type TesseractWorker = {
   loadLanguage?: (lang: string) => Promise<void>;
   initialize?: (lang: string) => Promise<void>;
   recognize: (image: string | HTMLCanvasElement, options?: any, output?: any) => Promise<{ data: { text: string; words?: any[]; blocks?: any[] } }>;
+  setParameters?: (params: Record<string, string>) => Promise<unknown>;
   terminate: () => Promise<void>;
 };
 
@@ -607,6 +780,11 @@ export class OCRProcessor extends BasePDFProcessor {
         }
       },
     }) as unknown as TesseractWorker;
+
+    const params = getTesseractParameters(languages);
+    if (params && this.tesseractWorker.setParameters) {
+      await this.tesseractWorker.setParameters(params);
+    }
   }
 
   /**
@@ -670,30 +848,45 @@ export class OCRProcessor extends BasePDFProcessor {
     const pdfViewport = page.getViewport({ scale: 1.0 });
     const pageHeight = pdfViewport.height;
 
-    const rawWords = result.data.words || [];
-    const words = rawWords.map((w: any) => {
-      const bbox = w.bbox || { x0: 0, y0: 0, x1: 0, y1: 0 };
-      const { x0, y0, x1, y1 } = bbox;
-      const scale = options.scale;
-      
-      const pdfX = x0 / scale;
-      const pdfY = pageHeight - (y1 / scale);
-      const pdfWidth = (x1 - x0) / scale;
-      const pdfHeight = (y1 - y0) / scale;
-
+    const scale = options.scale;
+    const toPdfRect = (bbox: any) => {
+      const { x0, y0, x1, y1 } = bbox || { x0: 0, y0: 0, x1: 0, y1: 0 };
       return {
+        x: x0 / scale,
+        y: pageHeight - (y1 / scale),
+        width: (x1 - x0) / scale,
+        height: (y1 - y0) / scale,
+      };
+    };
+
+    const verticalEnabled = options.languages.includes('jpn_vert');
+    const words = collectOcrWords(result.data).map((w: any) => {
+      const rect = toPdfRect(w.bbox);
+      const charCount = Array.from((w.text || '').trim()).length;
+      // A tall, narrow box with several characters is a vertical (tategaki) run.
+      const vertical = verticalEnabled && charCount >= 2 && rect.height > rect.width * 1.2;
+
+      const word: OcrWord = {
         text: w.text,
         confidence: typeof w.confidence === 'number' ? Math.round(w.confidence) : 90,
-        x: pdfX,
-        y: pdfY,
-        width: pdfWidth,
-        height: pdfHeight,
-        fontSize: Math.max(5, pdfHeight * 0.85),
+        ...rect,
+        fontSize: Math.max(5, (vertical ? rect.width : rect.height) * 0.85),
       };
+
+      if (vertical) {
+        word.vertical = true;
+        if (Array.isArray(w.symbols) && w.symbols.length > 0) {
+          word.chars = w.symbols.map((s: any) => ({ text: s.text, ...toPdfRect(s.bbox) }));
+        }
+      }
+      return word;
     });
 
+    const rawText = result.data.text || '';
+    const hasCjk = options.languages.some(l => CJK_LANGUAGES.has(l));
+
     return {
-      text: result.data.text || '',
+      text: hasCjk ? normalizeCjkSpacing(rawText) : rawText,
       words,
     };
   }
@@ -757,20 +950,17 @@ export class OCRProcessor extends BasePDFProcessor {
 
       const page = pdfDoc.getPage(pageIdx);
 
-      // Draw invisible text items
-      for (const w of pageData.words) {
-        const text = (w.text || '').trim();
-        if (!text) continue;
-
+      const drawInvisible = (text: string, x: number, y: number, fontSize: number) => {
         // Check if text contains non-ASCII characters
         const isNonAscii = /[^\u0020-\u007E]/.test(text);
         const fontToUse = (isNonAscii && unicodeFont) ? unicodeFont : standardFont;
+        const size = Math.max(4, Math.min(72, fontSize));
 
         try {
           page.drawText(text, {
-            x: Math.max(0, w.x),
-            y: Math.max(0, w.y),
-            size: Math.max(4, Math.min(72, w.fontSize)),
+            x: Math.max(0, x),
+            y: Math.max(0, y),
+            size,
             font: fontToUse,
             color: pdfLib.rgb(0, 0, 0),
             opacity: 0.0, // Totally invisible text overlay
@@ -782,9 +972,9 @@ export class OCRProcessor extends BasePDFProcessor {
               const asciiOnly = text.replace(/[^\u0020-\u007E]/g, ' ');
               if (asciiOnly.trim()) {
                 page.drawText(asciiOnly, {
-                  x: Math.max(0, w.x),
-                  y: Math.max(0, w.y),
-                  size: Math.max(4, Math.min(72, w.fontSize)),
+                  x: Math.max(0, x),
+                  y: Math.max(0, y),
+                  size,
                   font: standardFont,
                   color: pdfLib.rgb(0, 0, 0),
                   opacity: 0.0,
@@ -794,6 +984,21 @@ export class OCRProcessor extends BasePDFProcessor {
               // skip unencodable character safely
             }
           }
+        }
+      };
+
+      // Draw invisible text items
+      for (const w of pageData.words as OcrWord[]) {
+        const text = (w.text || '').trim();
+        if (!text) continue;
+
+        if (w.vertical) {
+          // Vertical (tategaki): place each character top-to-bottom inside the column
+          for (const c of layoutVerticalChars(w)) {
+            drawInvisible(c.text, c.x, c.y, c.width * 0.85);
+          }
+        } else {
+          drawInvisible(text, w.x, w.y, w.fontSize);
         }
       }
     }
