@@ -13,6 +13,7 @@ import {
   Receipt,
   FileDown,
 } from 'lucide-react';
+import { getDefaultOcrLanguages } from '@/lib/pdf/processors/ocr';
 
 interface ExportToolOptionsProps {
   toolId: string;
@@ -31,6 +32,7 @@ export function ExportToolOptions({
 }: ExportToolOptionsProps) {
   const validLocale = (locale as string) || 'en';
   const isZh = validLocale.toLowerCase().startsWith('zh');
+  const isJa = validLocale.toLowerCase().startsWith('ja');
 
   switch (toolId) {
     case 'pdf-to-markdown': {
@@ -567,7 +569,7 @@ export function ExportToolOptions({
     }
 
     case 'ocr-pdf': {
-      const language = options.language || 'chi_sim';
+      const language = options.language || getDefaultOcrLanguages(validLocale).join('+');
       const outputFormat = options.outputFormat || 'searchable-pdf';
       const pageScope = options.pageScope || 'all';
       const customPages = options.customPages || '';
@@ -589,11 +591,13 @@ export function ExportToolOptions({
                 onChange={(e) => onChange('language', e.target.value)}
                 className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-border bg-background"
               >
-                <option value="chi_sim">{isZh ? '简体中文 + 英文 (推荐)' : 'Simplified Chinese + English'}</option>
-                <option value="eng">{isZh ? '英语 (English)' : 'English Only'}</option>
-                <option value="chi_tra">{isZh ? '繁体中文 + 英文' : 'Traditional Chinese + English'}</option>
-                <option value="jpn">{isZh ? '日语 + 英文 (日本語)' : 'Japanese + English'}</option>
-                <option value="kor">{isZh ? '韩语 + 英文 (한국어)' : 'Korean + English'}</option>
+                <option value="chi_sim+eng">{isZh ? '简体中文 + 英文 (推荐)' : 'Simplified Chinese + English'}</option>
+                <option value="eng">{isZh ? '英语 (English)' : isJa ? '英語のみ' : 'English Only'}</option>
+                <option value="chi_tra+eng">{isZh ? '繁体中文 + 英文' : 'Traditional Chinese + English'}</option>
+                <option value="jpn+eng">{isZh ? '日语横排 + 英文 (日本語)' : isJa ? '日本語（横書き）＋英語' : 'Japanese (Horizontal) + English'}</option>
+                <option value="jpn_vert">{isZh ? '日语竖排 (日本語縦書き)' : isJa ? '日本語（縦書き）' : 'Japanese (Vertical)'}</option>
+                <option value="jpn+jpn_vert">{isZh ? '日语横排 + 竖排混合' : isJa ? '日本語（横書き・縦書き混在）' : 'Japanese (Horizontal + Vertical)'}</option>
+                <option value="kor+eng">{isZh ? '韩语 + 英文 (한국어)' : 'Korean + English'}</option>
                 <option value="fra">{isZh ? '法语 (Français)' : 'French'}</option>
                 <option value="deu">{isZh ? '德语 (Deutsch)' : 'German'}</option>
                 <option value="spa">{isZh ? '西班牙语 (Español)' : 'Spanish'}</option>

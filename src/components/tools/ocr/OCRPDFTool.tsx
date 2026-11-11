@@ -8,7 +8,15 @@ import { ProcessingProgress, ProcessingStatus } from '../ProcessingProgress';
 import { DownloadButton } from '../DownloadButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { ocrPDF, type OCROptions, type OCRLanguage, OCR_LANGUAGE_NAMES } from '@/lib/pdf/processors/ocr';
+import {
+  ocrPDF,
+  type OCROptions,
+  type OCRLanguage,
+  OCR_LANGUAGES,
+  OCR_LANGUAGE_NAMES,
+  getDefaultOcrLanguages,
+  parseOcrPageRange,
+} from '@/lib/pdf/processors/ocr';
 import { Select } from '@/components/ui/FormField';
 import type { UploadedFile, ProcessOutput } from '@/types/pdf';
 import { 
@@ -63,7 +71,7 @@ export function OCRPDFTool({ className = '' }: OCRPDFToolProps) {
   const [enhanceContrast, setEnhanceContrast] = useState(true);
 
   // Options state
-  const [languages, setLanguages] = useState<OCRLanguage[]>(['eng']);
+  const [languages, setLanguages] = useState<OCRLanguage[]>(() => getDefaultOcrLanguages(locale));
   const [outputFormat, setOutputFormat] = useState<OCROptions['outputFormat']>('searchable-pdf'); // Default to searchable PDF
   const [scale, setScale] = useState(2);
   const [pageRange, setPageRange] = useState('');
@@ -219,32 +227,6 @@ export function OCRPDFTool({ className = '' }: OCRPDFToolProps) {
     });
   }, []);
 
-  const parsePageRange = (rangeStr: string): number[] => {
-    if (!rangeStr.trim()) return [];
-    
-    const pages: number[] = [];
-    const parts = rangeStr.split(',');
-    
-    for (const part of parts) {
-      const trimmed = part.trim();
-      if (trimmed.includes('-')) {
-        const [start, end] = trimmed.split('-').map(s => parseInt(s.trim(), 10));
-        if (!isNaN(start) && !isNaN(end)) {
-          for (let i = start; i <= end; i++) {
-            if (!pages.includes(i)) pages.push(i);
-          }
-        }
-      } else {
-        const num = parseInt(trimmed, 10);
-        if (!isNaN(num) && !pages.includes(num)) {
-          pages.push(num);
-        }
-      }
-    }
-    
-    return pages.sort((a, b) => a - b);
-  };
-
   /**
    * Run OCR Parser
    */
@@ -266,7 +248,7 @@ export function OCRPDFTool({ className = '' }: OCRPDFToolProps) {
       languages,
       outputFormat,
       scale,
-      pages: parsePageRange(pageRange),
+      pages: parseOcrPageRange(pageRange),
       enhanceContrast,
     };
 
@@ -382,7 +364,10 @@ export function OCRPDFTool({ className = '' }: OCRPDFToolProps) {
   const isProcessing = status === 'processing' || status === 'uploading';
   const canProcess = file && !isProcessing;
 
-  const availableLanguages: OCRLanguage[] = ['eng', 'chi_sim', 'chi_tra', 'jpn', 'kor', 'spa', 'fra', 'deu', 'por', 'ara', 'hun', 'ori'];
+  const getLanguageLabel = (lang: OCRLanguage): string => {
+    const key = `ocr.languages.${lang}`;
+    return t.has(key) ? t(key) : OCR_LANGUAGE_NAMES[lang];
+  };
 
   return (
     <div className={`space-y-6 ${className}`.trim()}>
@@ -451,7 +436,7 @@ export function OCRPDFTool({ className = '' }: OCRPDFToolProps) {
                     <Languages className="w-4 h-4" /> {t('ocr.selectLang')}
                   </label>
                   <div className="flex flex-wrap gap-1.5">
-                    {availableLanguages.map(lang => (
+                    {OCR_LANGUAGES.map(lang => (
                       <button
                         key={lang}
                         type="button"
@@ -465,7 +450,7 @@ export function OCRPDFTool({ className = '' }: OCRPDFToolProps) {
                           }
                         `}
                       >
-                        {OCR_LANGUAGE_NAMES[lang]}
+                        {getLanguageLabel(lang)}
                       </button>
                     ))}
                   </div>

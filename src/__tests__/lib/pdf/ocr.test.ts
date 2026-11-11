@@ -7,8 +7,18 @@ import {
   preprocessCanvas,
   generateMarkdownOutput,
   generateJsonOutput,
+  getDefaultOcrLanguages,
+  getTesseractParameters,
+  normalizeCjkSpacing,
+  parseOcrPageRange,
+  collectOcrWords,
+  layoutVerticalChars,
+  OCR_LANGUAGES,
 } from '@/lib/pdf/processors/ocr';
+import { createWorker } from 'tesseract.js';
 import { PDFErrorCode } from '@/types/pdf';
+
+const mockSetParameters = vi.fn().mockResolvedValue(undefined);
 
 // Mock Tesseract.js
 const mockRecognize = vi.fn().mockResolvedValue({
@@ -32,6 +42,7 @@ vi.mock('tesseract.js', () => ({
       }
       return {
         recognize: mockRecognize,
+        setParameters: mockSetParameters,
         terminate: mockTerminate,
       };
     }),
@@ -42,6 +53,7 @@ vi.mock('tesseract.js', () => ({
     }
     return {
       recognize: mockRecognize,
+      setParameters: mockSetParameters,
       terminate: mockTerminate,
     };
   }),
@@ -381,6 +393,155 @@ describe('OCRProcessor', () => {
       const result = await ocrPDF(file, { outputFormat: 'text' });
       expect(result.success).toBe(true);
       expect(result.filename).toBe('quick_ocr.txt');
+    });
+  });
+
+  describe('Japanese (horizontal / vertical) support', () => {
+    const makePdf = (name: string) =>
+      new File([new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34])], name, { type: 'application/pdf' });
+
+    it('lists jpn and jpn_vert as selectable languages', () => {
+      expect(OCR_LANGUAGES).toContain('jpn');
+      expect(OCR_LANGUAGES).toContain('jpn_vert');
+    });
+
+    it('passes jpn_vert to Tesseract and sets vertical page segmentation', async () => {
+      const result = await processor.process({
+        files: [makePdf('tategaki.pdf')],
+        options: { languages: ['jpn_vert'], outputFormat: 'text' },
+      });
+
+      expect(result.success).toBe(true);
+      expect(vi.mocked(createWorker).mock.calls[0][0]).toBe('jpn_vert');
+      expect(mockSetParameters).toHaveBeenCalledWith(
+        expect.objectContaining({ tessedit_pageseg_mode: '5', preserve_interword_spaces: '1' })
+      );
+    });
+
+    it('accepts the workflow-style "jpn+jpn_vert" string and uses automatic segmentation', async () => {
+      const result = await processor.process({
+        files: [makePdf('mixed.pdf')],
+        options: { language: 'jpn+jpn_vert', outputFormat: 'text' } as any,
+      });
+
+      expect(result.success).toBe(true);
+      expect(vi.mocked(createWorker).mock.calls[0][0]).toBe('jpn+jpn_vert');
+      expect(mockSetParameters).toHaveBeenCalledWith(
+        expect.objectContaining({ tessedit_pageseg_mode: '3' })
+      );
+    });
+
+    it('does not change Tesseract parameters for English-only OCR', async () => {
+      await processor.process({
+        files: [makePdf('english.pdf')],
+        options: { languages: ['eng'], outputFormat: 'text' },
+      });
+      expect(mockSetParameters).not.toHaveBeenCalled();
+    });
+
+    it('draws vertical words one character at a time in the searchable PDF', async () => {
+      // Tall, narrow box (canvas px at scale 2): 20px wide, 120px high
+      mockRecognize.mockResolvedValueOnce({
+        data: {
+          text: '縦書き',
+          blocks: [{ paragraphs: [{ lines: [{ words: [
+            { text: '縦書き', confidence: 88, bbox: { x0: 100, y0: 40, x1: 120, y1: 160 } },
+          ] }] }] }],
+        },
+      });
+
+      const result = await processor.process({
+        files: [makePdf('tategaki.pdf')],
+        options: { languages: ['jpn_vert'], outputFormat: 'searchable-pdf' },
+      });
+
+      expect(result.success).toBe(true);
+      const drawn = mockDrawText.mock.calls.map(call => call[0]);
+      expect(drawn).toEqual(['縦', '書', 'き']);
+      // Top character sits highest on the page (PDF y grows upward)
+      const ys = mockDrawText.mock.calls.map(call => call[1].y);
+      expect(ys[0]).toBeGreaterThan(ys[1]);
+      expect(ys[1]).toBeGreaterThan(ys[2]);
+    });
+
+    it('keeps horizontal Japanese words as one run', async () => {
+      mockRecognize.mockResolvedValueOnce({
+        data: {
+          text: '横書き',
+          words: [{ text: '横書き', confidence: 90, bbox: { x0: 10, y0: 10, x1: 70, y1: 30 } }],
+        },
+      });
+
+      await processor.process({
+        files: [makePdf('yokogaki.pdf')],
+        options: { languages: ['jpn', 'jpn_vert'], outputFormat: 'searchable-pdf' },
+      });
+
+      expect(mockDrawText.mock.calls.map(call => call[0])).toEqual(['横書き']);
+    });
+
+    it('removes spaces Tesseract inserts between Japanese characters in text output', async () => {
+      mockRecognize.mockResolvedValueOnce({
+        data: { text: '日 本 語 の 文 書 PDF Craft で す 。', words: [] },
+      });
+
+      const result = await processor.process({
+        files: [makePdf('jp.pdf')],
+        options: { languages: ['jpn', 'eng'], outputFormat: 'text' },
+      });
+
+      // jsdom's Blob lacks text(), so read the output via FileReader.
+      const text = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsText(result.result as Blob);
+      });
+      expect(text).toContain('日本語の文書 PDF Craft です。');
+    });
+  });
+
+  describe('Japanese helpers', () => {
+    it('normalizeCjkSpacing joins CJK characters but keeps Latin word spaces', () => {
+      expect(normalizeCjkSpacing('東 京 都 　 千 代 田 区')).toBe('東京都千代田区');
+      expect(normalizeCjkSpacing('ア イ ウ abc def')).toBe('アイウ abc def');
+      expect(normalizeCjkSpacing('Hello World')).toBe('Hello World');
+    });
+
+    it('getTesseractParameters returns null when no special handling is needed', () => {
+      expect(getTesseractParameters(['eng'])).toBeNull();
+      expect(getTesseractParameters(['kor'])).toBeNull();
+      expect(getTesseractParameters(['jpn'])).toEqual({ preserve_interword_spaces: '1' });
+      expect(getTesseractParameters(['jpn_vert', 'eng'])).toEqual({
+        preserve_interword_spaces: '1',
+        tessedit_pageseg_mode: '5',
+      });
+    });
+
+    it('getDefaultOcrLanguages picks Japanese + English for the ja locale', () => {
+      expect(getDefaultOcrLanguages('ja')).toEqual(['jpn', 'eng']);
+      expect(getDefaultOcrLanguages('en')).toEqual(['eng']);
+      expect(getDefaultOcrLanguages(undefined)).toEqual(['eng']);
+    });
+
+    it('collectOcrWords flattens the block tree when the flat words array is missing', () => {
+      const word = { text: '縦書き', bbox: { x0: 0, y0: 0, x1: 10, y1: 30 } };
+      const data = { blocks: [{ paragraphs: [{ lines: [{ words: [word] }] }] }] };
+      expect(collectOcrWords(data)).toEqual([word]);
+      expect(collectOcrWords({ words: [word], blocks: [] })).toEqual([word]);
+      expect(collectOcrWords({ blocks: null })).toEqual([]);
+    });
+
+    it('layoutVerticalChars splits a column top-to-bottom when no symbol boxes exist', () => {
+      const chars = layoutVerticalChars({ text: '縦書き', x: 100, y: 400, width: 20, height: 60 });
+      expect(chars.map(c => c.text)).toEqual(['縦', '書', 'き']);
+      expect(chars.map(c => c.y)).toEqual([440, 420, 400]);
+      expect(chars.every(c => c.x === 100 && c.width === 20 && c.height === 20)).toBe(true);
+    });
+
+    it('parseOcrPageRange parses ranges into sorted unique pages', () => {
+      expect(parseOcrPageRange('')).toEqual([]);
+      expect(parseOcrPageRange('5, 1-3, 2')).toEqual([1, 2, 3, 5]);
     });
   });
 });
