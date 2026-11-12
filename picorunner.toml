@@ -1,0 +1,28 @@
+schema = 1
+name = "PDFCraft"
+
+[runtime]
+kind = "node"
+version = "24"
+package_manager = "npm"
+
+[[setup.steps]]
+kind = "dependencies"
+locked = true
+
+[[setup.steps]]
+run = ["npm", "run", "build"]
+
+[launch]
+command = ["npm", "run", "serve:local", "--", "--host", "{host}", "--port", "{port}"]
+host = "127.0.0.1"
+port = 4322
+
+[health]
+type = "http"
+path = "/en/"
+timeout_seconds = 90
+
+# PDFCraft uses browser storage and downloaded files, not repository data paths.
+[persistence]
+paths = []
