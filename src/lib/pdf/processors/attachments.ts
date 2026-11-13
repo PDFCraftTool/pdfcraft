@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { decodePdfFilename } from '../utils/filename-decoder';
+import { withBasePath } from '@/lib/utils/path';
 
 /**
  * Attachment info returned from the worker
@@ -180,7 +181,7 @@ export class AddAttachmentsPDFProcessor extends BasePDFProcessor {
   ): Promise<{ success: boolean; blob?: Blob; error?: string }> {
     return new Promise((resolve) => {
       try {
-        this.worker = new Worker('/workers/add-attachments.worker.js');
+        this.worker = new Worker(withBasePath('/workers/add-attachments.worker.js'));
 
         this.worker.onmessage = (e) => {
           const { status, modifiedPDF, message } = e.data;
@@ -356,7 +357,7 @@ export class ExtractAttachmentsPDFProcessor extends BasePDFProcessor {
   ): Promise<{ success: boolean; attachments?: AttachmentInfo[]; error?: string }> {
     return new Promise((resolve) => {
       try {
-        this.worker = new Worker('/workers/extract-attachments.worker.js');
+        this.worker = new Worker(withBasePath('/workers/extract-attachments.worker.js'));
 
         this.worker.onmessage = (e) => {
           const { status, attachments, message } = e.data;
@@ -533,7 +534,7 @@ export class EditAttachmentsPDFProcessor extends BasePDFProcessor {
   ): Promise<{ success: boolean; attachments?: AttachmentInfo[]; error?: string }> {
     return new Promise((resolve) => {
       try {
-        this.worker = new Worker('/workers/edit-attachments.worker.js');
+        this.worker = new Worker(withBasePath('/workers/edit-attachments.worker.js'));
 
         this.worker.onmessage = (e) => {
           const { status, attachments, message } = e.data;
@@ -578,7 +579,7 @@ export class EditAttachmentsPDFProcessor extends BasePDFProcessor {
   ): Promise<{ success: boolean; blob?: Blob; error?: string }> {
     return new Promise((resolve) => {
       try {
-        this.worker = new Worker('/workers/edit-attachments.worker.js');
+        this.worker = new Worker(withBasePath('/workers/edit-attachments.worker.js'));
 
         this.worker.onmessage = (e) => {
           const { status, modifiedPDF, message } = e.data;
