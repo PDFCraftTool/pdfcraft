@@ -12,6 +12,7 @@ import type {
 } from '@/types/pdf';
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
+import { withBasePath } from '@/lib/utils/path';
 
 /**
  * PDF to PPTX options
@@ -37,7 +38,7 @@ export class PDFToPptxProcessor extends BasePDFProcessor {
 
         return new Promise((resolve, reject) => {
             try {
-                this.worker = new Worker('/workers/pdf-to-pptx.worker.js', { type: 'module' });
+                this.worker = new Worker(withBasePath('/workers/pdf-to-pptx.worker.js'), { type: 'module' });
 
                 const handleMessage = (event: MessageEvent) => {
                     const { type, error, message } = event.data;

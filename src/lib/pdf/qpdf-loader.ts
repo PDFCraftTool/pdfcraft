@@ -1,3 +1,4 @@
+import { withBasePath } from '@/lib/utils/path';
 /**
  * QPDF WASM Loader
  * 
@@ -35,7 +36,7 @@ export async function loadQpdf(): Promise<any> {
         qpdfInstance = await (window as any).createQpdfModule({
           locateFile: (path: string) => {
             if (path.endsWith('.wasm')) {
-              return '/qpdf.wasm';
+              return withBasePath('/qpdf.wasm');
             }
             return path;
           },
@@ -46,7 +47,7 @@ export async function loadQpdf(): Promise<any> {
 
       // Load the script dynamically
       const script = document.createElement('script');
-      script.src = '/qpdf.js';
+      script.src = withBasePath('/qpdf.js');
       script.async = true;
 
       script.onload = async () => {
@@ -61,7 +62,7 @@ export async function loadQpdf(): Promise<any> {
           qpdfInstance = await createModule({
             locateFile: (path: string) => {
               if (path.endsWith('.wasm')) {
-                return '/qpdf.wasm';
+                return withBasePath('/qpdf.wasm');
               }
               return path;
             },
