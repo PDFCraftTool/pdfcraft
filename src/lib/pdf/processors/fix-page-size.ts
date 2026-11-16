@@ -159,7 +159,7 @@ export class FixPageSizeProcessor extends BasePDFProcessor {
         // Get the source page. Pages with /Rotate (common in scans) are shown
         // turned in a viewer, so lay them out by their displayed size and draw
         // them turned the same way.
-        const sourcePage = sourcePdf.getPage(i);
+        const sourcePage = ensurePageContents(sourcePdf.getPage(i));
         const [embeddedPage] = await newPdf.embedPages([sourcePage]);
         const quarterTurns = ((sourcePage.getRotation().angle % 360) + 360) % 360 / 90;
         const turned = quarterTurns % 2 === 1;
