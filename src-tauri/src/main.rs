@@ -88,13 +88,22 @@ fn open_url(url: String) -> Result<(), String> {
     if !url.starts_with("http://") && !url.starts_with("https://") {
         return Err("Invalid URL scheme".to_string());
     }
+    // The Windows branch below hands this string to `cmd /c start`. cmd splits
+    // on & | < > ^ regardless of where they sit in the argument, so a URL like
+    // `https://x/?a=1&calc` would run calc. Reject the characters that either
+    // cannot appear in a URL or would break the quoting we rely on.
+    if url.chars().any(|c| c.is_control() || c == '"' || c == '\\') {
+        return Err("Invalid URL".to_string());
+    }
 
     #[cfg(target_os = "windows")]
     {
         use std::os::windows::process::CommandExt;
         const CREATE_NO_WINDOW: u32 = 0x08000000;
+        // Quote the URL so cmd treats the whole thing as one argument.
+        // Without this, `&` inside the query string starts a new command.
         std::process::Command::new("cmd")
-            .args(["/c", "start", "", &url])
+            .args(["/c", "start", "", &format!("\"{}\"", url)])
             .creation_flags(CREATE_NO_WINDOW)
             .spawn()
             .map_err(|e| e.to_string())?;
