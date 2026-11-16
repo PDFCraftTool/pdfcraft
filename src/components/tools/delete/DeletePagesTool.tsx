@@ -477,7 +477,7 @@ export function DeletePagesTool({ className = '' }: DeletePagesToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_pages_deleted.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_pages_deleted.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

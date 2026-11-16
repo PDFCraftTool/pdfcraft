@@ -748,7 +748,7 @@ export function PageNumbersTool({ className = '' }: PageNumbersToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_numbered.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_numbered.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

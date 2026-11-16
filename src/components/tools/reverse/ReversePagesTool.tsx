@@ -282,7 +282,7 @@ export function ReversePagesTool({ className = '' }: ReversePagesToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_reversed.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_reversed.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

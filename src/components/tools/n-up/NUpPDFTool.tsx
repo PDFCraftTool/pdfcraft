@@ -560,7 +560,7 @@ export function NUpPDFTool({ className = '' }: NUpPDFToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', `_${pagesPerSheet}-up.pdf`)}
+              filename={file.name.replace(/\.pdf$/i, `_${pagesPerSheet}-up.pdf`)}
               variant="secondary"
               size="lg"
               showFileSize

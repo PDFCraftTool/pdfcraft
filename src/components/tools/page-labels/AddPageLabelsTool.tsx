@@ -438,7 +438,7 @@ export function AddPageLabelsTool() {
               {result && (
                 <DownloadButton
                   file={result}
-                  filename={file.name.replace('.pdf', '_labeled.pdf')}
+                  filename={file.name.replace(/\.pdf$/i, '_labeled.pdf')}
                   variant="secondary"
                   size="lg"
                   className="w-full py-4"

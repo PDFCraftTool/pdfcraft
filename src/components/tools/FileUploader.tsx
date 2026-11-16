@@ -224,7 +224,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       // Create a fresh unlocked virtual File object
       const unlockedFile = createVirtualPdfFile(
         decryptedBlob,
-        fileToDecrypt.name.replace('.pdf', '_unlocked.pdf')
+        fileToDecrypt.name.replace(/\.pdf$/i, '_unlocked.pdf')
       );
 
       const updatedAccumulator = [...decryptedFilesAccumulator, unlockedFile];

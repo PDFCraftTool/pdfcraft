@@ -254,7 +254,7 @@ export function ViewMetadataTool({ className = '' }: ViewMetadataToolProps) {
     };
     
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-    const filename = file.name.replace('.pdf', '_metadata.json');
+    const filename = file.name.replace(/\.pdf$/i, '_metadata.json');
     saveBlobFile(blob, filename);
   }, [metadata, file]);
 

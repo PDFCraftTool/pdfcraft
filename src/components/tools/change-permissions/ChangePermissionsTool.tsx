@@ -438,7 +438,7 @@ export function ChangePermissionsTool({ className = '' }: ChangePermissionsToolP
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_permissions.pdf` : 'permissions.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_permissions.pdf` : 'permissions.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

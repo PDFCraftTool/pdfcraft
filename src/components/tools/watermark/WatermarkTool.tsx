@@ -1129,7 +1129,7 @@ export function WatermarkTool({ className = '' }: WatermarkToolProps) {
               {result && (
                 <DownloadButton
                   file={result}
-                  filename={file.name.replace('.pdf', '_watermarked.pdf')}
+                  filename={file.name.replace(/\.pdf$/i, '_watermarked.pdf')}
                   variant="secondary"
                   size="lg"
                   showFileSize

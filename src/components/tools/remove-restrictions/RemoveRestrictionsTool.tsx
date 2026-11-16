@@ -321,7 +321,7 @@ export function RemoveRestrictionsTool({ className = '' }: RemoveRestrictionsToo
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_unrestricted.pdf` : 'unrestricted.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_unrestricted.pdf` : 'unrestricted.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

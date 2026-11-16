@@ -377,7 +377,7 @@ export function PDFBookletTool({ className = '' }: PDFBookletToolProps) {
                 {resultBlob && (
                     <DownloadButton
                         file={resultBlob}
-                        filename={file ? `${file.name.replace('.pdf', '')}_booklet.pdf` : 'booklet.pdf'}
+                        filename={file ? `${file.name.replace(/\.pdf$/i, '')}_booklet.pdf` : 'booklet.pdf'}
                         variant="secondary"
                         size="lg"
                     />

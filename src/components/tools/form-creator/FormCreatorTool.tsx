@@ -1674,7 +1674,7 @@ export function FormCreatorTool({ className = '' }: FormCreatorToolProps) {
           </p>
           <DownloadButton
             file={result}
-            filename={file?.name.replace('.pdf', '_form.pdf') || 'form.pdf'}
+            filename={file?.name.replace(/\.pdf$/i, '_form.pdf') || 'form.pdf'}
             variant="secondary"
             size="sm"
             showFileSize

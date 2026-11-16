@@ -1021,7 +1021,7 @@ export function SplitPDFTool({ className = '' }: SplitPDFToolProps) {
                 onClick={async () => {
                   try {
                     const zipBlob = await createZip(results);
-                    const zipName = `${file?.name.replace('.pdf', '') || 'split'}-files.zip`;
+                    const zipName = `${file?.name.replace(/\.pdf$/i, '') || 'split'}-files.zip`;
                     await saveBlobFile(zipBlob, zipName);
                   } catch (err) {
                     console.error('Failed to create ZIP:', err);

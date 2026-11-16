@@ -351,7 +351,7 @@ export function EncryptPDFTool({ className = '' }: EncryptPDFToolProps) {
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_encrypted.pdf` : 'encrypted.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_encrypted.pdf` : 'encrypted.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

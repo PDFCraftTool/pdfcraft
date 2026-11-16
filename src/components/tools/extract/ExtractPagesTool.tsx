@@ -464,7 +464,7 @@ export function ExtractPagesTool({ className = '' }: ExtractPagesToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_extracted.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_extracted.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

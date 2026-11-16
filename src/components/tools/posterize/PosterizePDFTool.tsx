@@ -431,7 +431,7 @@ export function PosterizePDFTool({ className = '' }: PosterizePDFToolProps) {
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', `_posterized_${rows}x${cols}.pdf`)}
+              filename={file.name.replace(/\.pdf$/i, `_posterized_${rows}x${cols}.pdf`)}
               variant="secondary"
               size="lg"
               showFileSize

@@ -401,7 +401,7 @@ export function FixPageSizeTool({ className = '' }: FixPageSizeToolProps) {
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_fixed.pdf` : 'fixed.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_fixed.pdf` : 'fixed.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

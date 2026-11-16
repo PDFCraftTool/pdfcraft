@@ -892,7 +892,7 @@ export function RotatePDFTool({ className = '' }: RotatePDFToolProps) {
               {result && (
                 <DownloadButton
                   file={result}
-                  filename={file.name.replace('.pdf', '_rotated.pdf')}
+                  filename={file.name.replace(/\.pdf$/i, '_rotated.pdf')}
                   variant="secondary"
                   size="lg"
                   className="w-full py-4 border-2 border-[hsl(var(--color-secondary-hover))]"
