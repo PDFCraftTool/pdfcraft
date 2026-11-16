@@ -7,6 +7,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 export interface CropData {
   x: number;      // Percentage (0-1) or point value depending on context, assuming percentage for visual cropper
@@ -84,7 +85,10 @@ export class CropProcessor extends BasePDFProcessor {
       if (pageIndex < 0 || pageIndex >= pdf.getPageCount()) continue;
 
       const page = pdf.getPage(pageIndex);
-      const { width, height } = page.getSize(); // This gets the dimensions of the specific page
+      // The cropper works on the page as displayed; pages with /Rotate (common
+      // in scans) are shown turned, so work in displayed space and map the
+      // rectangle back to page space below.
+      const { width, height, place } = getPageView(page);
 
       // Calculate points from percentages
       // In PDF coordinates (0,0 is bottom-left), but visual cropper is usually top-left.
@@ -105,7 +109,14 @@ export class CropProcessor extends BasePDFProcessor {
       const cropX = crop.x * width;
       const cropY = height - (crop.y * height) - cropH;
 
-      page.setCropBox(cropX, cropY, cropW, cropH);
+      const corner = place(cropX, cropY);
+      const opposite = place(cropX + cropW, cropY + cropH);
+      page.setCropBox(
+        Math.min(corner.x, opposite.x),
+        Math.min(corner.y, opposite.y),
+        Math.abs(opposite.x - corner.x),
+        Math.abs(opposite.y - corner.y)
+      );
 
       this.updateProgress(30 + (60 * (i + 1) / totalToProcess), `Cropping page ${pageNum}...`);
     }
