@@ -7,6 +7,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 export interface PageNumberOptions {
   position?: 'bottom-center' | 'bottom-left' | 'bottom-right' | 'top-center' | 'top-left' | 'top-right';
@@ -92,7 +93,7 @@ export class PageNumbersProcessor extends BasePDFProcessor {
         if (pageMode === 'even-only' && isOddPage) continue;
 
         const page = pdf.getPage(i);
-        const { width, height } = page.getSize();
+        const { width, height, place } = getPageView(page);
 
         const displayNum = (pageNumOptions.startNumber || 1) + i - (pageNumOptions.skipFirstPage ? 1 : 0);
         const adjustedTotal = totalPages - (pageNumOptions.skipFirstPage ? 1 : 0);
@@ -158,7 +159,8 @@ export class PageNumbersProcessor extends BasePDFProcessor {
             y = margin;
         }
 
-        page.drawText(text, { x, y, size: fontSize, font, color });
+        const at = place(x, y);
+        page.drawText(text, { x: at.x, y: at.y, size: fontSize, font, color, rotate: pdfLib.degrees(at.angle) });
         this.updateProgress(30 + (60 * (i + 1) / totalPages), `Processing page ${pageNum}...`);
       }
 
