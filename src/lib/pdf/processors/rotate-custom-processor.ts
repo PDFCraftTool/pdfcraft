@@ -1,5 +1,6 @@
 import { PDFDocument, degrees } from 'pdf-lib';
 import { type ProcessOutput, PDFErrorCode, ErrorCategory } from '@/types/pdf';
+import { ensurePageContents } from '../page-contents';
 
 export interface RotateCustomOptions {
     rotations: { [pageIndex: number]: number }; // Page index to rotation angle mapping
@@ -53,7 +54,7 @@ export async function rotateCustom(
             } else {
                 // Complex rotation for custom angles
                 // We must embed the page to rotate it arbitrarily
-                const embeddedPage = await newPdfDoc.embedPage(originalPage);
+                const embeddedPage = await newPdfDoc.embedPage(ensurePageContents(originalPage));
                 const { width, height } = embeddedPage.scale(1);
 
                 const angleRad = (totalRotation * Math.PI) / 180;
