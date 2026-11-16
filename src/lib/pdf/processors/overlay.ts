@@ -103,8 +103,10 @@ export class OverlayPDFProcessor extends BasePDFProcessor {
       const targetPages = parsePageRange(overlayOptions.pageRange || '', totalBasePages);
       
       this.updateProgress(25, 'Composing overlay tree...');
-      const outputPdf = await pdfLib.PDFDocument.create();
-      
+
+      // Work on the base document itself so forms, bookmarks, links, page
+      // labels and /Rotate survive; only the pages that get a layer change.
+      const embeddedLayers = new Map<number, Awaited<ReturnType<typeof basePdf.embedPage>>>();
       const progressChunk = 65 / totalBasePages;
 
       for (let i = 0; i < totalBasePages; i++) {
@@ -118,70 +120,55 @@ export class OverlayPDFProcessor extends BasePDFProcessor {
           `Composing page ${pageNum} of ${totalBasePages}...`
         );
 
-        const basePage = basePdf.getPage(i);
-        const { width, height } = basePage.getSize();
-
-        const shouldApply = targetPages.has(pageNum);
         // Compute overlay page index based on loop option
         let layerIndex = -1;
-        if (shouldApply) {
+        if (targetPages.has(pageNum)) {
           if (overlayOptions.loop) {
             layerIndex = i % totalLayerPages;
           } else if (i < totalLayerPages) {
             layerIndex = i;
           }
         }
+        if (layerIndex === -1) continue;
 
-        if (layerIndex !== -1) {
-          // Perform embed and draw overlays
-          const layerPage = layerPdf.getPage(layerIndex);
-          const { width: lWidth, height: lHeight } = layerPage.getSize();
+        const basePage = basePdf.getPage(i);
+        let embeddedLayer = embeddedLayers.get(layerIndex);
+        if (!embeddedLayer) {
+          [embeddedLayer] = await basePdf.embedPages([ensurePageContents(layerPdf.getPage(layerIndex))]);
+          embeddedLayers.set(layerIndex, embeddedLayer);
+        }
 
-          // Embed pages
-          const [embeddedBase] = await outputPdf.embedPages([ensurePageContents(basePage)]);
-          const [embeddedLayer] = await outputPdf.embedPages([ensurePageContents(layerPage)]);
+        // The layer has to look upright and cover the page as it is displayed,
+        // so counter-turn it by the page's /Rotate (origin offsets keep the
+        // turned layer inside the unrotated page box).
+        const { x: boxX, y: boxY, width, height } = basePage.getMediaBox();
+        const quarterTurns = ((basePage.getRotation().angle % 360) + 360) % 360 / 90;
+        const turned = quarterTurns % 2 === 1;
+        const shownWidth = turned ? height : width;
+        const shownHeight = turned ? width : height;
 
-          // Create destination page matching original size
-          const destinationPage = outputPdf.addPage([width, height]);
+        basePage.drawPage(embeddedLayer, {
+          x: boxX + (quarterTurns === 1 || quarterTurns === 2 ? width : 0),
+          y: boxY + (quarterTurns === 2 || quarterTurns === 3 ? height : 0),
+          xScale: shownWidth / embeddedLayer.width,
+          yScale: shownHeight / embeddedLayer.height,
+          rotate: pdfLib.degrees(quarterTurns * 90),
+        });
 
-          if (overlayOptions.mode === 'underlay') {
-            // Underlay: Draw layer first, then base document
-            destinationPage.drawPage(embeddedLayer, {
-              x: 0,
-              y: 0,
-              width: width,
-              height: height,
-            });
-            destinationPage.drawPage(embeddedBase, {
-              x: 0,
-              y: 0,
-              width: width,
-              height: height,
-            });
-          } else {
-            // Overlay: Draw base first, then layer document on top
-            destinationPage.drawPage(embeddedBase, {
-              x: 0,
-              y: 0,
-              width: width,
-              height: height,
-            });
-            destinationPage.drawPage(embeddedLayer, {
-              x: 0,
-              y: 0,
-              width: width,
-              height: height,
-            });
+        if (overlayOptions.mode === 'underlay') {
+          // drawPage appended its own balanced q ... Q stream above the
+          // (now wrapped) page content; move it to the bottom of the stack.
+          const contents = basePage.node.Contents();
+          if (contents instanceof pdfLib.PDFArray && contents.size() > 1) {
+            const layer = contents.get(contents.size() - 1);
+            contents.remove(contents.size() - 1);
+            contents.insert(0, layer);
           }
-        } else {
-          // Simply copy original base page unchanged
-          const [copiedPage] = await outputPdf.copyPages(basePdf, [i]);
-          outputPdf.addPage(copiedPage);
         }
       }
 
       this.updateProgress(90, 'Saving compiled PDF...');
-      const compiledBytes = await outputPdf.save({ useObjectStreams: true });
+      const compiledBytes = await basePdf.save({ useObjectStreams: true });
       const blob = new Blob([new Uint8Array(compiledBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
