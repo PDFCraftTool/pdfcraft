@@ -17,6 +17,7 @@ import type {
 } from '@/types/pdf';
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
+import { withBasePath } from '@/lib/utils/path';
 
 /**
  * FB2 to PDF options
@@ -41,7 +42,7 @@ export class FB2ToPDFProcessor extends BasePDFProcessor {
 
         return new Promise((resolve, reject) => {
             try {
-                this.worker = new Worker('/workers/fb2-to-pdf.worker.js', { type: 'module' });
+                this.worker = new Worker(withBasePath('/workers/fb2-to-pdf.worker.js'), { type: 'module' });
 
                 const handleMessage = (event: MessageEvent) => {
                     const { type, error, message } = event.data;

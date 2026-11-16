@@ -10,6 +10,7 @@ import {
   type ReplaceExistingTextDiagnostics,
   type TextFitMode,
 } from '@/lib/pdf/processors/replace-existing-text';
+import { withBasePath } from '@/lib/utils/path';
 
 export interface LegacyAnnotatorToolProps {
   className?: string;
@@ -1340,7 +1341,7 @@ export function LegacyAnnotatorTool({
           <div className="relative border border-[hsl(var(--color-border))] rounded-[var(--radius-md)] overflow-hidden bg-gray-100">
             <iframe
               ref={iframeRef}
-              src={`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`}
+              src={withBasePath(`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`)}
               className="w-full h-[700px] border-0"
               title="PDF Editor"
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
