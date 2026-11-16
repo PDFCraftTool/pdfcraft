@@ -140,7 +140,7 @@ export class StampsProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_stamped.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_stamped.pdf'), {
         stampCount: stampsOptions.stamps.length
       });
 

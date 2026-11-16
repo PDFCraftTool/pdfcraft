@@ -80,7 +80,7 @@ export class TableOfContentsProcessor extends BasePDFProcessor {
       console.log('[TOC Processor] Final Blob size:', finalBlob.size);
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(finalBlob, file.name.replace('.pdf', '_with_toc.pdf'), {});
+      return this.createSuccessOutput(finalBlob, file.name.replace(/\.pdf$/i, '_with_toc.pdf'), {});
 
     } catch (error) {
       return this.createErrorOutput(

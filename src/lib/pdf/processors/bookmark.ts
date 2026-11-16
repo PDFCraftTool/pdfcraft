@@ -109,7 +109,7 @@ export class BookmarkProcessor extends BasePDFProcessor {
         const bookmarks = await this.extractBookmarks(sourcePdf);
         const jsonBlob = new Blob([JSON.stringify(bookmarks, null, 2)], { type: 'application/json' });
         this.updateProgress(100, 'Complete!');
-        return this.createSuccessOutput(jsonBlob, file.name.replace('.pdf', '_bookmarks.json'), { bookmarkCount: bookmarks.length });
+        return this.createSuccessOutput(jsonBlob, file.name.replace(/\.pdf$/i, '_bookmarks.json'), { bookmarkCount: bookmarks.length });
       }
 
       // For other actions, modify the PDF
@@ -128,7 +128,7 @@ export class BookmarkProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_bookmarked.pdf'), {});
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_bookmarked.pdf'), {});
 
     } catch (error) {
       return this.createErrorOutput(

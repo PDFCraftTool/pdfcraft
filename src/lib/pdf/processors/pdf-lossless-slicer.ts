@@ -86,7 +86,7 @@ export class PdfLosslessSlicerProcessor extends BasePDFProcessor {
       this.updateProgress(100, 'Complete!');
 
       const suffix = `_sliced_p${sliceOptions.pageNumber}.pdf`;
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', suffix), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, suffix), {
         originalPagesCount: pageCount,
         sliceBounds: {
           x: cropX.toFixed(1),

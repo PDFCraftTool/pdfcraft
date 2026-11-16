@@ -91,7 +91,7 @@ export class BackgroundColorProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_background.pdf'), { pageCount: totalPages });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_background.pdf'), { pageCount: totalPages });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to add background color.', error instanceof Error ? error.message : 'Unknown error');

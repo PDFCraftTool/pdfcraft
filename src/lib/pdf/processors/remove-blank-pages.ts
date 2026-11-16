@@ -119,7 +119,7 @@ export class RemoveBlankPagesProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_no_blanks.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_no_blanks.pdf'), {
         originalPageCount: totalPages,
         blankPagesRemoved: blankPages.length,
         newPageCount: pagesToKeep.length,

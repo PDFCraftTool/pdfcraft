@@ -142,7 +142,7 @@ export class TextColorProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_textcolor.pdf'), { pageCount: pagesToProcess.length });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_textcolor.pdf'), { pageCount: pagesToProcess.length });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to change text color.', error instanceof Error ? error.message : 'Unknown error');

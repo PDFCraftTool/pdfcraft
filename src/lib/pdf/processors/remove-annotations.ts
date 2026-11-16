@@ -82,7 +82,7 @@ export class RemoveAnnotationsProcessor extends BasePDFProcessor {
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_no_annotations.pdf'), {
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_no_annotations.pdf'), {
         pageCount: totalPages,
         pagesProcessed: pagesToProcess.length,
       });
