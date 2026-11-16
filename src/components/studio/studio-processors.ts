@@ -696,7 +696,11 @@ export async function executeStudioExport(
     case 'ocr-pdf': {
       const { OCRProcessor } = await import('@/lib/pdf/processors/ocr');
       processor = new OCRProcessor();
-      targetExtension = options.outputFormat === 'text' ? 'txt' : 'pdf';
+      targetExtension =
+        options.outputFormat === 'text' ? 'txt'
+          : options.outputFormat === 'markdown' ? 'md'
+            : options.outputFormat === 'json' ? 'json'
+              : 'pdf';
       break;
     }
     case 'pdf-to-markdown': {

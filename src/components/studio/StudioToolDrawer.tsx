@@ -46,7 +46,19 @@ import { EditAnnotateToolOptions } from './tool-options/EditAnnotateToolOptions'
 import { SecurityToolOptions } from './tool-options/SecurityToolOptions';
 import { OptimizeRepairToolOptions } from './tool-options/OptimizeRepairToolOptions';
 import { ExportToolOptions } from './tool-options/ExportToolOptions';
+import { getDefaultOcrLanguages, parseOcrPageRange, type OCRLanguage } from '@/lib/pdf/processors/ocr';
 import { ImportAppendToolOptions } from './tool-options/ImportAppendToolOptions';
+
+/** Legacy single-script values in the Studio selector were labelled "+ English". */
+const STUDIO_OCR_LEGACY_WITH_ENGLISH = new Set(['chi_sim', 'chi_tra', 'jpn', 'kor']);
+
+function resolveStudioOcrLanguages(value: string): OCRLanguage[] {
+  const langs = value.split('+').map(s => s.trim()).filter(Boolean) as OCRLanguage[];
+  if (langs.length === 1 && STUDIO_OCR_LEGACY_WITH_ENGLISH.has(langs[0])) {
+    return [langs[0], 'eng'];
+  }
+  return langs.length > 0 ? langs : ['eng'];
+}
 
 export const getToolDefaultOptions = (id: string, isZh: boolean = false): Record<string, any> => {
   switch (id) {
@@ -199,7 +211,8 @@ export const getToolDefaultOptions = (id: string, isZh: boolean = false): Record
     case 'edit-attachments':
       return { action: 'view-delete', removeAll: false };
     case 'ocr-pdf':
-      return { language: 'chi_sim', outputFormat: 'searchable-pdf', pageScope: 'all', deskew: true, preserveLayout: true };
+      // language is resolved from the UI locale at execution time (getDefaultOcrLanguages)
+      return { outputFormat: 'searchable-pdf', pageScope: 'all', deskew: true, preserveLayout: true };
     default:
       return {};
   }
@@ -365,10 +378,6 @@ export const StudioToolDrawer: React.FC<StudioToolDrawerProps> = ({
   const [rasterizeDpi, setRasterizeDpi] = useState<number>(150);
   const [rasterizeGrayscale, setRasterizeGrayscale] = useState<boolean>(false);
 
-  // 20. OCR PDF (Full options: Language selection + Output Format + Enhance contrast)
-  const [ocrLanguage, setOcrLanguage] = useState<'chi_sim' | 'eng' | 'chi_tra' | 'jpn' | 'kor' | 'fra' | 'deu'>(isZh ? 'chi_sim' : 'eng');
-  const [ocrOutputFormat, setOcrOutputFormat] = useState<'searchable-pdf' | 'text' | 'markdown'>('searchable-pdf');
-  const [ocrEnhanceContrast, setOcrEnhanceContrast] = useState<boolean>(true);
 
   // 21. Export options (Images / Docx / Conversions)
   const [exportImageFormat, setExportImageFormat] = useState<'jpg' | 'png' | 'webp'>('jpg');
@@ -629,14 +638,20 @@ export const StudioToolDrawer: React.FC<StudioToolDrawerProps> = ({
           backgroundColor: 'white',
         };
         break;
-      case 'ocr-pdf':
+      case 'ocr-pdf': {
+        // Read the selections made in ExportToolOptions (dynamicOptions)
+        const ocrSettings = { ...getToolDefaultOptions(normId, isZh), ...dynamicOptions };
+        const languageValue: string = ocrSettings.language || getDefaultOcrLanguages(validLocale).join('+');
+        const ocrFormats = ['searchable-pdf', 'text', 'markdown', 'json'];
         options = {
-          languages: ocrLanguage === 'chi_sim' ? ['chi_sim', 'eng'] : [ocrLanguage],
-          outputFormat: ocrOutputFormat,
-          preserveLayout: true,
-          enhanceContrast: ocrEnhanceContrast,
+          languages: resolveStudioOcrLanguages(languageValue),
+          outputFormat: ocrFormats.includes(ocrSettings.outputFormat) ? ocrSettings.outputFormat : 'searchable-pdf',
+          pages: ocrSettings.pageScope === 'custom' ? parseOcrPageRange(ocrSettings.customPages || '') : [],
+          preserveLayout: ocrSettings.preserveLayout ?? true,
+          enhanceContrast: ocrSettings.enhanceContrast ?? true,
         };
         break;
+      }
       case 'merge-pdf':
       case 'alternate-merge':
       case 'image-to-pdf':

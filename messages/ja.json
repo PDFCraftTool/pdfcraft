@@ -670,6 +670,21 @@
     "ocr": {
       "optionsTitle": "OCR文字認識パラメータ設定",
       "selectLang": "認識言語の選択 (複数選択可)",
+      "languages": {
+        "eng": "英語",
+        "chi_sim": "中国語（簡体字）",
+        "chi_tra": "中国語（繁体字）",
+        "jpn": "日本語（横書き）",
+        "jpn_vert": "日本語（縦書き）",
+        "kor": "韓国語",
+        "spa": "スペイン語",
+        "fra": "フランス語",
+        "deu": "ドイツ語",
+        "por": "ポルトガル語",
+        "ara": "アラビア語",
+        "hun": "ハンガリー語",
+        "ori": "オディア語"
+      },
       "outputFormat": "出力ファイル形式",
       "formatSearchablePdf": "2層検索可能PDF",
       "formatText": "プレーンテキストファイルの抽出 (.txt)",
