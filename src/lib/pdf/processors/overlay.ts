@@ -14,6 +14,7 @@ import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
 import { ensurePageContents } from '../page-contents';
+import { getPageView } from '../page-view';
 
 export interface OverlayOptions {
   /** 'overlay' puts the layer PDF on top, 'underlay' puts it underneath */
@@ -138,21 +139,23 @@ export class OverlayPDFProcessor extends BasePDFProcessor {
           embeddedLayers.set(layerIndex, embeddedLayer);
         }
 
-        // The layer has to look upright and cover the page as it is displayed,
-        // so counter-turn it by the page's /Rotate (origin offsets keep the
-        // turned layer inside the unrotated page box).
-        const { x: boxX, y: boxY, width, height } = basePage.getMediaBox();
-        const quarterTurns = ((basePage.getRotation().angle % 360) + 360) % 360 / 90;
-        const turned = quarterTurns % 2 === 1;
-        const shownWidth = turned ? height : width;
-        const shownHeight = turned ? width : height;
+        // Lay out the layer as its own /Rotate displays it, then map that
+        // displayed rectangle into the base page's coordinate system.
+        const baseView = getPageView(basePage);
+        const layerAngle = ((layerPdf.getPage(layerIndex).getRotation().angle % 360) + 360) % 360;
+        const layerTurns = layerAngle / 90;
+        const layerTurned = layerTurns % 2 === 1;
+        const origin = baseView.place(
+          layerTurns === 2 || layerTurns === 3 ? baseView.width : 0,
+          layerTurns === 1 || layerTurns === 2 ? baseView.height : 0,
+        );
 
         basePage.drawPage(embeddedLayer, {
-          x: boxX + (quarterTurns === 1 || quarterTurns === 2 ? width : 0),
-          y: boxY + (quarterTurns === 2 || quarterTurns === 3 ? height : 0),
-          xScale: shownWidth / embeddedLayer.width,
-          yScale: shownHeight / embeddedLayer.height,
-          rotate: pdfLib.degrees(quarterTurns * 90),
+          x: origin.x,
+          y: origin.y,
+          xScale: (layerTurned ? baseView.height : baseView.width) / embeddedLayer.width,
+          yScale: (layerTurned ? baseView.width : baseView.height) / embeddedLayer.height,
+          rotate: pdfLib.degrees(origin.angle - layerAngle),
         });
 
         if (overlayOptions.mode === 'underlay') {
