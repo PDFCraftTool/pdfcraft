@@ -8,6 +8,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 export interface PdfLosslessSlicerOptions {
   sliceX: number;      // Percentage 0-1
@@ -61,14 +62,17 @@ export class PdfLosslessSlicerProcessor extends BasePDFProcessor {
       this.updateProgress(60, 'Slicing specific high-resolution slice window...');
 
       const page = pdfDoc.getPage(pageIdx);
-      const { width, height } = page.getSize();
+      const view = getPageView(page);
 
-      // Convert percentages to points
-      // Visual origin is Top-Left, PDF origin is Bottom-Left
-      const cropW = sliceOptions.sliceWidth * width;
-      const cropH = sliceOptions.sliceHeight * height;
-      const cropX = sliceOptions.sliceX * width;
-      const cropY = height - (sliceOptions.sliceY * height) - cropH;
+      // Percentages are measured from the displayed top-left corner.
+      const left = sliceOptions.sliceX * view.width;
+      const bottom = (1 - sliceOptions.sliceY - sliceOptions.sliceHeight) * view.height;
+      const from = view.place(left, bottom);
+      const to = view.place(left + sliceOptions.sliceWidth * view.width, bottom + sliceOptions.sliceHeight * view.height);
+      const cropX = Math.min(from.x, to.x);
+      const cropY = Math.min(from.y, to.y);
+      const cropW = Math.abs(to.x - from.x);
+      const cropH = Math.abs(to.y - from.y);
 
       // Adjust MediaBox and CropBox parameters in lossless fashion
       page.setMediaBox(cropX, cropY, cropW, cropH);
