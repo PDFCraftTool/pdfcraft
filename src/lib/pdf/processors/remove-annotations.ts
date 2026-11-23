@@ -23,7 +23,8 @@ export class RemoveAnnotationsProcessor extends BasePDFProcessor {
 
     const { files, options } = input;
     const removeOptions: RemoveAnnotationsOptions = {
-      removeAll: true,
+      removeAll: options.removeComments === undefined &&
+        options.removeHighlights === undefined && options.removeLinks === undefined,
       pages: 'all',
       ...options as RemoveAnnotationsOptions,
     };
@@ -59,7 +60,7 @@ export class RemoveAnnotationsProcessor extends BasePDFProcessor {
         const page = pdf.getPage(pageIndex);
 
         // Get the page's annotation references
-        const annots = page.node.get(pdfLib.PDFName.of('Annots'));
+        const annots = page.node.Annots();
 
         if (annots) {
           if (removeOptions.removeAll) {
@@ -67,10 +68,18 @@ export class RemoveAnnotationsProcessor extends BasePDFProcessor {
             page.node.delete(pdfLib.PDFName.of('Annots'));
             removedCount++;
           } else {
-            // Selective removal would require parsing annotation types
-            // This is a simplified implementation
-            page.node.delete(pdfLib.PDFName.of('Annots'));
-            removedCount++;
+            for (let index = annots.size() - 1; index >= 0; index--) {
+              const annotation = annots.lookup(index, pdfLib.PDFDict);
+              const subtype = annotation.get(pdfLib.PDFName.of('Subtype'))?.toString();
+              const remove = (removeOptions.removeComments && ['/Text', '/FreeText', '/Popup', '/Caret', '/Ink', '/Stamp', '/FileAttachment', '/Sound'].includes(subtype ?? '')) ||
+                (removeOptions.removeHighlights && ['/Highlight', '/Underline', '/Squiggly', '/StrikeOut'].includes(subtype ?? '')) ||
+                (removeOptions.removeLinks && subtype === '/Link');
+              if (remove) {
+                annots.remove(index);
+                removedCount++;
+              }
+            }
+            if (annots.size() === 0) page.node.delete(pdfLib.PDFName.of('Annots'));
           }
         }
 
