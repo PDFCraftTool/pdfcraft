@@ -87,7 +87,7 @@ export class BookmarksAutoGeneratorProcessor extends BasePDFProcessor {
           const text = item.str.trim();
           if (text.length < 3 || text.length > 100) continue;
 
-          const fontSize = Math.abs(item.transform[0] || item.transform[3] || 10);
+          const fontSize = Math.hypot(item.transform[2], item.transform[3]) || 10;
           
           let matched = false;
           let matchedLevel = 1;
