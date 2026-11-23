@@ -96,7 +96,7 @@ export class PageNumbersProcessor extends BasePDFProcessor {
         const { width, height, place } = getPageView(page);
 
         const displayNum = (pageNumOptions.startNumber || 1) + i - (pageNumOptions.skipFirstPage ? 1 : 0);
-        const adjustedTotal = totalPages - (pageNumOptions.skipFirstPage ? 1 : 0);
+        const adjustedTotal = totalPages - (pageNumOptions.skipFirstPage ? 1 : 0) + (pageNumOptions.startNumber || 1) - 1;
         let text = '';
 
         switch (pageNumOptions.format) {
