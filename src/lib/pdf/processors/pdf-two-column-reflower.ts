@@ -9,6 +9,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 export interface PdfTwoColumnReflowerOptions {
   middleGapRatio: number; // The relative split line (0.45 - 0.55, default 0.5)
@@ -58,16 +59,21 @@ export class PdfTwoColumnReflowerProcessor extends BasePDFProcessor {
         const [pageLeft] = await destDoc.copyPages(srcDoc, [i]);
         const [pageRight] = await destDoc.copyPages(srcDoc, [i]);
 
-        const { width, height } = pageLeft.getSize();
-        const splitX = width * reflowOptions.middleGapRatio;
+        const view = getPageView(pageLeft);
+        const splitX = view.width * reflowOptions.middleGapRatio;
 
-        // Set crop boxes for left column
-        pageLeft.setCropBox(0, 0, splitX, height);
-        destDoc.addPage(pageLeft);
-
-        // Set crop boxes for right column
-        pageRight.setCropBox(splitX, 0, width - splitX, height);
-        destDoc.addPage(pageRight);
+        for (const [page, left, right] of [
+          [pageLeft, 0, splitX],
+          [pageRight, splitX, view.width],
+        ] as const) {
+          const from = view.place(left, 0);
+          const to = view.place(right, view.height);
+          page.setCropBox(
+            Math.min(from.x, to.x), Math.min(from.y, to.y),
+            Math.abs(to.x - from.x), Math.abs(to.y - from.y),
+          );
+          destDoc.addPage(page);
+        }
 
         this.updateProgress(40 + Math.floor((i / pageCount) * 50), `Processing page ${i + 1}/${pageCount}...`);
       }
