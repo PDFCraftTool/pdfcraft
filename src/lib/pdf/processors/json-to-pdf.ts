@@ -317,9 +317,10 @@ export class JSONToPDFProcessor extends BasePDFProcessor {
           currentLine = testLine;
           i++;
         } else {
-          if (currentLine.trim()) {
-            wrappedLines.push(currentLine);
+          if (!currentLine.trim()) {
+            throw new Error('The page margins and indentation leave no room for text. Reduce them or choose a wider page.');
           }
+          wrappedLines.push(currentLine);
           currentLine = indent + '  '; // Continue with extra indent
         }
       }
