@@ -140,7 +140,8 @@ export function PageNumbersTool({ className = '' }: PageNumbersToolProps) {
 
   // Format page number based on options
   const formatPageNumber = (page: number, total: number): string => {
-    const adjustedPage = page - 1 + startNumber;
+    const adjustedPage = page - 1 + startNumber - (skipFirstPage ? 1 : 0);
+    const adjustedTotal = total - 1 + startNumber - (skipFirstPage ? 1 : 0);
     let text = '';
 
     switch (format) {
@@ -151,12 +152,12 @@ export function PageNumbersTool({ className = '' }: PageNumbersToolProps) {
         text = toRoman(adjustedPage);
         break;
       case 'page-of-total':
-        text = `Page ${adjustedPage} of ${total - 1 + startNumber}`;
+        text = `Page ${adjustedPage} of ${adjustedTotal}`;
         break;
       case 'custom':
         text = customFormat
           .replace(/{page}/g, String(adjustedPage))
-          .replace(/{total}/g, String(total - 1 + startNumber));
+          .replace(/{total}/g, String(adjustedTotal));
         break;
     }
 
