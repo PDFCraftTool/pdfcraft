@@ -226,7 +226,7 @@ export class InteractiveTocGeneratorProcessor extends BasePDFProcessor {
             opacity: 0.85,
           });
 
-          pg.drawText('TOC ↩', {
+          pg.drawText('TOC', {
             x: pgSize.width - 57,
             y: pgSize.height - 29,
             size: 9,
