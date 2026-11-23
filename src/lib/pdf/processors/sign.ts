@@ -144,7 +144,11 @@ export class SignProcessor extends BasePDFProcessor {
               height,
             });
           } catch (imgError) {
-            console.error('Failed to embed signature image:', imgError);
+            return this.createErrorOutput(
+              PDFErrorCode.PROCESSING_FAILED,
+              'Failed to add signature ' + (i + 1) + ' on page ' + sig.pageNumber + '.',
+              imgError instanceof Error ? imgError.message : 'Unable to embed signature image'
+            );
           }
         }
 
