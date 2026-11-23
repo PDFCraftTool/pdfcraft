@@ -31,6 +31,8 @@ export class PDFToZipProcessor implements PDFProcessor {
   private cancelled: boolean = false;
 
   async process(input: ProcessInput, onProgress?: ProgressCallback): Promise<ProcessOutput> {
+    this.progress = 0;
+    this.cancelled = false;
     const { files, options = {} } = input;
     const zipOptions = options as PDFToZipOptions;
 
