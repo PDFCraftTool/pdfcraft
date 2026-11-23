@@ -113,6 +113,7 @@ export class PDFToCBZProcessor extends BasePDFProcessor {
       const imgFolder = zip; // Save in root of zip as standard CBZ
 
       const progressChunk = 75 / totalPages;
+      const pageNumberWidth = Math.max(3, String(totalPages).length);
       const format = cbzOptions.format || 'jpg';
       const mimeType = FORMAT_MIME_TYPES[format];
       const scale = cbzOptions.scale || 1.5;
@@ -172,7 +173,7 @@ export class PDFToCBZProcessor extends BasePDFProcessor {
         });
 
         // Add page image file to ZIP with left-padded page index to maintain correct order
-        const paddedIndex = String(i).padStart(3, '0');
+        const paddedIndex = String(i).padStart(pageNumberWidth, '0');
         const filename = `page_${paddedIndex}.${format}`;
         const pageBytes = await pageBlob.arrayBuffer();
 
