@@ -8,6 +8,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { withBasePath } from '@/lib/utils/path';
 
 export interface PdfSignatureAnchorHelperOptions {
   anchorX: number; // Percent 0-1 relative to top-left of page
@@ -92,7 +93,17 @@ export class PdfSignatureAnchorHelperProcessor extends BasePDFProcessor {
       });
 
       // Label text
-      const font = await pdfDoc.embedFont(pdfLib.StandardFonts.HelveticaBold);
+      let font = await pdfDoc.embedFont(pdfLib.StandardFonts.HelveticaBold);
+      try {
+        font.encodeText(anchorOptions.anchorLabel);
+      } catch {
+        const response = await fetch(withBasePath('/fonts/NotoSansSC-Regular.ttf'));
+        if (!response.ok) throw new Error('Unable to load the signature guide font.');
+        const fontkit = await import('@pdf-lib/fontkit');
+        pdfDoc.registerFontkit(fontkit.default || fontkit);
+        // The bundled CFF font must remain intact for compatible embedding.
+        font = await pdfDoc.embedFont(await response.arrayBuffer(), { subset: false });
+      }
       const labelFontSize = 9;
       page.drawText(anchorOptions.anchorLabel, {
         x: ptX - stampW / 2 + 30,
