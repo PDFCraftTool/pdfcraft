@@ -13,6 +13,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 /**
  * Options for adding blank pages
@@ -129,7 +130,7 @@ export class AddBlankPagePDFProcessor extends BasePDFProcessor {
 
       // Get page size from first page or use provided size
       const firstPage = sourcePdf.getPage(0);
-      const { width, height } = addOptions.pageSize || firstPage.getSize();
+      const { width, height } = addOptions.pageSize || getPageView(firstPage);
 
       this.updateProgress(50, `Adding ${addOptions.count} blank page(s)...`);
 
