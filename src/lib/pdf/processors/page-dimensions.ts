@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 /**
  * Page dimension information
@@ -194,7 +195,7 @@ export class PageDimensionsProcessor extends BasePDFProcessor {
         this.updateProgress(progressPercent, `Analyzing page ${i + 1} of ${pageCount}...`);
 
         const page = sourcePdf.getPage(i);
-        const { width, height } = page.getSize();
+        const { width, height } = getPageView(page);
 
         // Convert to different units
         const widthIn = width / POINTS_PER_INCH;
