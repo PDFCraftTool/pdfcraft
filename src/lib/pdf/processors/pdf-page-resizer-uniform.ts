@@ -71,12 +71,14 @@ export class PdfPageResizerUniformProcessor extends BasePDFProcessor {
           // so fit them by their displayed size and draw them turned.
           const quarterTurns = ((srcDoc.getPage(pIdx).getRotation().angle % 360) + 360) % 360 / 90;
           const turned = quarterTurns % 2 === 1;
-          const { width: pageW, height: pageH } = srcPage.getSize();
+          const { x: cropX, y: cropY, width: pageW, height: pageH } = srcPage.getCropBox();
           const srcW = turned ? pageH : pageW;
           const srcH = turned ? pageW : pageH;
 
           // Embed page as an image-like object (XObject)
-          const embeddedPage = await destDoc.embedPage(ensurePageContents(srcPage));
+          const embeddedPage = await destDoc.embedPage(ensurePageContents(srcPage), {
+            left: cropX, bottom: cropY, right: cropX + pageW, top: cropY + pageH,
+          });
 
           // Create a new blank page with uniform size
           const newPage = destDoc.addPage([targetDim.width, targetDim.height]);
