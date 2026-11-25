@@ -352,21 +352,19 @@ function decodeQuotedPrintable(text: string, encoding?: string): string {
  * Decode RFC 2047 encoded words
  */
 function decodeEncodedWord(text: string): string {
-    return text.replace(
+    // RFC 2047 ignores whitespace between adjacent encoded words.
+    return text.replace(/(\?=)\s+(?==\?)/g, '$1').replace(
         /=\?([^?]+)\?([BQ])\?([^?]+)\?=/gi,
-        (_, charset, encoding, content) => {
-            if (encoding.toUpperCase() === 'B') {
-                // Base64
-                try {
-                    return atob(content);
-                } catch {
-                    return content;
-                }
-            } else {
-                // Quoted-printable
-                return content.replace(/_/g, ' ').replace(/=([0-9A-Fa-f]{2})/g, (_match: string, hex: string) =>
-                    String.fromCharCode(parseInt(hex, 16))
-                );
+        (word, charset, encoding, content) => {
+            try {
+                const binary = encoding.toUpperCase() === 'B'
+                    ? atob(content)
+                    : content.replace(/_/g, ' ').replace(/=([0-9A-Fa-f]{2})/g,
+                        (_match: string, hex: string) => String.fromCharCode(parseInt(hex, 16)));
+                const bytes = Uint8Array.from(binary, (char: string) => char.charCodeAt(0));
+                return new TextDecoder(charset).decode(bytes);
+            } catch {
+                return word;
             }
         }
     );
