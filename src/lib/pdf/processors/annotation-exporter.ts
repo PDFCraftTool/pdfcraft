@@ -81,7 +81,7 @@ export class AnnotationExporterProcessor extends BasePDFProcessor {
 
         for (const ann of annots) {
           const subtype = String(ann.subtype || '');
-          const contents = String(ann.contents || '').trim();
+          const contents = String(ann.contentsObj?.str ?? ann.contents ?? '').trim();
 
           // Skip empty annotations unless they are highlights or underlines (which might not have contents directly)
           if (!contents && subtype !== 'Highlight' && subtype !== 'Underline' && subtype !== 'Ink') {
@@ -99,7 +99,7 @@ export class AnnotationExporterProcessor extends BasePDFProcessor {
             contents: contents || `[Annotated ${subtype}]`,
             pageNumber: i,
             color: ann.color ? Array.from(ann.color) : undefined,
-            author: ann.title || ann.author,
+            author: ann.titleObj?.str ?? ann.title ?? ann.author,
             date: ann.modificationDate,
             rect: ann.rect,
           });
