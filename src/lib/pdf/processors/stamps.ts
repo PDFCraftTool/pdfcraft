@@ -82,6 +82,7 @@ export class StampsProcessor extends BasePDFProcessor {
             // Draw stamp border
             const width = stamp.width || 150;
             const height = stamp.height || 40;
+            const rotation = pdfLib.degrees(stamp.rotation || 0);
 
             page.drawRectangle({
               x: stamp.x,
@@ -91,20 +92,25 @@ export class StampsProcessor extends BasePDFProcessor {
               borderColor: pdfLib.rgb(presetConfig.color.r, presetConfig.color.g, presetConfig.color.b),
               borderWidth: 3,
               opacity: stamp.opacity || 0.8,
-              rotate: pdfLib.degrees(stamp.rotation || 0),
+              rotate: rotation,
             });
 
             // Draw stamp text
             const fontSize = 18;
             const textWidth = font.widthOfTextAtSize(presetConfig.text, fontSize);
+            const offsetX = (width - textWidth) / 2;
+            const offsetY = (height - fontSize) / 2;
+            const radians = pdfLib.toRadians(rotation);
+            const cos = Math.cos(radians);
+            const sin = Math.sin(radians);
             page.drawText(presetConfig.text, {
-              x: stamp.x + (width - textWidth) / 2,
-              y: stamp.y + (height - fontSize) / 2,
+              x: stamp.x + offsetX * cos - offsetY * sin,
+              y: stamp.y + offsetX * sin + offsetY * cos,
               size: fontSize,
               font,
               color: pdfLib.rgb(presetConfig.color.r, presetConfig.color.g, presetConfig.color.b),
               opacity: stamp.opacity || 0.8,
-              rotate: pdfLib.degrees(stamp.rotation || 0),
+              rotate: rotation,
             });
           }
         } else if (stamp.type === 'image' && stamp.imageData) {
