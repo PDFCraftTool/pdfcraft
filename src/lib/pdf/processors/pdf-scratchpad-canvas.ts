@@ -118,14 +118,16 @@ export class PdfScratchpadCanvasProcessor extends BasePDFProcessor {
           }
 
         } else {
-          // Expand bottom (page origin is bottom-left, so we must translate original page content)
-          // To keep it clean and robust, we expand size. In pdf-lib, translating all content requires pushing a graphics state.
-          // For simplicity and client robustness, expanding page to bottom increases height.
-          page.setSize(width, height + padSize);
+          // Add space below the existing page without moving its content or annotations.
+          const { x, y, width, height } = page.getCropBox();
+          page.setMediaBox(x, y - padSize, width, height + padSize);
+          page.setCropBox(x, y - padSize, width, height + padSize);
+          page.pushOperators(
+            pdfLib.pushGraphicsState(),
+            pdfLib.concatTransformationMatrix(1, 0, 0, 1, x, y - padSize),
+          );
 
-          // Draw note pad background at the top or bottom. We draw on bottom (0 to padSize)
-          // Since original y coordinates now map to height+padSize, 
-          // let's draw bottom scratchpad on coordinates 0 to padSize.
+          // Draw in local scratchpad coordinates within the new bottom area.
           page.drawRectangle({
             x: 0,
             y: 0,
@@ -173,6 +175,7 @@ export class PdfScratchpadCanvasProcessor extends BasePDFProcessor {
               });
             }
           }
+          page.pushOperators(pdfLib.popGraphicsState());
         }
 
         this.updateProgress(50 + Math.floor((i / pageCount) * 40), `Rendering canvas page ${i + 1}/${pageCount}...`);
