@@ -30,6 +30,7 @@ vi.mock('@/lib/pdf/loader', () => {
   const mockPdfLib = {
     PDFName: mockPdfName,
     PDFString: mockPdfString,
+    PDFHexString: { fromText: (value: string) => ({ value, isPDFString: true }) },
     PDFDocument: {
       load: vi.fn().mockImplementation(async () => {
         return {
