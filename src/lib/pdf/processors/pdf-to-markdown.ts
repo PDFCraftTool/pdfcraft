@@ -84,6 +84,7 @@ export class PDFToMarkdownProcessor extends BasePDFProcessor {
         const parts = rangeStr.split(',').map((s) => s.trim());
 
         for (const part of parts) {
+            if (!/^\d+(?:\s*-\s*\d+)?$/.test(part)) return [];
             if (part.includes('-')) {
                 const [start, end] = part.split('-').map((s) => parseInt(s.trim(), 10));
                 if (!isNaN(start) && !isNaN(end)) {
@@ -526,7 +527,10 @@ export class PDFToMarkdownProcessor extends BasePDFProcessor {
             if (pageRange.trim()) {
                 pagesToProcess = this.parsePageRange(pageRange, totalPages);
                 if (pagesToProcess.length === 0) {
-                    pagesToProcess = Array.from({ length: totalPages }, (_, i) => i + 1);
+                    return this.createErrorOutput(
+                        PDFErrorCode.INVALID_PAGE_RANGE,
+                        'The page selection is invalid or contains no pages in this document.'
+                    );
                 }
             } else {
                 pagesToProcess = Array.from({ length: totalPages }, (_, i) => i + 1);
