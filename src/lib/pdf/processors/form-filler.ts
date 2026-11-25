@@ -14,6 +14,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { withBasePath } from '@/lib/utils/path';
 
 export type FormFieldType =
   | 'text'
@@ -188,8 +189,14 @@ export class FormFillerProcessor extends BasePDFProcessor {
         if (typeof form.updateFieldAppearances === 'function') {
           form.updateFieldAppearances();
         }
-      } catch {
-        // Appearance regeneration fallback is handled by pdf.save()
+      } catch (error) {
+        if (!(error instanceof Error) || !error.message.includes('WinAnsi')) throw error;
+        const response = await fetch(withBasePath('/fonts/NotoSansSC-Regular.ttf'));
+        if (!response.ok) throw new Error('Unable to load the form appearance font.');
+        const fontkit = await import('@pdf-lib/fontkit');
+        pdf.registerFontkit(fontkit.default || fontkit);
+        const font = await pdf.embedFont(await response.arrayBuffer(), { subset: false });
+        form.updateFieldAppearances(font);
       }
 
       if (formOptions.flatten) {
