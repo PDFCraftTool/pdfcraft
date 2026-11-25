@@ -201,6 +201,14 @@ export class FormFillerProcessor extends BasePDFProcessor {
 
       if (formOptions.flatten) {
         form.flatten();
+        // pdf-lib can leave references to widget objects it has just deleted.
+        for (const page of pdf.getPages()) {
+          const annots = page.node.Annots();
+          if (!annots) continue;
+          for (let i = annots.size() - 1; i >= 0; i--) {
+            if (!pdf.context.lookup(annots.get(i))) annots.remove(i);
+          }
+        }
       }
 
       this.updateProgress(95, 'Saving PDF...');
