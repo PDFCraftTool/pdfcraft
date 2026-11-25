@@ -75,7 +75,7 @@ export class PDFToSlideProcessor extends BasePDFProcessor {
         const textContent = await page.getTextContent();
         
         // Group text items by y coordinates or fonts to extract Title & Bullet points
-        const items = textContent.items as any[];
+        const items = (textContent.items as any[]).filter(item => 'str' in item);
         
         if (items.length === 0) {
           slides.push({
@@ -90,7 +90,7 @@ export class PDFToSlideProcessor extends BasePDFProcessor {
         items.sort((a, b) => b.transform[5] - a.transform[5]);
 
         let titleText = '';
-        const bullets: string[] = [];
+        const bullets: { text: string; y: number }[] = [];
         let maxFontSize = 0;
 
         // Pass 1: Find the largest font size to identify the header
@@ -115,20 +115,19 @@ export class PDFToSlideProcessor extends BasePDFProcessor {
             // Keep bullets clean and avoid too small footer texts
             if (fontSize > 6 && text.length > 3) {
               // Combine close-by inline elements or treat as separate bullet
-              if (bullets.length > 0 && Math.abs(item.transform[5] - parseFloat(bullets[bullets.length - 1].split('|')[1] || '0')) < 5) {
-                // Same line, append
-                const prev = bullets.pop() || '';
-                const prevParts = prev.split('|');
-                bullets.push(`${prevParts[0]} ${text}|${item.transform[5]}`);
+              const previous = bullets[bullets.length - 1];
+              if (previous && Math.abs(item.transform[5] - previous.y) < 5) {
+                previous.text += ' ' + text;
+                previous.y = item.transform[5];
               } else {
-                bullets.push(`${text}|${item.transform[5]}`);
+                bullets.push({ text, y: item.transform[5] });
               }
             }
           }
         });
 
         // Clean coordinates out of bullet array
-        const cleanBullets = bullets.map(b => b.split('|')[0].trim()).filter(b => b.length > 0);
+        const cleanBullets = bullets.map(b => b.text.trim()).filter(b => b.length > 0);
 
         slides.push({
           title: titleText.trim() || `Slide ${pageNum}`,
