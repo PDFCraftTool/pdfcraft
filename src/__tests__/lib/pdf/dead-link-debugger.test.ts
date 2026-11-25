@@ -19,12 +19,13 @@ vi.mock('@/lib/pdf/loader', () => {
     get(n: any) {
       return this.getFn(n);
     }
+    Annots() { return this.get(getPDFName('Annots')); }
     set = vi.fn();
   }
 
   class MockPDFString {
     constructor(public value: string) {}
-    asString() { return this.value; }
+    decodeText() { return this.value; }
     static of(s: string) { return new MockPDFString(s); }
   }
 
@@ -73,6 +74,7 @@ vi.mock('@/lib/pdf/loader', () => {
           getPages: () => [mockPage],
           context: {
             lookup: (ref: any) => {
+              if (ref === mockAction) return mockAction;
               if (ref === mockAnnotRef) {
                 return mockAnnot;
               }
