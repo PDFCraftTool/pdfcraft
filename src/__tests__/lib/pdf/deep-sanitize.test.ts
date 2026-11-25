@@ -47,6 +47,7 @@ vi.mock('@/lib/pdf/loader', () => {
 
         const mockPage = {
           node: {
+            Resources: () => mockResources,
             has: vi.fn().mockReturnValue(true),
             get: vi.fn().mockImplementation((pdfName) => {
               if (pdfName.name === 'Resources') {
