@@ -2,36 +2,36 @@
 
 /* PDFCraft Design System - CSS Variables for Theming */
 :root {
-  /* Primary Colors - Deep Blue/Indigo for trust and modern tech feel */
-  --color-primary: 226 71% 55%; /* #3b82f6 - slightly more vibrant */
+  /* Primary Colors - Gold Deep #9a7208 (light mode) */
+  --color-primary: 44 90% 32%;
   --color-primary-foreground: 0 0% 100%;
-  --color-primary-hover: 226 71% 45%;
+  --color-primary-hover: 43 91% 26%;
   
-  /* Secondary Colors - Slate for neutral elements */
-  --color-secondary: 215 20% 90%;
-  --color-secondary-foreground: 215 25% 15%;
-  --color-secondary-hover: 215 20% 80%;
+  /* Secondary Colors - warm paper neutrals */
+  --color-secondary: 48 26% 88%;
+  --color-secondary-foreground: 225 17% 9%;
+  --color-secondary-hover: 48 24% 80%;
   
-  /* Accent Colors - Teal/Cyan for highlights */
-  --color-accent: 172 66% 50%;
-  --color-accent-foreground: 0 0% 100%;
+  /* Accent Colors - Gold #c9a227 */
+  --color-accent: 46 68% 47%;
+  --color-accent-foreground: 225 17% 9%;
   
-  /* Background Colors */
-  --color-background: 210 40% 98%; /* Slightly off-white for depth */
-  --color-foreground: 222 47% 11%;
+  /* Background Colors - Paper #f4f3ec, Ink #14161c */
+  --color-background: 52 27% 94%;
+  --color-foreground: 225 17% 9%;
   
-  /* Muted Colors */
-  --color-muted: 210 40% 96%;
-  --color-muted-foreground: 215 16% 47%;
+  /* Muted Colors - warm grays */
+  --color-muted: 48 24% 92%;
+  --color-muted-foreground: 228 9% 42%;
   
-  /* Card Colors */
-  --color-card: 0 0% 100%;
-  --color-card-foreground: 222 47% 11%;
+  /* Card Colors - DNA card #fffdf9 */
+  --color-card: 40 100% 99%;
+  --color-card-foreground: 225 17% 9%;
   
-  /* Border Colors */
-  --color-border: 214 32% 91%;
-  --color-input: 214 32% 91%;
-  --color-ring: 226 71% 55%;
+  /* Border Colors - warm hairlines, gold focus ring */
+  --color-border: 45 23% 83%;
+  --color-input: 45 23% 83%;
+  --color-ring: 44 90% 32%;
   
   /* Destructive Colors */
   --color-destructive: 0 84% 60%;
@@ -45,7 +45,8 @@
   --color-warning: 38 92% 50%;
   --color-warning-foreground: 0 0% 100%;
   
-  /* Typography */
+  /* Typography - sans body, serif display (DNA) */
+  --font-display: Georgia, 'Playfair Display', 'Times New Roman', serif;
   --font-sans: var(--font-inter, 'Inter'), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), 'Fira Code', Consolas, monospace;
   
@@ -58,11 +59,11 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   
-  /* Border Radius */
+  /* Border Radius - DNA range 14 to 18px for cards */
   --radius-sm: 0.375rem;
-  --radius-md: 0.75rem;
+  --radius-md: 0.875rem;
   --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
+  --radius-xl: 1.125rem;
   --radius-full: 9999px;
   
   /* Shadows - Layered, smoother shadows for depth */
@@ -81,34 +82,38 @@
 /* Dark Mode Theme */
 .dark {
   color-scheme: dark;
-  --color-primary: 226 71% 60%;
-  --color-primary-foreground: 222 47% 11%;
-  --color-primary-hover: 226 71% 70%;
+  --color-primary: 42 79% 57%; /* Gold Bright #e8b33c */
+  --color-primary-foreground: 225 17% 9%;
+  --color-primary-hover: 42 79% 65%;
   
-  --color-secondary: 215 20% 20%;
-  --color-secondary-foreground: 210 40% 98%;
-  --color-secondary-hover: 215 20% 30%;
+  --color-secondary: 228 16% 18%;
+  --color-secondary-foreground: 52 27% 94%;
+  --color-secondary-hover: 228 16% 26%;
   
-  --color-accent: 172 66% 50%;
-  --color-accent-foreground: 222 47% 11%;
+  --color-accent: 42 79% 57%;
+  --color-accent-foreground: 225 17% 9%;
   
-  --color-background: 222 47% 7%; /* Darker background for more contrast */
-  --color-foreground: 210 40% 98%;
+  --color-background: 225 17% 9%; /* Ink #14161c */
+  --color-foreground: 52 27% 94%;
   
-  --color-muted: 217 33% 13%;
-  --color-muted-foreground: 215 20% 65%;
+  --color-muted: 227 15% 12%;
+  --color-muted-foreground: 228 12% 65%;
   
-  --color-card: 222 47% 10%;
-  --color-card-foreground: 210 40% 98%;
+  --color-card: 225 17% 14%; /* hub card #1d2029 */
+  --color-card-foreground: 52 27% 94%;
   
-  --color-border: 217 33% 15%;
-  --color-input: 217 33% 15%;
-  --color-ring: 226 71% 60%;
+  --color-border: 227 17% 21%; /* hub card line #2c303e */
+  --color-input: 227 17% 21%;
+  --color-ring: 42 79% 57%;
 }
 
 /* Base Styles */
 * {
   border-color: hsl(var(--color-border));
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
 }
 
 body {
@@ -161,6 +166,7 @@ select option {
   
   /* Font Family */
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 }
 
@@ -194,7 +200,7 @@ select option {
 }
 
 .dark .glass {
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(20, 22, 28, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -206,7 +212,7 @@ select option {
 }
 
 .dark .glass-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.4));
+  background: linear-gradient(135deg, rgba(29, 32, 41, 0.7), rgba(20, 22, 28, 0.4));
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
@@ -322,3 +328,280 @@ select option {
 .scroll-smooth { scroll-behavior: smooth; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ---- Sylva shell (added 2026-11-21 at Brandon's direction) ----
+   One app shell for every locale page: a glass sidebar on desktop
+   that folds to a slim rail (button, or Cmd/Ctrl+B), and a floating
+   glass dock on phone. Markup lives in src/app/[locale]/layout.tsx;
+   the design record is ~/workspace/pdfcraft-theme/DESIGN.md.
+   Glass is chrome only (sidebar, dock): tint about 60 percent of
+   the surface color, blur 20px, saturate 160 percent, a specular
+   inset top highlight, and a solid fallback when backdrop blur is
+   unavailable or reduced transparency is preferred. Page content
+   and tool surfaces stay solid. Motion is transform and opacity
+   only, under 300ms; the reduced-motion block above covers it.
+   The dock sits 4px off the bottom edge plus the safe-area inset,
+   and .nb-main carries bottom padding of dock height plus offset
+   plus breathing room so the last content always scrolls clear.
+   Buttons carry only their own classes (nb-navbtn, nb-dockbtn);
+   container class names never go on buttons. */
+.nb-shell {
+  --nb-sidebar-w: 232px;
+  --nb-rail-w: 68px;
+  --nb-glass: linear-gradient(165deg, rgba(244, 243, 236, 0.66), rgba(244, 243, 236, 0.55));
+  --nb-glass-solid: hsl(var(--color-card));
+  --nb-glass-line: hsl(var(--color-border));
+  --nb-specular: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --nb-gold-grad: linear-gradient(92deg, #c9a227, #e8b33c);
+}
+.dark .nb-shell {
+  --nb-glass: linear-gradient(165deg, rgba(28, 31, 39, 0.64), rgba(28, 31, 39, 0.58));
+  --nb-specular: inset 0 1px 0 rgba(255, 244, 200, 0.18);
+}
+.nb-sidebar, .nb-dock { display: none; }
+
+.nb-brand {
+  display: flex; align-items: center; gap: 10px;
+  padding: 4px 8px 14px; text-decoration: none;
+  color: hsl(var(--color-foreground));
+}
+.nb-brand-mark {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--nb-gold-grad); color: #14161c;
+  box-shadow: 0 4px 12px rgba(201, 162, 39, 0.35);
+}
+.nb-brand-mark svg { width: 20px; height: 20px; }
+.nb-brand-text { display: flex; flex-direction: column; min-width: 0; }
+.nb-brand-eyebrow {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: hsl(var(--color-primary));
+  white-space: nowrap;
+}
+.nb-brand-name {
+  font-family: var(--font-display); font-size: 21px; font-weight: 700;
+  line-height: 1.15; white-space: nowrap;
+}
+.nb-nav { display: flex; flex-direction: column; gap: 2px; }
+.nb-navbtn {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 44px; min-width: 0; padding: 9px 12px;
+  border-radius: 12px; border: 1px solid transparent;
+  font-size: 14.5px; font-weight: 600; text-decoration: none;
+  color: hsl(var(--color-muted-foreground));
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.nb-navbtn svg { flex: 0 0 auto; }
+.nb-navbtn:hover {
+  background: hsl(var(--color-primary) / 0.1);
+  color: hsl(var(--color-foreground));
+}
+.nb-navbtn.active {
+  background: var(--nb-gold-grad); color: #14161c;
+  border-color: transparent;
+}
+.nb-navlabel {
+  display: block; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nb-navshort { display: none; }
+.nb-foldbtn {
+  margin-top: auto; align-self: flex-end;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
+  color: hsl(var(--color-muted-foreground));
+  background: hsl(var(--color-primary) / 0.07);
+  border: 1px solid hsl(var(--color-border));
+  transition: background-color 180ms ease, transform 220ms ease;
+}
+.nb-foldbtn:hover { background: hsl(var(--color-primary) / 0.16); }
+.nb-shell.nb-folded .nb-foldbtn svg { transform: rotate(180deg); }
+.nb-foldbtn svg { transition: transform 220ms ease; }
+[dir="rtl"] .nb-foldbtn svg { transform: scaleX(-1); }
+[dir="rtl"] .nb-shell.nb-folded .nb-foldbtn svg { transform: scaleX(-1) rotate(180deg); }
+
+.nb-dockbtn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; min-height: 52px; min-width: 0; padding: 6px 2px;
+  border-radius: 12px; border: 1px solid transparent;
+  font-size: 11px; font-weight: 600; text-decoration: none;
+  color: hsl(var(--color-muted-foreground));
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.nb-dockbtn svg { flex: 0 0 auto; }
+.nb-docklabel {
+  display: block; max-width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nb-dockbtn.active {
+  background: var(--nb-gold-grad); color: #14161c;
+  border-color: transparent;
+}
+
+@media (min-width: 1024px) {
+  .nb-sidebar {
+    display: flex; flex-direction: column; gap: 10px;
+    position: fixed; top: 0; bottom: 0; inset-inline-start: 0;
+    width: var(--nb-sidebar-w); z-index: 60;
+    padding: 18px 12px calc(14px + env(safe-area-inset-bottom));
+    background: var(--nb-glass);
+    border-inline-end: 1px solid var(--nb-glass-line);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: var(--nb-specular), 18px 0 44px rgba(0, 0, 0, 0.18);
+    transition: width 220ms ease;
+  }
+  .nb-main {
+    margin-inline-start: var(--nb-sidebar-w);
+    transition: margin-inline-start 220ms ease;
+  }
+  /* The app Header is fixed and full width; inside the shell it
+     starts after the sidebar instead of sliding underneath it. */
+  .nb-main header {
+    inset-inline-start: var(--nb-sidebar-w);
+    inset-inline-end: 0; width: auto;
+    transition: inset-inline-start 220ms ease;
+  }
+  .nb-shell.nb-folded .nb-sidebar { width: var(--nb-rail-w); padding-inline: 8px; }
+  .nb-shell.nb-folded .nb-main { margin-inline-start: var(--nb-rail-w); }
+  .nb-shell.nb-folded .nb-main header { inset-inline-start: var(--nb-rail-w); }
+  .nb-shell.nb-folded .nb-brand { justify-content: center; padding-inline: 0; }
+  .nb-shell.nb-folded .nb-brand-text { display: none; }
+  .nb-shell.nb-folded .nb-navbtn {
+    flex-direction: column; justify-content: center; gap: 3px;
+    padding: 8px 2px; font-size: 10px;
+  }
+  .nb-shell.nb-folded .nb-navlabel { display: none; }
+  .nb-shell.nb-folded .nb-navshort {
+    display: block; max-width: 100%;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .nb-shell.nb-folded .nb-foldbtn { align-self: center; }
+}
+
+@media (max-width: 1023.98px) {
+  .nb-dock {
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px;
+    position: fixed; z-index: 60;
+    left: 4px; right: 4px; bottom: calc(4px + env(safe-area-inset-bottom));
+    padding: 6px; border-radius: 18px;
+    background: var(--nb-glass);
+    border: 1px solid var(--nb-glass-line);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: var(--nb-specular), 0 14px 34px rgba(0, 0, 0, 0.28);
+  }
+  .nb-main { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nb-sidebar, .nb-dock { background: var(--nb-glass-solid); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nb-sidebar, .nb-dock {
+    background: var(--nb-glass-solid);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+}
+@media print {
+  .nb-sidebar, .nb-dock { display: none; }
+  .nb-main { margin: 0; padding-bottom: 0; }
+}
+
+/* Home slim (added 2026-11-22 at Brandon's direction).
+   Home is the working surface: a compact hero plus the Popular Tools
+   grid, nothing else. The sections below exist only on the home page
+   (their aria hooks appear nowhere else in the app; verified against
+   HomePageClient.tsx), and each duplicates the hero or the Tools page:
+   the Features cards and the Stats strip repeat the hero's private,
+   free, powerful claims, and the Organize grid and Categories grid
+   repeat the Tools catalog. Hiding them here, inside a theme file,
+   keeps the six-file contract intact: no upstream page file changes,
+   and the weekly refresh reapplies this block with the theme patch.
+   To bring a section back, delete its line from the hide rule. */
+main section[aria-label="Features"],
+main section[aria-labelledby="featured-tools-heading"],
+main section[aria-labelledby="categories-heading"],
+main section[aria-label="Statistics"] {
+  display: none;
+}
+/* Compact hero, corrected 2026-11-22 after Brandon's phone screenshot.
+   The first pass cut the top padding to 2.5rem, but the app Header is
+   fixed and 5rem (h-20) tall, so the hero's first elements slid up
+   underneath it and the brand badge pill tangled with the header icons.
+   The top padding now clears the header plus breathing room; only the
+   bottom stays tight, so Popular still starts high on the screen. */
+main section[aria-labelledby="hero-title"] {
+  padding-top: calc(5rem + 1.5rem) !important;
+  padding-bottom: 2rem !important;
+}
+/* Hero declutter (2026-11-22, same screenshot). Three upstream hero
+   pieces duplicate something already on the page, and each caused a
+   visible clash, so all three are hidden here:
+   1. The brand badge pill: PDFCraft already sits in the header logo
+      directly above it, and the pill was the element colliding with
+      the header icons. It is the first div inside the hero's centered
+      container.
+   2. The gold highlight line under the title: the strings are "title:
+      Professional PDF Tools" and "highlight: Professional Tools", so
+      the line only repeats the title. The plain title stays.
+   3. The privacy pill in the button row: the subtitle and the footer
+      already carry the privacy claim, and in the horizontal row the
+      pill squeezed into a tall oval with its text stacked four lines
+      deep. It is the only div child of the button row; the two real
+      buttons stay, clean and centered at every width. */
+main section[aria-labelledby="hero-title"] div[class*="max-w-4xl"] > div:first-of-type {
+  display: none;
+}
+main section[aria-labelledby="hero-title"] h1 span[class*="text-gradient"] {
+  display: none;
+}
+main section[aria-labelledby="hero-title"] div[class*="max-w-4xl"] > div:last-of-type > div {
+  display: none;
+}
+/* Popular Tools keeps its place as the home view's working grid;
+   tighten its band padding to match the slimmer page, and flatten its
+   tinted band to the page background so there is no visible seam
+   where the hero ends and Popular begins. */
+main section[aria-labelledby="popular-tools-heading"] {
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+  background-color: transparent !important;
+}
+
+/* Info page header clearance (added 2026-11-25 at Brandon's direction).
+   The app Header is fixed and 5rem tall, and each info page's first
+   section is meant to clear it: FAQ ships pt-20, About py-16 md:py-24,
+   Privacy py-16 with its icon first. Contact ships py-12, 2rem short,
+   so its heading slides under the header's nav pill and the top of the
+   title is cut off. Raise Contact's first section to the same 5rem
+   clearance FAQ already has. The section is keyed on its exact
+   upstream class string, the same hook style as the home slim block
+   above; if a future upstream refresh changes that string, this rule
+   stops matching and the clearance must be re-keyed. */
+main > section[class="bg-[hsl(var(--color-muted)/0.3)] py-12"]:first-child {
+  padding-top: 5rem !important;
+}
+
+/* One navigation on desktop (added 2026-11-25 at Brandon's direction).
+   The Sylva sidebar and the app Header carried the same destinations
+   twice on desktop: the sidebar's seven views against the Header's
+   pill nav (Home, Studio, Tools, Workflow, About, FAQ), with two
+   PDFCraft logos side by side at the top. From 1024px up, where the
+   sidebar is the shell's navigation, hide the Header's pill nav and
+   its logo block. The Header keeps only its utility icons (search,
+   history, upload, GitHub, theme), which the sidebar does not carry.
+   Below 1024px the Header is unchanged and the dock is the shell nav.
+   The hooks are structural (the only nav inside the header; the first
+   cell of the header's flex row), so they hold in every locale. This
+   supersedes the shell section's "the shell adapts to the app" stance
+   for the Header's navigation only; the Header itself still insets
+   with the sidebar exactly as before. */
+@media (min-width: 1024px) {
+  .nb-main header nav {
+    display: none;
+  }
+  .nb-main header div[class*="justify-between"] > div:first-child {
+    display: none;
+  }
+}
