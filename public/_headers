@@ -4,14 +4,16 @@
 # This file is used by Netlify and Cloudflare Pages
 # For other platforms, configure headers in their respective config files
 
-# Default headers for all pages
+# Default headers for all pages. The Cross-Origin trio enables
+# SharedArrayBuffer, which the LibreOffice WASM tools need for pthreads.
+# NOTE: keep comment lines OUT of header blocks; a comment inside a block
+# ends the block in the Cloudflare Pages _headers parser.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  # Required for SharedArrayBuffer (LibreOffice WASM pthreads)
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Resource-Policy: cross-origin
