@@ -10,7 +10,38 @@ on:
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  changes:
+    name: Detect relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - name: Check changed files
+        id: filter
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The heavy builds only validate code changes. A PR that touches
+          # nothing but translations, tool content or documentation skips
+          # them; the Quick Check workflow still validates such PRs.
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          files=$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename')
+          echo "Changed files:"
+          echo "$files"
+          if echo "$files" | grep -vqE '^(messages/|src/config/tool-content/|docs/).*|\.md$'; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build-tauri:
     name: Build ${{ matrix.platform }}
     strategy:
@@ -18,6 +49,8 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
 
     # Mitigate intermittent crates.io download failures (schannel close_notify, etc.)
     env:
@@ -73,7 +106,7 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 60
-          max_attempts: 3
+          max_attempts: ${{ github.event_name == 'pull_request' && 1 || 3 }}
           retry_on: error
           shell: bash
           command: npx tauri build -v --ci --config src-tauri/tauri.ci.conf.json
@@ -84,7 +117,7 @@ jobs:
           APPLE_SIGNING_IDENTITY: "-"
 
       - name: Ad-hoc Sign macOS App Bundle & Repackage DMG
-        if: matrix.platform == 'macos-latest'
+        if: matrix.platform == 'macos-latest' && github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "Applying deep ad-hoc signature to macOS .app bundle..."
@@ -116,7 +149,7 @@ jobs:
           fi
 
       - name: Package Portable Windows Build
-        if: matrix.platform == 'windows-latest'
+        if: matrix.platform == 'windows-latest' && github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "Packaging Windows portable version..."
@@ -139,6 +172,7 @@ jobs:
           echo "Portable zip created at src-tauri/target/release/bundle/PDFCraft-Windows-x64-Portable.zip"
 
       - name: Upload Tauri bundles
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: tauri-${{ matrix.platform }}
