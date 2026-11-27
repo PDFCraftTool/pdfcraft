@@ -539,7 +539,7 @@ export const toolContentVn: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Tạo chữ ký của bạn",
-        "description": "Vẽ chữ ký của bạn bằng chuột hoặc chạm, nhập tên của bạn để tạo chữ ký hoặc tải lên hình ảnh chữ ký."
+        "description": "Vẽ chữ ký của bạn bằng chuột hoặc chạm, nhập tên của bạn để tạo chữ ký hoặc tải lên hình ảnh chữ ký. Bạn cũng có thể quét ảnh chụp chữ ký viết trên giấy."
       },
       {
         "step": 3,
@@ -3926,7 +3926,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ]
   },
   "n-up-pdf": {
-    "title": "N-Up PDF",
+    "title": "Dàn trang PDF",
     "metaDescription": "In nhiều trang PDF mỗi tờ. Tạo bố cục 2-up, 4-up hoặc tùy chỉnh.",
     "keywords": [
       "n-up pdf",
@@ -4280,7 +4280,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ]
   },
   "posterize-pdf": {
-    "title": "Posterize PDF",
+    "title": "Tạo poster từ PDF",
     "metaDescription": "Chia trang PDF lớn thành ô in. Tạo áp phích từ trang PDF.",
     "keywords": [
       "posterize pdf",
@@ -4398,7 +4398,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ]
   },
   "linearize-pdf": {
-    "title": "Linearize PDF",
+    "title": "Tuyến tính hóa PDF",
     "metaDescription": "Tối ưu hóa PDF để xem web nhanh. Bật tải tiến triển.",
     "keywords": [
       "linearize pdf",
@@ -4751,6 +4751,77 @@ export const toolContentVn: Record<string, ToolContent> = {
       }
     ]
   },
+  "redact-pdf": {
+    "title": "Che thông tin nhạy cảm trong PDF",
+    "metaDescription": "Che đen, ghép mosaic hoặc làm mờ thông tin nhạy cảm trong tệp PDF một cách trực quan. Điểm ảnh hóa vật lý không thể đảo ngược và làm sạch sâu siêu dữ liệu để bảo vệ quyền riêng tư.",
+    "keywords": [
+      "che thông tin pdf",
+      "làm đen pdf",
+      "mosaic pdf",
+      "làm mờ pdf",
+      "bảo mật pdf",
+      "xóa dữ liệu nhạy cảm",
+      "chỉnh sửa pdf an toàn"
+    ],
+    "description": "\n      <p>Che thông tin trong PDF cung cấp một trình chỉnh sửa trực quan, tương tác để che giấu và bảo vệ vĩnh viễn dữ liệu nhạy cảm trong tài liệu PDF của bạn. Kéo để đánh dấu bất kỳ vùng bí mật nào — chẳng hạn như họ tên, địa chỉ, số giấy tờ tùy thân, chữ ký, con dấu chính thức, số liệu tài chính hoặc ảnh chân dung — và áp dụng hiệu ứng che đen, che trắng, mosaic hoặc làm mờ.</p>\n      <p>Khác với các trình chỉnh sửa PDF thông thường chỉ chồng hình chữ nhật đen lên trên văn bản có sẵn, công cụ này thực hiện <strong>điểm ảnh hóa vật lý không thể đảo ngược</strong>. Các lớp văn bản bên dưới, đồ họa vector và luồng OCR bị phá hủy hoàn toàn và không thể khôi phục bằng sao chép-dán hay kỹ thuật đảo ngược.</p>\n      <p>Ngoài ra, công cụ còn làm sạch sâu siêu dữ liệu, loại bỏ thông tin tác giả, lịch sử tạo tệp và các luồng XMP. Toàn bộ quá trình xử lý chạy 100% cục bộ trong trình duyệt của bạn, không tải lên máy chủ.</p>\n    ",
+    "howToUse": [
+      {
+        "step": 1,
+        "title": "Tải lên tài liệu PDF",
+        "description": "Chọn hoặc kéo-thả tệp PDF bạn muốn che thông tin."
+      },
+      {
+        "step": 2,
+        "title": "Đánh dấu vùng nhạy cảm",
+        "description": "Nhấp và kéo trên bất kỳ trang nào để vẽ khung che quanh nội dung bí mật."
+      },
+      {
+        "step": 3,
+        "title": "Chọn kiểu che",
+        "description": "Chọn che đen, che trắng, mosaic (kích thước điểm ảnh tùy chỉnh) hoặc làm mờ. Bật xem trước thời gian thực để kiểm tra kết quả."
+      },
+      {
+        "step": 4,
+        "title": "Xuất PDF đã bảo mật",
+        "description": "Nhấp \"Tạo PDF đã bảo mật\" để thực hiện làm phẳng không thể đảo ngược, xóa siêu dữ liệu và tải xuống tài liệu đã bảo mật của bạn."
+      }
+    ],
+    "useCases": [
+      {
+        "title": "Bảo mật & tuân thủ quy định",
+        "description": "Che an toàn Thông tin nhận dạng cá nhân (PII) để tuân thủ các yêu cầu GDPR, HIPAA hoặc CCPA.",
+        "icon": "shield"
+      },
+      {
+        "title": "Chia sẻ pháp lý & kinh doanh bảo mật",
+        "description": "Che giấu bí mật thương mại, điều khoản thỏa thuận, chữ ký và con dấu trước khi công bố công khai hoặc phân phối ra bên ngoài.",
+        "icon": "file-text"
+      },
+      {
+        "title": "Bảo vệ tài chính & danh tính",
+        "description": "Che số tài khoản ngân hàng, mã số thuế, chi tiết thẻ tín dụng và số giấy tờ tùy thân trên sao kê và hóa đơn.",
+        "icon": "lock"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Có ai khôi phục được thông tin đã che bằng cách sao chép văn bản hoặc kiểm tra các lớp không?",
+        "answer": "Không. Các vùng đã che trải qua quá trình làm phẳng ghi điểm ảnh vật lý. Văn bản, vector và đối tượng bên dưới bị loại bỏ hoàn toàn khỏi cấu trúc tệp, khiến việc khôi phục trở nên không thể."
+      },
+      {
+        "question": "Che đen, mosaic và làm mờ khác nhau thế nào?",
+        "answer": "Che đen tạo một lớp phủ đen đặc (tiêu chuẩn cho tài liệu pháp lý); che trắng tạo lớp phủ trắng sạch; mosaic tạo lưới điểm ảnh; và làm mờ tạo hiệu ứng kính mờ mềm mại."
+      },
+      {
+        "question": "Tệp có được tải lên máy chủ của bạn không?",
+        "answer": "Không. Toàn bộ quá trình kết xuất, che thông tin, làm phẳng và tạo PDF diễn ra hoàn toàn trong bộ nhớ trình duyệt của bạn. Tài liệu của bạn không bao giờ rời khỏi thiết bị."
+      },
+      {
+        "question": "Những siêu dữ liệu nào bị loại bỏ?",
+        "answer": "Tiêu đề tài liệu, Tác giả, Chủ đề, Từ khóa, Chương trình tạo, Chương trình sản xuất, Ngày tạo, Ngày sửa đổi và các luồng siêu dữ liệu XMP mở rộng đều bị xóa triệt để."
+      }
+    ]
+  },
   "decrypt-pdf": {
     "title": "Giải mã PDF",
     "metaDescription": "Loại bỏ mật khẩu khỏi tệp PDF. Mở khóa tài liệu được bảo vệ bằng mật khẩu.",
@@ -5048,7 +5119,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ]
   },
   "deskew-pdf": {
-    "title": "Deskew PDF",
+    "title": "Chỉnh thẳng PDF",
     "metaDescription": "Tự động làm thẳng trang PDF đã quét hoặc bị nghiêng. Khắc phục tài liệu bị lệch với độ chính xác góc phát hiện.",
     "keywords": [
       "deskew pdf",
@@ -5168,7 +5239,7 @@ export const toolContentVn: Record<string, ToolContent> = {
     ]
   },
   "rasterize-pdf": {
-    "title": "Rasterize PDF",
+    "title": "Chuyển đổi PDF thành hình ảnh",
     "metaDescription": "Chuyển đổi trang PDF thành hình ảnh chất lượng cao. Xuất dưới dạng PNG, JPEG hoặc WebP với cài đặt DPI tùy chỉnh.",
     "keywords": [
       "rasterize pdf",
