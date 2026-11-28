@@ -532,6 +532,9 @@ pdfjs-editor-add-signature-draw-button = Vẽ
     .title = Vẽ
 pdfjs-editor-add-signature-image-button = Hình ảnh
     .title = Hình ảnh
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Quét
+    .title = Quét ảnh chụp chữ ký của bạn
 
 ## Tab panels
 
@@ -550,6 +553,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Hoặc chọn hình ảnh
        *[other] Hoặc chọn hình ảnh
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Ký lên một tờ giấy trắng, chụp ảnh tờ giấy và tải ảnh lên tại đây.
+pdfjs-editor-add-signature-scan-tip = Để có kết quả tốt nhất, hãy dùng đèn flash của máy ảnh hoặc ánh sáng mạnh, đều, và giữ máy ảnh thẳng phía trên tờ giấy.
+pdfjs-editor-add-signature-scan-choose-photo-button = Chọn ảnh
+pdfjs-editor-add-signature-scan-take-photo-button = Chụp ảnh
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Bạn cũng có thể kéo ảnh vào đây hoặc dán bằng ⌘V.
+       *[other] Bạn cũng có thể kéo ảnh vào đây hoặc dán bằng Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Vùng chữ ký. Kéo hoặc dùng các phím mũi tên để di chuyển. Giữ Shift cùng các phím mũi tên để thay đổi kích thước.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Xem trước chữ ký đã quét
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Xoay trái
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Xoay trái
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Xoay phải
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Xoay phải
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Độ nhạy mực
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Độ nhạy mực: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Đổi ảnh
 
 ## Controls
 

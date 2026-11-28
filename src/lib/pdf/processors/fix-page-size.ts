@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * Standard page sizes in points (72 points = 1 inch)
@@ -26,6 +27,7 @@ export const PAGE_SIZES = {
   'legal': { width: 612, height: 1008, label: 'Legal (8.5 × 14 in)' },
   'tabloid': { width: 792, height: 1224, label: 'Tabloid (11 × 17 in)' },
   'executive': { width: 522, height: 756, label: 'Executive (7.25 × 10.5 in)' },
+  'envelope-10': { width: 297, height: 684, label: '#10 Envelope (4.125 × 9.5 in)' },
   'custom': { width: 0, height: 0, label: 'Custom' },
 } as const;
 
@@ -154,10 +156,15 @@ export class FixPageSizeProcessor extends BasePDFProcessor {
         const progress = 40 + Math.floor((i / pageCount) * 50);
         this.updateProgress(progress, `Processing page ${i + 1} of ${pageCount}...`);
 
-        // Get the source page
-        const [embeddedPage] = await newPdf.embedPages([sourcePdf.getPage(i)]);
-        const sourceWidth = embeddedPage.width;
-        const sourceHeight = embeddedPage.height;
+        // Get the source page. Pages with /Rotate (common in scans) are shown
+        // turned in a viewer, so lay them out by their displayed size and draw
+        // them turned the same way.
+        const sourcePage = ensurePageContents(sourcePdf.getPage(i));
+        const [embeddedPage] = await newPdf.embedPages([sourcePage]);
+        const quarterTurns = ((sourcePage.getRotation().angle % 360) + 360) % 360 / 90;
+        const turned = quarterTurns % 2 === 1;
+        const sourceWidth = turned ? embeddedPage.height : embeddedPage.width;
+        const sourceHeight = turned ? embeddedPage.width : embeddedPage.height;
 
         // Determine final dimensions based on orientation
         let finalWidth = targetDimensions.width;
@@ -195,11 +202,16 @@ export class FixPageSizeProcessor extends BasePDFProcessor {
         );
 
         // Draw the embedded page
+        const shownWidth = sourceWidth * scale.x;
+        const shownHeight = sourceHeight * scale.y;
         newPage.drawPage(embeddedPage, {
-          x,
-          y,
-          xScale: scale.x,
-          yScale: scale.y,
+          // Origin of the unturned page so that, once turned clockwise by
+          // /Rotate, it fills the box whose lower-left corner is (x, y).
+          x: quarterTurns === 2 || quarterTurns === 3 ? x + shownWidth : x,
+          y: quarterTurns === 1 || quarterTurns === 2 ? y + shownHeight : y,
+          xScale: turned ? scale.y : scale.x,
+          yScale: turned ? scale.x : scale.y,
+          rotate: pdfLib.degrees(-quarterTurns * 90),
         });
       }
 

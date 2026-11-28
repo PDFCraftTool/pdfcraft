@@ -1898,7 +1898,7 @@
       "uploadDescription": "Seret dan letakkan file PDF untuk ditandatangani.",
       "instructionsTitle": "Cara Menandatangani",
       "instruction1": "Klik alat Tanda Tangan (ikon pena) di bilah alat",
-      "instruction2": "Gambar, ketik, atau unggah tanda tangan Anda",
+      "instruction2": "Gambar, ketik, atau unggah tanda tangan Anda, atau pindai fotonya",
       "instruction3": "Klik di tempat Anda ingin meletakkan tanda tangan",
       "instruction4": "Klik \"Simpan PDF Ditandatangani\" di bawah jika sudah selesai",
       "flattenOption": "Ratakan tanda tangan (direkomendasikan - membuat tanda tangan permanen)",

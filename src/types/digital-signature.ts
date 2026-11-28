@@ -9,6 +9,16 @@ export interface CertificateData {
   certificate: forge.pki.Certificate;
 }
 
+/**
+ * A signing key held by a remote service (e.g. a CSC API provider). Only hashes leave the browser.
+ */
+export interface RemoteSigner {
+  /** Signing certificate first, then the rest of the chain */
+  certificates: forge.pki.Certificate[];
+  /** Returns the raw RSA PKCS#1 v1.5 signature of a SHA-256 hash */
+  signHash(sha256: Uint8Array): Promise<Uint8Array>;
+}
+
 export interface SignatureInfo {
   reason?: string;
   location?: string;

@@ -2,6 +2,18 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FileUploader } from '@/components/tools/FileUploader';
+import { PDFDocument } from 'pdf-lib';
+import { decryptPDF } from '@/lib/pdf/processors/decrypt';
+
+vi.mock('pdf-lib', () => ({
+  PDFDocument: {
+    load: vi.fn(),
+  },
+}));
+
+vi.mock('@/lib/pdf/processors/decrypt', () => ({
+  decryptPDF: vi.fn(),
+}));
 
 // Mock next-intl
 vi.mock('next-intl', () => ({
@@ -63,6 +75,8 @@ describe('FileUploader', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(PDFDocument.load).mockResolvedValue({} as any);
+    vi.mocked(decryptPDF).mockResolvedValue({ success: false });
   });
 
   describe('Rendering', () => {
@@ -444,6 +458,77 @@ describe('FileUploader', () => {
       
       const fileInput = document.querySelector('input[type="file"]');
       expect(fileInput).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+
+  describe('Encryption and Silent Unlocking', () => {
+    it('silently unlocks PDFs that only have owner restrictions (e.g. bank statements)', async () => {
+      vi.mocked(PDFDocument.load).mockRejectedValue(
+        new Error('Input document to load is encrypted. You must provide a password to decrypt it.')
+      );
+
+      const mockUnlockedBlob = new Blob(['unlocked content'], { type: 'application/pdf' });
+      vi.mocked(decryptPDF).mockResolvedValue({
+        success: true,
+        result: mockUnlockedBlob,
+      });
+
+      render(<FileUploader onFilesSelected={mockOnFilesSelected} />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+      const bankStatement = new File(['%PDF-1.4 restricted'], 'bank_statement.pdf', {
+        type: 'application/pdf',
+      });
+
+      Object.defineProperty(fileInput, 'files', {
+        value: [bankStatement],
+        writable: true,
+      });
+      fireEvent.change(fileInput);
+
+      await waitFor(() => {
+        expect(mockOnFilesSelected).toHaveBeenCalled();
+      });
+
+      expect(PDFDocument.load).toHaveBeenCalled();
+      expect(decryptPDF).toHaveBeenCalled();
+
+      const calledFiles = mockOnFilesSelected.mock.calls[0][0];
+      expect(calledFiles).toHaveLength(1);
+      expect(calledFiles[0].name).toBe('bank_statement.pdf');
+      expect(screen.queryByText(/This Document is Encrypted/i)).not.toBeInTheDocument();
+    });
+
+    it('prompts password modal when silent unlock fails (true user password protected)', async () => {
+      vi.mocked(PDFDocument.load).mockRejectedValue(
+        new Error('Input document to load is encrypted. You must provide a password to decrypt it.')
+      );
+
+      vi.mocked(decryptPDF).mockResolvedValue({
+        success: false,
+        error: { code: 'PDF_ENCRYPTED', message: 'INVALID_PASSWORD' } as any,
+      });
+
+      render(<FileUploader onFilesSelected={mockOnFilesSelected} />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+      const securePdf = new File(['%PDF-1.4 locked'], 'confidential.pdf', {
+        type: 'application/pdf',
+      });
+
+      Object.defineProperty(fileInput, 'files', {
+        value: [securePdf],
+        writable: true,
+      });
+      fireEvent.change(fileInput);
+
+      await waitFor(() => {
+        const passInput = document.querySelector('input[type="password"]');
+        expect(passInput).not.toBeNull();
+      });
+
+      // Files should not be selected yet
+      expect(mockOnFilesSelected).not.toHaveBeenCalled();
     });
   });
 });

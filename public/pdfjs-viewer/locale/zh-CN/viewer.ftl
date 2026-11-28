@@ -532,6 +532,9 @@ pdfjs-editor-add-signature-draw-button = 绘制
     .title = 绘制
 pdfjs-editor-add-signature-image-button = 图像
     .title = 图像
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = 扫描
+    .title = 扫描您的签名照片
 
 ## Tab panels
 
@@ -550,6 +553,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] 或选取图像文件
        *[other] 或浏览图像文件
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = 在白纸上签名，拍下照片并上传到这里。
+pdfjs-editor-add-signature-scan-tip = 为获得最佳效果，请使用相机闪光灯或明亮均匀的光线，并将相机垂直对准纸面。
+pdfjs-editor-add-signature-scan-choose-photo-button = 选择照片
+pdfjs-editor-add-signature-scan-take-photo-button = 拍照
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] 也可以将照片拖到此处，或按 ⌘V 粘贴。
+       *[other] 也可以将照片拖到此处，或按 Ctrl+V 粘贴。
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = 签名区域。拖动或使用方向键移动，按住 Shift 并使用方向键调整大小。
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = 扫描签名预览
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = 向左旋转
+pdfjs-editor-add-signature-scan-rotate-left-button-label = 向左旋转
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = 向右旋转
+pdfjs-editor-add-signature-scan-rotate-right-button-label = 向右旋转
+pdfjs-editor-add-signature-scan-sensitivity-range-label = 笔迹灵敏度
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = 笔迹灵敏度：{ $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = 更换照片
 
 ## Controls
 

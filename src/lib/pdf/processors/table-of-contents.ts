@@ -8,6 +8,7 @@
 import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf';
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
+import { withBasePath } from '@/lib/utils/path';
 
 export interface TOCOptions {
   title?: string;
@@ -80,7 +81,7 @@ export class TableOfContentsProcessor extends BasePDFProcessor {
       console.log('[TOC Processor] Final Blob size:', finalBlob.size);
 
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(finalBlob, file.name.replace('.pdf', '_with_toc.pdf'), {});
+      return this.createSuccessOutput(finalBlob, file.name.replace(/\.pdf$/i, '_with_toc.pdf'), {});
 
     } catch (error) {
       return this.createErrorOutput(
@@ -102,7 +103,7 @@ export class TableOfContentsProcessor extends BasePDFProcessor {
   ): Promise<{ status: 'success'; pdfBytes: ArrayBuffer } | { status: 'error'; message: string }> {
     return new Promise((resolve) => {
       // Use V2 worker to bypass cache and use robust byte handling
-      this.worker = new Worker('/workers/table-of-contents-v2.worker.js', { type: 'module' });
+      this.worker = new Worker(withBasePath('/workers/table-of-contents-v2.worker.js'), { type: 'module' });
 
       this.worker.onmessage = (e) => {
         const data = e.data;

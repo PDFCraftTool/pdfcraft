@@ -40,27 +40,28 @@ export const toolContentEn: Record<string, ToolContent> = {
   },
 
   'merge-pdf': {
-    title: 'Merge PDF',
-    metaDescription: 'Combine multiple PDF files into one document. Free online PDF merger with drag-and-drop reordering.',
-    keywords: ['merge pdf', 'combine pdf', 'join pdf', 'pdf merger', 'concatenate pdf'],
+    title: 'Combine Files & Merge PDF',
+    metaDescription: 'Combine multiple PDF files, images (JPG/PNG), Office documents (Word/Excel/PPT), and text into one unified PDF document. Free online tool with drag-and-drop reordering.',
+    keywords: ['merge pdf', 'combine files', 'combine pdf', 'join pdf', 'images to pdf', 'word to pdf merge', 'pdf merger', 'concatenate pdf'],
     description: `
-      <p>Merge PDF allows you to combine multiple PDF documents into a single file quickly and easily. Whether you're consolidating reports, combining scanned documents, or assembling a presentation, this tool makes the process seamless.</p>
-      <p>Simply upload your files, arrange them in your desired order using drag-and-drop, and merge them into one cohesive document. The tool preserves the quality of your original files and can optionally maintain bookmarks from each source document.</p>
-      <p>All merging happens locally in your browser, ensuring complete privacy for your sensitive documents.</p>
+      <p>Combine Files allows you to merge multiple PDF documents, images (JPG, PNG, WebP, BMP), Office documents (Word, Excel, PowerPoint), and plain text into a single cohesive PDF file quickly and easily. Whether you're consolidating multi-format reports, combining scanned receipts, or assembling presentations, this tool makes the process seamless.</p>
+      <p>Simply upload your files, arrange them in your desired order using drag-and-drop, and merge them into one document. Non-PDF files are automatically converted to high-quality PDF pages on the fly, and bookmarks can optionally be maintained from each source file's name.</p>
+      <p>All conversions and merging happen locally in your browser sandbox, ensuring complete privacy for your sensitive documents without uploading to remote servers.</p>
     `,
     howToUse: [
-      { step: 1, title: 'Upload PDF Files', description: 'Drag and drop multiple PDF files into the upload area, or click to select files from your device.' },
-      { step: 2, title: 'Arrange Order', description: 'Drag and drop the file thumbnails to arrange them in your desired order.' },
-      { step: 3, title: 'Merge and Download', description: 'Click the Merge button to combine all files, then download your merged PDF.' },
+      { step: 1, title: 'Upload Files', description: 'Drag and drop PDFs, images (JPG/PNG), Office documents (Word/Excel/PPT), or text files into the upload area.' },
+      { step: 2, title: 'Arrange Order', description: 'Drag and drop the file cards to arrange them in your desired order. Live thumbnails are previewed for images.' },
+      { step: 3, title: 'Merge and Download', description: 'Click the Merge button to automatically convert and combine all files into a single PDF, then download your result.' },
     ],
     useCases: [
-      { title: 'Combine Reports', description: 'Merge monthly or quarterly reports into a single annual document for easier distribution and archiving.', icon: 'file-text' },
-      { title: 'Assemble Portfolios', description: 'Combine multiple project documents, certificates, or work samples into a professional portfolio.', icon: 'briefcase' },
-      { title: 'Consolidate Invoices', description: 'Merge multiple invoices or receipts into one document for accounting and record-keeping purposes.', icon: 'receipt' },
+      { title: 'Mixed-Media Archiving', description: 'Combine contracts, identification photos, invoice receipts, and memo notes into a complete archive dossier.', icon: 'briefcase' },
+      { title: 'Consolidate Business Reports', description: 'Merge Word analyses, Excel financial tables, and PowerPoint presentation slides into one report deck.', icon: 'file-text' },
+      { title: 'Assemble Portfolios', description: 'Combine multiple design graphics (JPG/PNG) and textual descriptions into a polished professional portfolio.', icon: 'image' },
     ],
     faq: [
-      { question: 'How many PDFs can I merge?', answer: 'You can merge up to 100 PDF files at once, with a total combined size of up to 500MB.' },
-      { question: 'Will the merged PDF maintain the original quality?', answer: 'Yes, the merging process preserves the original quality of all documents without any compression or quality loss.' },
+      { question: 'What file formats can I combine?', answer: 'You can combine standard PDF files, images (JPG, PNG, WebP, BMP, SVG), Office documents (Word .docx/.doc, Excel .xlsx/.xls, PowerPoint .pptx/.ppt), and text files (.txt, .md).' },
+      { question: 'How many files can I merge at once?', answer: 'You can merge up to 100 files at once, with a total combined size of up to 500MB.' },
+      { question: 'Will non-PDF files maintain their visual quality?', answer: 'Yes! Images and documents are rendered at high resolution and fitted to standard pages without lossy compression.' },
       { question: 'Can I merge password-protected PDFs?', answer: 'Password-protected PDFs need to be decrypted first. Use our Decrypt PDF tool to remove the password before merging.' },
     ],
   },
@@ -236,7 +237,7 @@ export const toolContentEn: Record<string, ToolContent> = {
     `,
     howToUse: [
       { step: 1, title: 'Upload Your PDF', description: 'Drag and drop your PDF file or click to select the document you need to sign.' },
-      { step: 2, title: 'Create Your Signature', description: 'Draw your signature with mouse or touch, type your name to generate a signature, or upload a signature image.' },
+      { step: 2, title: 'Create Your Signature', description: 'Draw your signature with mouse or touch, type your name to generate a signature, or upload a signature image. You can also scan a photo of a signature written on paper.' },
       { step: 3, title: 'Place and Adjust', description: 'Click on the document to place your signature, then drag to position and resize as needed.' },
       { step: 4, title: 'Save and Download', description: 'Click Save to apply your signature and download the signed PDF.' },
     ],
@@ -1904,27 +1905,28 @@ export const toolContentEn: Record<string, ToolContent> = {
 
   'edit-metadata': {
     title: 'Edit Metadata',
-    metaDescription: 'Edit PDF document properties. Change title, author, subject, and keywords.',
-    keywords: ['edit pdf metadata', 'change pdf properties', 'pdf author', 'document info'],
+    metaDescription: 'Edit PDF document properties. Change title, author, subject, keywords, creation date, and modification date.',
+    keywords: ['edit pdf metadata', 'change pdf properties', 'pdf author', 'document info', 'pdf creation date', 'pdf modification date'],
     description: `
-      <p>Edit Metadata allows you to modify document properties in your PDF files. Change the title, author, subject, keywords, and other metadata fields.</p>
-      <p>Perfect for correcting document information, adding proper attribution, or preparing files for distribution.</p>
+      <p>Edit Metadata allows you to modify document properties in your PDF files. Change the title, author, subject, keywords, creator, producer, and document dates.</p>
+      <p>You can set custom creation and modification dates, perfect for correcting document information, adding proper attribution, or preparing files for distribution.</p>
       <p>All editing happens in your browser, ensuring your documents remain private.</p>
     `,
     howToUse: [
       { step: 1, title: 'Upload Your PDF', description: 'Drag and drop your PDF file or click to select.' },
-      { step: 2, title: 'Edit Properties', description: 'Modify title, author, subject, keywords, and other fields.' },
-      { step: 3, title: 'Save and Download', description: 'Click Save to apply changes and download.' },
+      { step: 2, title: 'Edit Properties & Dates', description: 'Modify title, author, subject, keywords, creation date, modification date, and other fields.' },
+      { step: 3, title: 'Save and Download', description: 'Click Save to apply changes and download the updated PDF.' },
     ],
     useCases: [
       { title: 'Add Attribution', description: 'Set proper author and creator information.', icon: 'user' },
       { title: 'SEO Optimization', description: 'Add keywords and descriptions for searchability.', icon: 'search' },
+      { title: 'Correct Document Dates', description: 'Fix creation or modification dates for accurate records.', icon: 'calendar' },
       { title: 'Document Preparation', description: 'Prepare documents with proper metadata before sharing.', icon: 'file-check' },
     ],
     faq: [
-      { question: 'What fields can I edit?', answer: 'Title, author, subject, keywords, creator, and producer fields.' },
-      { question: 'Can I clear all metadata?', answer: 'Use Remove Metadata tool to strip all document properties.' },
-      { question: 'Are dates editable?', answer: 'Creation and modification dates are updated automatically.' },
+      { question: 'What fields can I edit?', answer: 'Title, author, subject, keywords, creator, producer, creation date, and modification date.' },
+      { question: 'Can I clear all metadata?', answer: 'Use the Remove Metadata tool to strip all document properties.' },
+      { question: 'Are dates editable?', answer: 'Yes! You can set custom creation and modification dates using the date picker fields. If you leave the modification date empty, it will be auto-updated to the current time when you save.' },
     ],
   },
 

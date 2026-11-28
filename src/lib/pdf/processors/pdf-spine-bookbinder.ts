@@ -98,7 +98,7 @@ export class PdfSpineBookbinderProcessor extends BasePDFProcessor {
         
         // Draw vertical spine text centered vertically
         const textX = foldX1 + (spineWidthPt - fontSize) / 2 + fontSize - 2;
-        const textY = (pageHeightPt - titleWidth) / 2;
+        const textY = (pageHeightPt + titleWidth) / 2;
 
         page.drawText(bindOptions.bookTitle, {
           x: textX,

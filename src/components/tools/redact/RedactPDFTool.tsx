@@ -40,6 +40,8 @@ import { DownloadButton } from '../DownloadButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { loadPdfjs } from '@/lib/pdf/loader';
+import { PDFJS_CONFIG } from '@/lib/pdf/config';
+import { withBasePath } from '@/lib/utils/path';
 import { saveBlobFile } from '@/lib/tauri-bridge';
 import {
   redactPDF,
@@ -153,6 +155,7 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const baseCanvasRef = useRef<HTMLCanvasElement>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
+  const renderTaskRef = useRef<any>(null);
 
   // Interaction State
   const [isDrawing, setIsDrawing] = useState(false);
@@ -212,6 +215,9 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
       const buffer = await selectedFile.arrayBuffer();
       const doc = await pdfjsLib.getDocument({
         data: buffer,
+        cMapUrl: withBasePath(PDFJS_CONFIG.cMapUrl),
+        cMapPacked: PDFJS_CONFIG.cMapPacked,
+        standardFontDataUrl: withBasePath(PDFJS_CONFIG.standardFontDataUrl),
         disableFontFace: false,
         useSystemFonts: true,
       }).promise;
@@ -220,6 +226,16 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
       setPdfDoc(doc);
       setNumPages(doc.numPages);
       pushHistory({});
+
+      // Auto-fit initial scale based on container width to prevent overflow
+      try {
+        const firstPage = await doc.getPage(1);
+        const unscaledViewport = firstPage.getViewport({ scale: 1.0 });
+        const containerW = containerRef.current?.clientWidth || 800;
+        const targetW = Math.max(280, containerW - 48);
+        const initialFit = Math.min(1.5, Math.max(0.6, Number((targetW / unscaledViewport.width).toFixed(2))));
+        setPageScale(initialFit);
+      } catch {}
     } catch (err: any) {
       console.error('Failed to load PDF:', err);
       setError(err?.message || 'Failed to load PDF document');
@@ -229,6 +245,12 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
   }, [pushHistory]);
 
   const handleClear = useCallback(() => {
+    if (renderTaskRef.current) {
+      try {
+        renderTaskRef.current.cancel();
+      } catch {}
+      renderTaskRef.current = null;
+    }
     setFile(null);
     setPdfDoc(null);
     pdfDocRef.current = null;
@@ -240,6 +262,18 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
     setError(null);
     setStatus('idle');
     setCanvasReady(false);
+  }, []);
+
+  // Cancel any running render task on unmount
+  useEffect(() => {
+    return () => {
+      if (renderTaskRef.current) {
+        try {
+          renderTaskRef.current.cancel();
+        } catch {}
+        renderTaskRef.current = null;
+      }
+    };
   }, []);
 
   // Canvas callback ref to ensure ready notification
@@ -297,45 +331,115 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
     return Object.values(redactions).reduce((sum, list) => sum + list.length, 0);
   }, [redactions]);
 
+  // Fit to container width
+  const handleFitWidth = useCallback(async () => {
+    const doc = pdfDocRef.current || pdfDoc;
+    if (!doc || !containerRef.current) return;
+    try {
+      const page = await doc.getPage(currentPage);
+      const unscaledViewport = page.getViewport({ scale: 1.0 });
+      const containerW = containerRef.current.clientWidth;
+      const targetW = Math.max(280, containerW - 48);
+      const calculatedScale = Math.min(2.5, Math.max(0.4, Number((targetW / unscaledViewport.width).toFixed(2))));
+      setPageScale(calculatedScale);
+    } catch (err) {
+      console.warn('Failed to calculate fit width:', err);
+      setPageScale(1.0);
+    }
+  }, [currentPage, pdfDoc]);
+
+  // Fit whole page into container viewport
+  const handleFitPage = useCallback(async () => {
+    const doc = pdfDocRef.current || pdfDoc;
+    if (!doc || !containerRef.current) return;
+    try {
+      const page = await doc.getPage(currentPage);
+      const unscaledViewport = page.getViewport({ scale: 1.0 });
+      const containerW = containerRef.current.clientWidth;
+      const containerH = containerRef.current.clientHeight || 550;
+      const targetW = Math.max(280, containerW - 48);
+      const targetH = Math.max(300, containerH - 48);
+      const scaleW = targetW / unscaledViewport.width;
+      const scaleH = targetH / unscaledViewport.height;
+      const calculatedScale = Math.min(2.5, Math.max(0.4, Number(Math.min(scaleW, scaleH).toFixed(2))));
+      setPageScale(calculatedScale);
+    } catch (err) {
+      console.warn('Failed to calculate fit page:', err);
+      setPageScale(1.0);
+    }
+  }, [currentPage, pdfDoc]);
+
   // Render Base PDF page
   const renderCurrentPage = useCallback(async () => {
     const doc = pdfDocRef.current || pdfDoc;
     if (!doc || !baseCanvasRef.current || !overlayCanvasRef.current) return;
+
+    // Cancel any running render task before starting a new one
+    if (renderTaskRef.current) {
+      try {
+        renderTaskRef.current.cancel();
+      } catch {
+        // ignore cancellation errors
+      }
+      renderTaskRef.current = null;
+    }
 
     try {
       setIsPageLoading(true);
       const page = await doc.getPage(currentPage);
       const viewport = page.getViewport({ scale: pageScale });
 
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const MAX_CANVAS_DIM = 4096;
+
+      let outputScale = dpr;
+      const maxDim = Math.max(viewport.width * outputScale, viewport.height * outputScale);
+      if (maxDim > MAX_CANVAS_DIM) {
+        outputScale = MAX_CANVAS_DIM / Math.max(viewport.width, viewport.height);
+      }
+
       const baseCanvas = baseCanvasRef.current;
       const overlayCanvas = overlayCanvasRef.current;
-      const dpr = window.devicePixelRatio || 1;
+
+      const canvasWidth = Math.floor(viewport.width * outputScale);
+      const canvasHeight = Math.floor(viewport.height * outputScale);
+      const cssWidthStr = `${Math.floor(viewport.width)}px`;
+      const cssHeightStr = `${Math.floor(viewport.height)}px`;
 
       // Base canvas
-      baseCanvas.width = Math.floor(viewport.width * dpr);
-      baseCanvas.height = Math.floor(viewport.height * dpr);
-      baseCanvas.style.width = `${Math.floor(viewport.width)}px`;
-      baseCanvas.style.height = `${Math.floor(viewport.height)}px`;
+      baseCanvas.width = canvasWidth;
+      baseCanvas.height = canvasHeight;
+      baseCanvas.style.width = cssWidthStr;
+      baseCanvas.style.height = cssHeightStr;
 
       // Overlay canvas
-      overlayCanvas.width = Math.floor(viewport.width * dpr);
-      overlayCanvas.height = Math.floor(viewport.height * dpr);
-      overlayCanvas.style.width = `${Math.floor(viewport.width)}px`;
-      overlayCanvas.style.height = `${Math.floor(viewport.height)}px`;
+      overlayCanvas.width = canvasWidth;
+      overlayCanvas.height = canvasHeight;
+      overlayCanvas.style.width = cssWidthStr;
+      overlayCanvas.style.height = cssHeightStr;
 
       const ctx = baseCanvas.getContext('2d');
       if (ctx) {
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, viewport.width, viewport.height);
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        await page.render({
+        const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined;
+
+        const renderTask = page.render({
           canvasContext: ctx,
           viewport,
+          transform: transform || undefined,
           intent: 'display',
-        }).promise;
+        });
+        renderTaskRef.current = renderTask;
+
+        await renderTask.promise;
       }
     } catch (err: any) {
+      if (err?.name === 'RenderingCancelledException') {
+        // Normal collision cancellation, do not treat as error
+        return;
+      }
       console.error('Render page error:', err);
       setError(err?.message || 'Failed to render PDF page');
     } finally {
@@ -352,9 +456,9 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
     const ctx = overlay.getContext('2d');
     if (!ctx) return;
 
-    const dpr = window.devicePixelRatio || 1;
-    const cssWidth = overlay.width / dpr;
-    const cssHeight = overlay.height / dpr;
+    const cssWidth = parseFloat(overlay.style.width) || overlay.width;
+    const cssHeight = parseFloat(overlay.style.height) || overlay.height;
+    const dpr = cssWidth > 0 ? overlay.width / cssWidth : 1;
 
     ctx.clearRect(0, 0, overlay.width, overlay.height);
     ctx.save();
@@ -817,12 +921,11 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
     const overlay = overlayCanvasRef.current;
     if (!overlay) return null;
     const rect = overlay.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const cssWidth = overlay.width / dpr;
-    const cssHeight = overlay.height / dpr;
+    const cssWidth = parseFloat(overlay.style.width) || rect.width;
+    const cssHeight = parseFloat(overlay.style.height) || rect.height;
 
-    const scaleX = cssWidth / rect.width;
-    const scaleY = cssHeight / rect.height;
+    const scaleX = rect.width > 0 ? cssWidth / rect.width : 1;
+    const scaleY = rect.height > 0 ? cssHeight / rect.height : 1;
 
     return {
       x: (e.clientX - rect.left) * scaleX,
@@ -2019,11 +2122,22 @@ export function RedactPDFTool({ className = '' }: RedactPDFToolProps) {
                   <Button
                     size="sm"
                     variant="ghost"
-                    onClick={() => setPageScale(1.3)}
-                    className="h-8 px-2 text-xs"
-                    title="适中尺寸 (130%)"
+                    onClick={handleFitWidth}
+                    className="h-8 px-2 text-xs gap-1"
+                    title="自适应页面宽度"
                   >
-                    自适应
+                    <Maximize className="w-3.5 h-3.5" />
+                    自适应宽
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={handleFitPage}
+                    className="h-8 px-2 text-xs gap-1"
+                    title="自适应整页（显示完整页面）"
+                  >
+                    <Maximize2 className="w-3.5 h-3.5" />
+                    自适应页
                   </Button>
                 </div>
               </div>

@@ -1280,199 +1280,203 @@
     }
   },
   "workflow": {
-    "title": "Kreator przepływów pracy PDF",
-    "subtitle": "Twórz własne przepływy przetwarzania PDF, łącząc narzędzia",
-    "metaTitle": "Kreator przepływów pracy PDF — PDFCraft",
-    "metaDescription": "Twórz własne przepływy przetwarzania PDF, wizualnie łącząc narzędzia. Twórz, zapisuj i ponownie wykorzystuj swoje przepływy pracy.",
-    "toolbox": "Narzędzia",
-    "dragToAdd": "Przeciągnij lub kliknij dwukrotnie narzędzie, aby dodać je do przepływu pracy",
-    "addToWorkflowHint": "Przeciągnij lub kliknij dwukrotnie, aby dodać do przepływu pracy",
-    "searchTools": "Wyszukaj narzędzia...",
-    "toolsAvailable": "dostępne narzędzia",
-    "templates": "Szablony",
-    "saved": "Zapisano",
-    "favorites": "Ulubione",
-    "allCategories": "Wszystko",
-    "common": "Popularne",
-    "conversion": "Konwersja",
-    "optimization": "Optymalizacja",
-    "security": "Bezpieczeństwo",
-    "noSavedWorkflows": "Nie zapisano jeszcze żadnych przepływów pracy",
-    "saveWorkflowHint": "Utwórz i zapisz swój pierwszy przepływ pracy",
-    "noFavorites": "Brak ulubionych przepływów pracy",
-    "favoriteHint": "Oznacz przepływy pracy gwiazdką, aby je tutaj dodać",
-    "selectFiles": "Wybierz pliki",
-    "filesSelected": "wybrane pliki",
-    "execute": "Wykonaj",
-    "running": "W toku",
-    "complete": "Gotowe",
-    "error": "Błąd",
-    "issues": "problemy",
-    "stop": "Zatrzymaj",
-    "validationErrors": "Błędy walidacyjne",
-    "warnings": "Ostrzeżenia",
-    "executionFailed": "Wykonanie przepływu pracy nie powiodło się",
-    "retry": "Spróbuj ponownie",
-    "nodes": "węzły",
-    "import": "Importuj",
-    "clear": "Wyczyść",
-    "saveWorkflow": "Zapisz przepływ pracy",
-    "workflowName": "Nazwa przepływu pracy",
-    "enterName": "Wpisz nazwę przepływu pracy...",
-    "description": "Opis",
-    "optional": "opcjonalne",
-    "enterDescription": "Wprowadź opis...",
-    "workflowComplete": "Przepływ pracy został pomyślnie zakończony!",
-    "downloadResults": "Pobierz wyniki",
-    "emptyTitle": "Stwórz swój przepływ pracy",
-    "emptyDescription": "Przeciągnij narzędzia z paska bocznego, aby zbudować przepływ przetwarzania PDF. Połącz węzły, aby zdefiniować kolejność przetwarzania.",
-    "clickHint": "Kliknij węzeł, aby skonfigurować jego ustawienia",
-    "undo": "Cofnij",
-    "redo": "Powtórz",
-    "noSettings": "Brak konfigurowalnych ustawień tego narzędzia",
-    "reset": "Zresetuj",
-    "cancel": "Anuluj",
-    "apply": "Zastosuj",
-    "preview": "Podgląd",
-    "showPreview": "Pokaż podgląd",
-    "noFilesForPreview": "Wybierz pliki, aby zobaczyć podgląd",
-    "generatingPreview": "Tworzenie podglądu...",
-    "noPreviewAvailable": "Brak podglądu",
-    "selectedFiles": "Wybrane pliki",
-    "filesCount": "pliki",
-    "viewEditFiles": "Przeglądaj/edytuj pliki",
-    "moveUp": "Przesuń w górę",
-    "moveDown": "Przesuń w dół",
-    "removeFile": "Usuń",
-    "clearAll": "Wyczyść wszystko",
-    "previewNotAvailable": "Podgląd nie jest dostępny dla tego typu pliku",
-    "confirm": "Potwierdź",
-    "collapseSidebar": "Zwiń pasek boczny",
-    "expandSidebar": "Rozwiń pasek boczny",
-    "library": "Biblioteka",
-    "connections": "połączenia",
-    "history": "Historia",
-    "executionHistory": "Historia wykonania",
-    "totalExecutions": "Łączna liczba uruchomień",
-    "successRate": "Wskaźnik sukcesu",
-    "avgDuration": "Średni czas trwania",
-    "noHistory": "Nie ma jeszcze historii realizacji",
-    "noHistoryHint": "Uruchom przepływ pracy, aby zobaczyć tutaj historię",
-    "confirmDelete": "Czy na pewno chcesz usunąć ten zapis historii?",
-    "confirmClearAllHistory": "Czy na pewno chcesz wyczyścić całą historię? Tego nie można cofnąć.",
-    "unnamedWorkflow": "Nienazwany przepływ pracy",
-    "nodesSuccess": "węzły powiodły się",
-    "nodesFailed": "nie powiodło się",
-    "loadWorkflow": "Załaduj przepływ pracy",
-    "viewDetails": "Zobacz szczegóły",
-    "detailsInConsole": "Szczegóły zapisane w konsoli (F12)",
+    "title": "PDF Workflow Builder",
+    "subtitle": "Create custom PDF processing pipelines by connecting tools",
+    "metaTitle": "PDF Workflow Builder - PDFCraft",
+    "metaDescription": "Create custom PDF processing pipelines by visually connecting tools. Build, save, and reuse your workflows.",
+    "toolbox": "Tool Box",
+    "dragToAdd": "Drag or double-click a tool to add it to the workflow",
+    "addToWorkflowHint": "Drag or double-click to add to workflow",
+    "searchTools": "Search tools...",
+    "toolsAvailable": "tools available",
+    "templates": "Templates",
+    "saved": "Saved",
+    "favorites": "Favorites",
+    "allCategories": "All",
+    "common": "Common",
+    "conversion": "Conversion",
+    "optimization": "Optimization",
+    "security": "Security",
+    "inputCategory": "Input Sources",
+    "pdfInput": "PDF Input",
+    "imageInput": "Image Input",
+    "fileInput": "File Input",
+    "downloadPdf": "Download PDF",
+    "downloadZip": "Download as ZIP",
+    "outputCategory": "Output & Export",
+    "noSavedWorkflows": "No saved workflows yet",
+    "saveWorkflowHint": "Create and save your first workflow",
+    "noFavorites": "No favorite workflows",
+    "favoriteHint": "Star workflows to add them here",
+    "selectFiles": "Select Files",
+    "filesSelected": "files selected",
+    "execute": "Execute",
+    "running": "Running",
+    "complete": "Complete",
+    "error": "Error",
+    "issues": "issues",
+    "stop": "Stop",
+    "validationErrors": "Validation Errors",
+    "warnings": "Warnings",
+    "executionFailed": "Workflow execution failed",
+    "retry": "Retry",
+    "nodes": "nodes",
+    "import": "Import",
+    "clear": "Clear",
+    "saveWorkflow": "Save Workflow",
+    "workflowName": "Workflow Name",
+    "enterName": "Enter workflow name...",
+    "description": "Description",
+    "optional": "optional",
+    "enterDescription": "Enter description...",
+    "workflowComplete": "Workflow completed successfully!",
+    "downloadResults": "Download Results",
+    "emptyTitle": "Create Your Workflow",
+    "emptyDescription": "Drag tools from the sidebar to build your PDF processing pipeline. Connect nodes to define the processing order.",
+    "clickHint": "Click a node to configure its settings",
+    "undo": "Undo",
+    "redo": "Redo",
+    "noSettings": "No configurable settings for this tool",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "preview": "Preview",
+    "showPreview": "Show Preview",
+    "noFilesForPreview": "Select files to see preview",
+    "generatingPreview": "Generating preview...",
+    "noPreviewAvailable": "No preview available",
+    "selectedFiles": "Selected Files",
+    "filesCount": "files",
+    "viewEditFiles": "View/Edit Files",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "removeFile": "Remove",
+    "clearAll": "Clear All",
+    "previewNotAvailable": "Preview not available for this file type",
+    "confirm": "Confirm",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "library": "Library",
+    "connections": "connections",
+    "history": "History",
+    "executionHistory": "Execution History",
+    "totalExecutions": "Total Runs",
+    "successRate": "Success Rate",
+    "avgDuration": "Avg Duration",
+    "noHistory": "No execution history yet",
+    "noHistoryHint": "Run a workflow to see history here",
+    "confirmDelete": "Are you sure you want to delete this history record?",
+    "confirmClearAllHistory": "Are you sure you want to clear all history? This cannot be undone.",
+    "unnamedWorkflow": "Unnamed Workflow",
+    "nodesSuccess": "nodes succeeded",
+    "nodesFailed": "failed",
+    "loadWorkflow": "Load Workflow",
+    "viewDetails": "View Details",
+    "detailsInConsole": "Details logged to console (F12)",
     "workflowTemplates": {
       "mergeCompress": {
-        "name": "Scal i skompresuj",
-        "description": "Scal wiele plików PDF i skompresuj wynik, aby uzyskać mniejszy rozmiar pliku"
+        "name": "Merge & Compress",
+        "description": "Merge multiple PDFs and compress the result for smaller file size"
       },
       "imagesToWatermarkedPdf": {
-        "name": "Obrazy do PDF ze znakiem wodnym",
-        "description": "Konwertuj obrazy do formatu PDF i dodaj niestandardowy znak wodny"
+        "name": "Images to Watermarked PDF",
+        "description": "Convert images to PDF and add a custom watermark"
       },
       "pdfToImages": {
-        "name": "PDF do skompresowanych obrazów",
-        "description": "Konwertuj strony PDF na obrazy JPG"
+        "name": "PDF to Compressed Images",
+        "description": "Convert PDF pages to JPG images"
       },
       "securePdf": {
-        "name": "Utwórz zabezpieczony PDF",
-        "description": "Scal pliki PDF, dodaj znak wodny i szyfruj za pomocą hasła"
+        "name": "Create Secure PDF",
+        "description": "Merge PDFs, add watermark, and encrypt with password"
       },
       "documentPrep": {
-        "name": "Przygotowanie dokumentu",
-        "description": "Scal pliki PDF, dodaj numery stron i dodaj nagłówek/stopkę"
+        "name": "Document Preparation",
+        "description": "Merge PDFs, add page numbers, and add header/footer"
       },
       "optimizeForWeb": {
-        "name": "Optymalizuj pod kątem Internetu",
-        "description": "Kompresuj i linearyzuj PDF, aby szybko przeglądać strony internetowe"
+        "name": "Optimize for Web",
+        "description": "Compress and linearize PDF for fast web viewing"
       },
       "splitAndWatermark": {
-        "name": "Podziel i znak wodny",
-        "description": "Podziel PDF na strony i dodaj do każdej znak wodny"
+        "name": "Split & Watermark",
+        "description": "Split PDF into pages and add watermark to each"
       },
       "officeToMergedPdf": {
-        "name": "Pliki pakietu Office do pojedynczego PDF",
-        "description": "Konwertuj dokumenty Word na PDF i łącz je"
+        "name": "Office Files to Single PDF",
+        "description": "Convert Word documents to PDF and merge them"
       },
       "rotateAndNumber": {
-        "name": "Obróć i dodaj numery stron",
-        "description": "Obróć strony PDF i dodaj numery stron"
+        "name": "Rotate & Add Page Numbers",
+        "description": "Rotate PDF pages and add page numbers"
       },
       "printReady": {
-        "name": "Wydrukuj gotowy dokument",
-        "description": "Przygotuj PDF do druku z numerami stron i spłaszcz"
+        "name": "Print Ready Document",
+        "description": "Prepare PDF for printing with page numbers and flatten"
       },
       "grayscaleCompress": {
-        "name": "Skala szarości i kompresja",
-        "description": "Konwertuj na skalę szarości i kompresuj, aby uzyskać mniejszy rozmiar"
+        "name": "Grayscale & Compress",
+        "description": "Convert to grayscale and compress for smaller size"
       },
       "extractAndMerge": {
-        "name": "Wyodrębnij i scal strony",
-        "description": "Wyodrębnij określone strony i połącz je w nowy dokument"
+        "name": "Extract & Merge Pages",
+        "description": "Extract specific pages and merge them into a new document"
       },
       "confidentialDocument": {
-        "name": "Dokument poufny",
-        "description": "Dodaj poufny znak wodny i zaszyfruj PDF"
+        "name": "Confidential Document",
+        "description": "Add confidential watermark and encrypt PDF"
       },
       "pdfToEditableDoc": {
-        "name": "PDF do dokumentu edytowalnego",
-        "description": "Konwertuj PDF na dokument Word w celu edycji"
+        "name": "PDF to Editable Document",
+        "description": "Convert PDF to Word document for editing"
       },
       "fullOptimization": {
-        "name": "Pełna optymalizacja dokumentu",
-        "description": "Kompresuj, spłaszczaj i linearyzuj, aby uzyskać optymalną wydajność"
+        "name": "Full Document Optimization",
+        "description": "Compress, flatten, and linearize for optimal performance"
       },
       "pdfToPresentation": {
-        "name": "PDF do programu PowerPoint",
-        "description": "Konwertuj PDF na edytowalną prezentację programu PowerPoint"
+        "name": "PDF to PowerPoint",
+        "description": "Convert PDF to editable PowerPoint presentation"
       },
       "unlockAndEdit": {
-        "name": "Odblokuj i edytuj PDF",
-        "description": "Odszyfruj chroniony PDF do edycji"
+        "name": "Unlock & Edit PDF",
+        "description": "Decrypt protected PDF for editing"
       },
       "ebookConvert": {
-        "name": "eBook do PDF",
-        "description": "Konwertuj e-booki EPUB do formatu PDF"
+        "name": "eBook to PDF",
+        "description": "Convert EPUB eBooks to PDF format"
       },
       "batchWatermark": {
-        "name": "Wsadowy znak wodny",
-        "description": "Dodaj znak wodny do wielu plików PDF jednocześnie"
+        "name": "Batch Watermark",
+        "description": "Add watermark to multiple PDF files at once"
       },
       "archivePrep": {
-        "name": "Przygotowanie archiwum",
-        "description": "Usuń metadane, spłaszcz i skompresuj w celu długoterminowego przechowywania"
+        "name": "Archive Preparation",
+        "description": "Remove metadata, flatten, and compress for long-term storage"
       },
       "reportAssembly": {
-        "name": "Składanie raportu",
-        "description": "Scal dokumenty, dodaj numery stron, nagłówek/stopkę i spis treści"
+        "name": "Report Assembly",
+        "description": "Merge documents, add page numbers, header/footer and table of contents"
       },
       "invoiceProcessing": {
-        "name": "Przetwarzanie faktur",
-        "description": "Wyodrębnij strony, dodaj znak wodny i skompresuj do wiadomości e-mail"
+        "name": "Invoice Processing",
+        "description": "Extract pages, add watermark, and compress for email"
       },
       "photoAlbum": {
-        "name": "Kreator albumu fotograficznego",
-        "description": "Konwertuj obrazy na PDF za pomocą numerów stron"
+        "name": "Photo Album Creator",
+        "description": "Convert images to PDF with page numbers"
       },
       "cropAndResize": {
-        "name": "Przytnij i zmień rozmiar stron",
-        "description": "Przytnij strony PDF i dostosuj ich wymiary"
+        "name": "Crop & Resize Pages",
+        "description": "Crop PDF pages and adjust page dimensions"
       }
     },
-    "autoLayout": "Automatyczny układ",
-    "duplicateNode": "Duplikuj węzeł",
-    "downloadZip": "Pobierz jako ZIP",
-    "downloadIndividually": "Pobierz pliki pojedynczo",
-    "flowControl": "Sterowanie przepływem",
-    "conditionGateway": "Bramka warunkowa",
-    "downloadPdf": "Pobierz PDF",
-    "outputCategory": "Wyjście i Eksport",
-    "filenameLabel": "Nazwa pliku wyjściowego"
+    "autoLayout": "Auto Layout",
+    "duplicateNode": "Duplicate Node",
+    "downloadIndividually": "Download files individually",
+    "flowControl": "Flow Control",
+    "conditionGateway": "Condition Gateway",
+    "filenameLabel": "Output Filename"
   },
   "tools": {
     "search": {
@@ -1631,9 +1635,11 @@
       "uploadLabel": "Prześlij plik PDF",
       "uploadDescription": "Przeciągnij i upuść tutaj plik PDF lub kliknij, aby przeglądać.",
       "selectTitle": "Wybierz strony do wyodrębnienia",
-      "selectHint": "Kliknij strony, aby je wybrać, lub wprowadź numery/zakresy stron powyżej.",
+      "selectHint": "Kliknij strony, aby je wybrać, albo wpisz numery, zakresy, odd lub even.",
       "pageRange": "Zakres stron",
-      "pageRangePlaceholder": "np. 1-5, 8, 10-12",
+      "pageRangePlaceholder": "np. 1-5, 8, 10-12, odd",
+      "selectOdd": "Nieparzyste",
+      "selectEven": "Parzyste",
       "extractButton": "Wyodrębnij strony",
       "successMessage": "Strony wyodrębnione pomyślnie! Kliknij przycisk pobierania, aby zapisać plik."
     },
@@ -1695,7 +1701,29 @@
       "errorParse": "Nie udało się przeanalizować certyfikatu",
       "errorPEM": "Nie udało się odczytać pliku PEM.",
       "errorType": "Wybierz plik .pfx, .p12 lub .pem.",
-      "errorImgType": "Wybierz obraz PNG lub JPEG."
+      "errorImgType": "Wybierz obraz PNG lub JPEG.",
+      "modeFile": "Plik certyfikatu",
+      "modeRemote": "Zdalna usługa podpisu",
+      "remoteServiceUrlLabel": "Adres URL usługi podpisu",
+      "remoteServiceUrlHint": "Adres API CSC od dostawcy usług zaufania. Działa z każdym dostawcą obsługującym API Cloud Signature Consortium (v1 lub v2), o ile zezwala on na żądania z tej witryny.",
+      "remoteConnectButton": "Połącz",
+      "remoteUsernameLabel": "Nazwa użytkownika",
+      "remotePasswordLabel": "Hasło",
+      "remoteSignInButton": "Zaloguj się",
+      "remoteClientIdLabel": "Identyfikator klienta OAuth",
+      "remoteOAuthButton": "Zaloguj się u dostawcy",
+      "remoteRedirectHint": "Zarejestruj ten adres przekierowania u dostawcy:",
+      "remoteCredentialLabel": "Certyfikat do podpisu",
+      "remotePinLabel": "PIN",
+      "remoteOtpLabel": "Kod jednorazowy",
+      "remoteOptional": "opcjonalnie",
+      "remoteSendOtp": "Wyślij kod",
+      "remoteResendOtp": "Wyślij kod ponownie",
+      "remoteOAuthCredentialHint": "Po kliknięciu Podpisz PDF potwierdzisz podpis na stronie dostawcy.",
+      "remoteImplicitHint": "Dostawca potwierdza ten podpis po swojej stronie (na przykład w aplikacji mobilnej).",
+      "remotePrivacyNote": "Plik PDF pozostaje w przeglądarce. Do usługi podpisu wysyłany jest tylko 32-bajtowy skrót danych podpisu.",
+      "remoteNoCredentials": "Nie znaleziono certyfikatów do podpisu dla tego konta.",
+      "remoteSigningProgress": "Oczekiwanie na usługę podpisu..."
     },
     "validateSign": {
       "uploadLabel": "Prześlij podpisany PDF",
@@ -1797,6 +1825,11 @@
       "creatorPlaceholder": "Wejdź do aplikacji twórcy",
       "producer": "PDF Producent",
       "producerPlaceholder": "Wpisz PDF producenta",
+      "datesSection": "Daty dokumentu",
+      "creationDate": "Data utworzenia",
+      "creationDateHelp": "Data, kiedy dokument został pierwotnie utworzony.",
+      "modificationDate": "Data modyfikacji",
+      "modificationDateHelp": "Pozostaw puste, aby przy zapisie automatycznie ustawić bieżącą datę i godzinę.",
       "resetButton": "Zresetuj",
       "saveButton": "Zapisz metadane",
       "editAnother": "Edytuj kolejny PDF",
@@ -1921,7 +1954,7 @@
       "uploadDescription": "Przeciągnij i upuść plik PDF, aby go podpisać.",
       "instructionsTitle": "Jak podpisać",
       "instruction1": "Kliknij narzędzie Podpis (ikona pióra) na pasku narzędzi",
-      "instruction2": "Narysuj, wpisz lub prześlij swój podpis",
+      "instruction2": "Narysuj, wpisz lub prześlij swój podpis albo zeskanuj jego zdjęcie",
       "instruction3": "Kliknij miejsce, w którym chcesz umieścić podpis",
       "instruction4": "Po zakończeniu kliknij „Zapisz podpisany PDF” poniżej",
       "flattenOption": "Spłaszcz podpis (zalecane — powoduje, że podpis jest trwały)",
@@ -2539,7 +2572,14 @@
       "bold": "Odważne",
       "italic": "Kursywa",
       "boldItalic": "Pogrubienie i kursywa",
-      "setToCurrentPage": "Ustaw na bieżącą stronę"
+      "setToCurrentPage": "Ustaw na bieżącą stronę",
+      "removeAll": "Usuń wszystkie",
+      "removeAllConfirm": "Usunąć wszystkie zakładki? Nadal możesz zapisać plik, aby pobrać PDF bez zakładek.",
+      "removedAllHint": "Usunięto wszystkie zakładki. Zapisz, aby pobrać PDF bez zakładek.",
+      "removeSelected": "Usuń zaznaczone ({count})",
+      "removeSelectedConfirm": "Usunąć {count, plural, one {# zaznaczoną zakładkę} few {# zaznaczone zakładki} many {# zaznaczonych zakładek} other {# zaznaczonej zakładki}}? Zakładki podrzędne również zostaną usunięte.",
+      "selectForRemoval": "Zaznacz „{title}”",
+      "selectHint": "Zaznacz pola wyboru, aby usunąć kilka zakładek naraz. Shift+kliknięcie zaznacza zakres."
     },
     "pageNumbers": {
       "uploadLabel": "Prześlij plik PDF",

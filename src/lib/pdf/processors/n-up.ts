@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 /**
  * N-Up options
@@ -216,7 +217,7 @@ export class NUpPDFProcessor extends BasePDFProcessor {
       // Pre-embed all pages at once to avoid duplicate font embedding
       // This is crucial for CJK PDFs where fonts can be very large
       this.updateProgress(35, 'Embedding pages...');
-      const embeddedPages = await newPdf.embedPages(sourcePages);
+      const embeddedPages = await newPdf.embedPages(sourcePages.map(ensurePageContents));
 
       if (this.checkCancelled()) {
         return this.createErrorOutput(
@@ -246,12 +247,19 @@ export class NUpPDFProcessor extends BasePDFProcessor {
           const pageIndex = i + j;
           const embeddedPage = embeddedPages[pageIndex];
 
+          // Pages with /Rotate (common in scans) are shown turned in a viewer,
+          // so size them by their displayed width/height and draw them turned.
+          const quarterTurns = ((sourcePages[pageIndex].getRotation().angle % 360) + 360) % 360 / 90;
+          const turned = quarterTurns % 2 === 1;
+          const displayWidth = turned ? embeddedPage.height : embeddedPage.width;
+          const displayHeight = turned ? embeddedPage.width : embeddedPage.height;
+
           const scale = Math.min(
-            cellWidth / embeddedPage.width,
-            cellHeight / embeddedPage.height
+            cellWidth / displayWidth,
+            cellHeight / displayHeight
           );
-          const scaledWidth = embeddedPage.width * scale;
-          const scaledHeight = embeddedPage.height * scale;
+          const scaledWidth = displayWidth * scale;
+          const scaledHeight = displayHeight * scale;
 
           const row = Math.floor(j / dims[0]);
           const col = j % dims[0];
@@ -262,10 +270,13 @@ export class NUpPDFProcessor extends BasePDFProcessor {
           const y = cellY + (cellHeight - scaledHeight) / 2;
 
           outputPage.drawPage(embeddedPage, {
-            x,
-            y,
-            width: scaledWidth,
-            height: scaledHeight,
+            // Origin of the unturned page so that, once turned clockwise by
+            // /Rotate, it fills the box whose lower-left corner is (x, y).
+            x: quarterTurns === 2 || quarterTurns === 3 ? x + scaledWidth : x,
+            y: quarterTurns === 1 || quarterTurns === 2 ? y + scaledHeight : y,
+            width: turned ? scaledHeight : scaledWidth,
+            height: turned ? scaledWidth : scaledHeight,
+            rotate: pdfLib.degrees(-quarterTurns * 90),
           });
 
           if (nupOptions.addBorder) {

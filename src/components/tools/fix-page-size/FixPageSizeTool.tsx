@@ -245,7 +245,7 @@ export function FixPageSizeTool({ className = '' }: FixPageSizeToolProps) {
                       disabled:opacity-50 disabled:cursor-not-allowed
                     `}
                   >
-                    {preset === 'custom' ? (tTools('fixPageSize.custom') || 'Custom') : preset.toUpperCase()}
+                    {preset === 'custom' ? (tTools('fixPageSize.custom') || 'Custom') : preset === 'envelope-10' ? '#10 Envelope' : preset.toUpperCase()}
                   </button>
                 ))}
               </div>
@@ -401,7 +401,7 @@ export function FixPageSizeTool({ className = '' }: FixPageSizeToolProps) {
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_fixed.pdf` : 'fixed.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_fixed.pdf` : 'fixed.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

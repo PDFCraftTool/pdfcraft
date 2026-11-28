@@ -576,7 +576,7 @@ export function CitationLinkerTool({ className = '' }: CitationLinkerToolProps) 
           <div className="flex gap-3 justify-center max-w-xs mx-auto">
             <DownloadButton
               file={result}
-              filename={file?.name.replace('.pdf', '_linked.pdf') || 'citations_linked.pdf'}
+              filename={file?.name.replace(/\.pdf$/i, '_linked.pdf') || 'citations_linked.pdf'}
               variant="primary"
               size="lg"
               className="flex-1 font-bold shadow-lg"

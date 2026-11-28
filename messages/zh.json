@@ -1509,14 +1509,14 @@
       "hint": "更高的质量会产生更大的文件，转换时间更长。"
     },
     "mergePdf": {
-      "uploadLabel": "上传PDF文件",
-      "uploadDescription": "拖放PDF文件到此处，或点击浏览。可以添加多个文件。",
-      "filesTitle": "要合并的文件",
-      "reorderHint": "拖放以重新排序文件。文件将按显示顺序合并。",
+      "uploadLabel": "上传文件（PDF、图片、文档）",
+      "uploadDescription": "拖放 PDF、图片、Word、Excel、PPT 或文本文件到此处，或点击浏览。支持多种格式混选合并为一个 PDF。",
+      "filesTitle": "待合并文件",
+      "reorderHint": "拖放缩略图可调整先后顺序。所有文件将按列表顺序自动整合合并为一个 PDF。",
       "optionsTitle": "合并选项",
-      "preserveBookmarks": "保留书签（为每个文件创建书签）",
-      "mergeButton": "合并PDF",
-      "successMessage": "PDF合并成功！点击下载按钮保存文件。"
+      "preserveBookmarks": "保留书签（自动以原文件名生成目录书签）",
+      "mergeButton": "合并文件为 PDF",
+      "successMessage": "文件合并成功！点击下载按钮保存您的 PDF 文件。"
     },
     "gridCombine": {
       "uploadLabel": "上传PDF文件",
@@ -1638,9 +1638,11 @@
       "uploadLabel": "上传PDF文件",
       "uploadDescription": "拖放PDF文件到此处，或点击浏览。",
       "selectTitle": "选择要提取的页面",
-      "selectHint": "点击页面选择，或在上方输入页码/范围。",
+      "selectHint": "点击页面选择，或在上方输入页码、范围、odd 或 even。",
       "pageRange": "页面范围",
-      "pageRangePlaceholder": "例如：1-5, 8, 10-12",
+      "pageRangePlaceholder": "例如：1-5, 8, 10-12, odd, even",
+      "selectOdd": "奇数页",
+      "selectEven": "偶数页",
       "extractButton": "提取页面",
       "successMessage": "页面提取成功！点击下载按钮保存文件。"
     },
@@ -1702,7 +1704,29 @@
       "errorParse": "解析证书失败",
       "errorPEM": "读取 PEM 文件失败。",
       "errorType": "请选择 .pfx, .p12, 或 .pem 文件。",
-      "errorImgType": "请选择 PNG 或 JPEG 图片。"
+      "errorImgType": "请选择 PNG 或 JPEG 图片。",
+      "modeFile": "证书文件",
+      "modeRemote": "远程签名服务",
+      "remoteServiceUrlLabel": "签名服务地址",
+      "remoteServiceUrlHint": "您的信任服务提供商提供的 CSC API 地址。只要实现了 Cloud Signature Consortium API（v1 或 v2），并允许来自本站的请求，任何服务商均可使用。",
+      "remoteConnectButton": "连接",
+      "remoteUsernameLabel": "用户名",
+      "remotePasswordLabel": "密码",
+      "remoteSignInButton": "登录",
+      "remoteClientIdLabel": "OAuth 客户端 ID",
+      "remoteOAuthButton": "通过服务商登录",
+      "remoteRedirectHint": "请在您的服务商处注册此重定向 URI：",
+      "remoteCredentialLabel": "签名证书",
+      "remotePinLabel": "PIN 码",
+      "remoteOtpLabel": "一次性验证码",
+      "remoteOptional": "可选",
+      "remoteSendOtp": "发送验证码",
+      "remoteResendOtp": "重新发送验证码",
+      "remoteOAuthCredentialHint": "点击“签署 PDF”后，您将在服务商的页面上确认签名。",
+      "remoteImplicitHint": "您的服务商会在其自身一侧（例如在其手机应用中）确认此签名。",
+      "remotePrivacyNote": "您的 PDF 保留在浏览器中，只有签名数据的 32 字节哈希值会发送给签名服务。",
+      "remoteNoCredentials": "此账户下未找到任何签名证书。",
+      "remoteSigningProgress": "正在等待签名服务……"
     },
     "validateSign": {
       "uploadLabel": "上传已签名的 PDF",
@@ -1808,7 +1832,12 @@
       "saveButton": "保存元数据",
       "editAnother": "编辑另一个PDF",
       "modificationNote": "保存时修改日期将自动更新。",
-      "successMessage": "元数据更新成功！点击下载按钮保存文件。"
+      "successMessage": "元数据更新成功！点击下载按钮保存文件。",
+      "datesSection": "文档日期",
+      "creationDate": "创建日期",
+      "creationDateHelp": "文档最初创建的日期。",
+      "modificationDate": "修改日期",
+      "modificationDateHelp": "留空则在保存时自动设为当前日期和时间。"
     },
     "editPdf": {
       "uploadLabel": "上传PDF进行编辑",
@@ -1841,7 +1870,15 @@
         "fontSize": "字号",
         "inkColor": "墨水颜色",
         "inkThickness": "墨水粗细"
-      }
+      },
+      "textHistory": "文字修改历史",
+      "textUndo": "撤销文字",
+      "textRedo": "重做文字",
+      "textUndoApplied": "已撤销上一次文字修改。",
+      "textRedoApplied": "已重做文字修改。",
+      "overflowAppliedWarning": "替换后的文字超出了原区域，导出前请目视检查结果。",
+      "fallbackFontWarning": "无法沿用原字体，已改用备用字体，请检查字符和间距。",
+      "signatureInvalidatedWarning": "此 PDF 含有数字签名，编辑其内容会使现有签名失效。"
     },
     "imageToPdf": {
       "uploadLabel": "上传图片",
@@ -1920,7 +1957,7 @@
       "uploadDescription": "拖放PDF文件到此处进行签名。",
       "instructionsTitle": "如何签名",
       "instruction1": "点击工具栏中的签名工具（钢笔图标）",
-      "instruction2": "绘制、输入或上传您的签名",
+      "instruction2": "绘制、输入或上传您的签名，或扫描签名照片",
       "instruction3": "点击要放置签名的位置",
       "instruction4": "完成后点击下方的「保存签名PDF」",
       "flattenOption": "扁平化签名（推荐 - 使签名永久）",
@@ -2538,7 +2575,14 @@
       "bold": "加粗",
       "italic": "倾斜",
       "boldItalic": "加粗并倾斜",
-      "setToCurrentPage": "设为当前页"
+      "setToCurrentPage": "设为当前页",
+      "removeAll": "全部移除",
+      "removeAllConfirm": "要移除所有书签吗？保存后，导出的 PDF 将不包含书签。",
+      "removedAllHint": "已移除所有书签。保存即可下载不含书签的 PDF。",
+      "removeSelected": "移除所选（{count}）",
+      "removeSelectedConfirm": "要移除所选的 {count} 个书签吗？其子书签也会一并移除。",
+      "selectForRemoval": "选择“{title}”",
+      "selectHint": "勾选复选框可一次移除多个书签。按住 Shift 点击可选择一个范围。"
     },
     "pageNumbers": {
       "uploadLabel": "上传PDF文件",

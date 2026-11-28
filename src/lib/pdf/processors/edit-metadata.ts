@@ -25,6 +25,8 @@ export interface EditableMetadata {
   keywords?: string[];
   creator?: string;
   producer?: string;
+  creationDate?: Date;
+  modificationDate?: Date;
 }
 
 /**
@@ -115,7 +117,8 @@ export class EditMetadataPDFProcessor extends BasePDFProcessor {
       // Load the PDF document
       const pdfDoc = await pdfLib.PDFDocument.load(arrayBuffer, {
         ignoreEncryption: false,
-        updateMetadata: true,
+        // Apply only the explicit edits below, including the modification-date option.
+        updateMetadata: false,
       });
 
       if (this.checkCancelled()) {
@@ -154,8 +157,15 @@ export class EditMetadataPDFProcessor extends BasePDFProcessor {
         pdfDoc.setProducer(metadata.producer);
       }
 
-      // Update modification date if requested
-      if (editOptions.updateModificationDate) {
+      // Set creation date if provided
+      if (metadata.creationDate !== undefined) {
+        pdfDoc.setCreationDate(metadata.creationDate);
+      }
+
+      // Update modification date: use explicit value if provided, otherwise auto-update if requested
+      if (metadata.modificationDate !== undefined) {
+        pdfDoc.setModificationDate(metadata.modificationDate);
+      } else if (editOptions.updateModificationDate) {
         pdfDoc.setModificationDate(new Date());
       }
 

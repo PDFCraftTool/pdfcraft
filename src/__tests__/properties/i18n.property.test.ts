@@ -69,7 +69,7 @@ describe('i18n Property Tests', () => {
    * Property: All non-Arabic locales have LTR direction
    */
   it('all locales have correct text direction', () => {
-    const RTL_LOCALES: string[] = ['ar'];
+    const RTL_LOCALES: string[] = ['ar', 'he'];
     fc.assert(
       fc.property(
         fc.constantFrom(...SUPPORTED_LOCALES),

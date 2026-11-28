@@ -48,7 +48,11 @@ import { PDFToSVGProcessor } from '@/lib/pdf/processors/pdf-to-svg';
 import { PDFToGreyscaleProcessor } from '@/lib/pdf/processors/pdf-to-greyscale';
 import { PDFToJSONProcessor } from '@/lib/pdf/processors/pdf-to-json';
 import { OCRProcessor } from '@/lib/pdf/processors/ocr';
-import { FixPageSizeProcessor } from '@/lib/pdf/processors/fix-page-size';
+import {
+    FixPageSizeProcessor,
+    PAGE_SIZES as FIX_PAGE_SIZE_PRESETS,
+    type FixPageSizeOptions,
+} from '@/lib/pdf/processors/fix-page-size';
 import { LinearizePDFProcessor } from '@/lib/pdf/processors/linearize';
 import { RemoveRestrictionsProcessor } from '@/lib/pdf/processors/remove-restrictions';
 import { RepairPDFProcessor } from '@/lib/pdf/processors/repair';
@@ -178,16 +182,23 @@ export function interpolateTokens(
     const total = context.total ?? 1;
     const tool = context.toolId ? context.toolId.replace(/-(pdf|to-pdf|from-pdf)$/, '') : '';
 
-    return template
-        .replace(/\{filename\}/gi, basename)
-        .replace(/\{basename\}/gi, basename)
-        .replace(/\{date\}/gi, dateStr)
-        .replace(/\{time\}/gi, timeStr)
-        .replace(/\{timestamp\}/gi, timestampStr)
-        .replace(/\{index\}/gi, String(index))
-        .replace(/\{total\}/gi, String(total))
-        .replace(/\{tool\}/gi, tool)
-        .replace(/\{ext\}/gi, context.outputExt || originalExt);
+    const values: Record<string, string> = {
+        filename: basename,
+        basename,
+        date: dateStr,
+        time: timeStr,
+        timestamp: timestampStr,
+        index: String(index),
+        total: String(total),
+        tool,
+        ext: context.outputExt || originalExt,
+    };
+
+    // A single pass keeps context values literal, including $& and {date} in filenames.
+    return template.replace(
+        /\{(filename|basename|date|time|timestamp|index|total|tool|ext)\}/gi,
+        (_match, token: string) => values[token.toLowerCase()]
+    );
 }
 
 /**
@@ -866,10 +877,47 @@ export async function executeNode(
             case 'fix-page-size': {
                 if (files.length === 0) throw new Error('No input file');
                 const processor = new FixPageSizeProcessor();
-                const options = {
-                    targetSize: String(settings.targetSize || 'A4'),
+                // Node settings store the size as targetSize ('A4', 'ENVELOPE-10', ...);
+                // the processor expects a PAGE_SIZES preset key ('a4', 'envelope-10', ...).
+                // Try sizePreset first, then targetSize; use hasOwnProperty so inherited
+                // keys like 'constructor' from imported workflow JSON can't pass as presets.
+                const sizeCandidates = [settings.sizePreset, settings.targetSize]
+                    .filter((value) => value !== undefined && value !== null)
+                    .map((value) => String(value).trim().toLowerCase());
+                const sizePreset = (
+                    sizeCandidates.find((candidate) =>
+                        Object.prototype.hasOwnProperty.call(FIX_PAGE_SIZE_PRESETS, candidate)
+                    ) || 'a4'
+                ) as FixPageSizeOptions['sizePreset'];
+                const requestedScaleMode = String(settings.scaleMode || 'fit').trim().toLowerCase();
+                const scaleMode = (
+                    ['fit', 'fill', 'stretch', 'center'].includes(requestedScaleMode)
+                        ? requestedScaleMode
+                        : 'fit'
+                ) as FixPageSizeOptions['scaleMode'];
+                const requestedOrientation = String(settings.orientation || 'auto').trim().toLowerCase();
+                const orientation = (
+                    ['portrait', 'landscape', 'auto'].includes(requestedOrientation)
+                        ? requestedOrientation
+                        : 'auto'
+                ) as FixPageSizeOptions['orientation'];
+                const rawMaintainAspectRatio = settings.maintainAspectRatio;
+                const maintainAspectRatio = rawMaintainAspectRatio === undefined
+                    ? true
+                    : typeof rawMaintainAspectRatio === 'string'
+                        ? rawMaintainAspectRatio.trim().toLowerCase() !== 'false'
+                        : Boolean(rawMaintainAspectRatio);
+                const customWidth = Number(settings.customWidth);
+                const customHeight = Number(settings.customHeight);
+                const options: FixPageSizeOptions = {
+                    sizePreset,
+                    scaleMode,
+                    orientation,
+                    maintainAspectRatio,
+                    customWidth: Number.isFinite(customWidth) ? customWidth : undefined,
+                    customHeight: Number.isFinite(customHeight) ? customHeight : undefined,
                 };
-                return await processor.process(createProcessInput(files, options), onProgress);
+                return await processor.process(createProcessInput(files, { ...options }), onProgress);
             }
 
             case 'linearize-pdf': {

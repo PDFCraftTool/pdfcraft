@@ -540,6 +540,9 @@ pdfjs-editor-add-signature-draw-button = ارسم
     .title = ارسم
 pdfjs-editor-add-signature-image-button = صورة
     .title = صورة
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = مسح
+    .title = امسح صورة توقيعك
 
 ## Tab panels
 
@@ -558,6 +561,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] أو اختر ملفات الصور
        *[other] أو تصفح ملفات الصور
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = وقّع على ورقة بيضاء، والتقط صورة لها، ثم ارفعها هنا.
+pdfjs-editor-add-signature-scan-tip = للحصول على أفضل نتيجة، استخدم فلاش الكاميرا أو إضاءة ساطعة ومتساوية، وأمسك الكاميرا فوق الورقة مباشرةً.
+pdfjs-editor-add-signature-scan-choose-photo-button = اختر صورة
+pdfjs-editor-add-signature-scan-take-photo-button = التقط صورة
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] يمكنك أيضًا سحب صورة إلى هنا أو لصقها باستخدام ⌘V.
+       *[other] يمكنك أيضًا سحب صورة إلى هنا أو لصقها باستخدام Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = منطقة التوقيع. اسحبها أو استخدم مفاتيح الأسهم لتحريكها. اضغط Shift مع مفاتيح الأسهم لتغيير حجمها.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = معاينة التوقيع الممسوح
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = تدوير لليسار
+pdfjs-editor-add-signature-scan-rotate-left-button-label = تدوير لليسار
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = تدوير لليمين
+pdfjs-editor-add-signature-scan-rotate-right-button-label = تدوير لليمين
+pdfjs-editor-add-signature-scan-sensitivity-range-label = حساسية الحبر
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = حساسية الحبر: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = تغيير الصورة
 
 ## Controls
 

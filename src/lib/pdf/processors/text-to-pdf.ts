@@ -363,7 +363,7 @@ export class TextToPDFProcessor extends BasePDFProcessor {
     let page = pdfDoc.addPage([pageWidth, pageHeight]);
     let y = pageHeight - margin.top;
 
-    const paragraphs = text.split('\n');
+    const paragraphs = text.split(/\r\n?|\n/);
 
     for (const paragraph of paragraphs) {
       if (paragraph.trim() === '') {

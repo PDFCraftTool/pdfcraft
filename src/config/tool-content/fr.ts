@@ -474,7 +474,7 @@ export const toolContentFr: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Créez votre signature",
-        "description": "Dessinez votre signature avec la souris ou le tactile, tapez votre nom pour générer une signature, ou téléchargez une image de signature."
+        "description": "Dessinez votre signature avec la souris ou le tactile, tapez votre nom pour générer une signature, ou téléchargez une image de signature. Vous pouvez aussi scanner la photo d’une signature écrite sur papier."
       },
       {
         "step": 3,

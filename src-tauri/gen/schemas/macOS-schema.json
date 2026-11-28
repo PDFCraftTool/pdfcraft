@@ -2001,6 +2001,102 @@
       "description": "Permission identifier",
       "oneOf": [
         {
+          "description": "Enables the get_system_printers command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-get-system-printers",
+          "markdownDescription": "Enables the get_system_printers command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the get_temp_dir command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-get-temp-dir",
+          "markdownDescription": "Enables the get_temp_dir command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the open_files command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-open-files",
+          "markdownDescription": "Enables the open_files command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the open_url command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-open-url",
+          "markdownDescription": "Enables the open_url command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the print_pdf_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-print-pdf-file",
+          "markdownDescription": "Enables the print_pdf_file command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the read_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-read-file",
+          "markdownDescription": "Enables the read_file command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the save_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-save-file",
+          "markdownDescription": "Enables the save_file command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the write_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-write-file",
+          "markdownDescription": "Enables the write_file command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the get_system_printers command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-get-system-printers",
+          "markdownDescription": "Denies the get_system_printers command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the get_temp_dir command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-get-temp-dir",
+          "markdownDescription": "Denies the get_temp_dir command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the open_files command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-open-files",
+          "markdownDescription": "Denies the open_files command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the open_url command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-open-url",
+          "markdownDescription": "Denies the open_url command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the print_pdf_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-print-pdf-file",
+          "markdownDescription": "Denies the print_pdf_file command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the read_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-read-file",
+          "markdownDescription": "Denies the read_file command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the save_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-save-file",
+          "markdownDescription": "Denies the save_file command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the write_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-write-file",
+          "markdownDescription": "Denies the write_file command without any pre-configured scope."
+        },
+        {
           "description": "Default core plugins set.\n#### This default permission set includes:\n\n- `core:path:default`\n- `core:event:default`\n- `core:window:default`\n- `core:webview:default`\n- `core:app:default`\n- `core:image:default`\n- `core:resources:default`\n- `core:menu:default`\n- `core:tray:default`",
           "type": "string",
           "const": "core:default",
@@ -2035,6 +2131,12 @@
           "type": "string",
           "const": "core:app:allow-default-window-icon",
           "markdownDescription": "Enables the default_window_icon command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the exit command without any pre-configured scope.",
+          "type": "string",
+          "const": "core:app:allow-exit",
+          "markdownDescription": "Enables the exit command without any pre-configured scope."
         },
         {
           "description": "Enables the fetch_data_store_identifiers command without any pre-configured scope.",
@@ -2125,6 +2227,12 @@
           "type": "string",
           "const": "core:app:deny-default-window-icon",
           "markdownDescription": "Denies the default_window_icon command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the exit command without any pre-configured scope.",
+          "type": "string",
+          "const": "core:app:deny-exit",
+          "markdownDescription": "Denies the exit command without any pre-configured scope."
         },
         {
           "description": "Denies the fetch_data_store_identifiers command without any pre-configured scope.",
@@ -3387,6 +3495,12 @@
           "markdownDescription": "Enables the set_fullscreen command without any pre-configured scope."
         },
         {
+          "description": "Enables the set_fullscreen_on_monitor command without any pre-configured scope.",
+          "type": "string",
+          "const": "core:window:allow-set-fullscreen-on-monitor",
+          "markdownDescription": "Enables the set_fullscreen_on_monitor command without any pre-configured scope."
+        },
+        {
           "description": "Enables the set_icon command without any pre-configured scope.",
           "type": "string",
           "const": "core:window:allow-set-icon",
@@ -3853,6 +3967,12 @@
           "type": "string",
           "const": "core:window:deny-set-fullscreen",
           "markdownDescription": "Denies the set_fullscreen command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the set_fullscreen_on_monitor command without any pre-configured scope.",
+          "type": "string",
+          "const": "core:window:deny-set-fullscreen-on-monitor",
+          "markdownDescription": "Denies the set_fullscreen_on_monitor command without any pre-configured scope."
         },
         {
           "description": "Denies the set_icon command without any pre-configured scope.",

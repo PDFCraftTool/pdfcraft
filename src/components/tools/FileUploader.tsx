@@ -29,6 +29,23 @@ export interface FileUploaderProps {
 }
 
 /**
+ * Safely create a virtual File object from a Blob across browser and runtime environments
+ */
+function createVirtualPdfFile(blob: Blob, name: string): File {
+  try {
+    const Ctor = typeof File !== 'undefined' ? File : (window as any)?.File;
+    if (typeof Ctor === 'function') {
+      return new Ctor([blob], name, { type: 'application/pdf' }) as File;
+    }
+  } catch {}
+
+  const file = blob as any;
+  file.name = name;
+  file.lastModified = Date.now();
+  return file as File;
+}
+
+/**
  * FileUploader Component
  * Requirements: 5.2
  * 
@@ -64,22 +81,43 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
-  // Helper to check if a PDF file is encrypted
-  const checkIsEncrypted = async (file: File): Promise<boolean> => {
+  // Helper to check if a PDF file is encrypted, and silently unlock it if it only has
+  // owner/permissions restrictions (i.e. empty user password, common in bank statements).
+  const inspectAndUnlockPdf = async (file: File): Promise<{ needsPassword: boolean; file: File }> => {
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-      return false;
+      return { needsPassword: false, file };
     }
     try {
-      const arrayBuffer = await file.arrayBuffer();
+      const arrayBuffer = typeof file.arrayBuffer === 'function'
+        ? await file.arrayBuffer()
+        : await new Response(file).arrayBuffer();
       const { PDFDocument } = await import('pdf-lib');
       await PDFDocument.load(arrayBuffer);
-      return false;
+      return { needsPassword: false, file };
     } catch (err: any) {
-      const msg = err.message || '';
-      if (msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt')) {
-        return true;
+      const msg = err?.message || '';
+      const isEncryptError = msg.includes('encrypt') || msg.includes('password') || msg.includes('decrypt');
+      if (!isEncryptError) {
+        // Non-encryption parse error, let downstream processors handle it
+        return { needsPassword: false, file };
       }
-      return false;
+
+      // Document has /Encrypt dictionary.
+      // Attempt silent decryption with empty password using qpdf-wasm.
+      // Many documents (such as bank statements, invoices, official letters)
+      // only set an Owner Password to restrict editing/copying, but have an empty User Password.
+      try {
+        const { decryptPDF } = await import('@/lib/pdf/processors/decrypt');
+        const silentOutput = await decryptPDF(file, { password: '' });
+        if (silentOutput.success && silentOutput.result) {
+          const unlockedFile = createVirtualPdfFile(silentOutput.result as Blob, file.name);
+          return { needsPassword: false, file: unlockedFile };
+        }
+      } catch {
+        // Silent unlock failed, fall through to user prompt
+      }
+
+      return { needsPassword: true, file };
     }
   };
 
@@ -183,10 +221,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
       const decryptedBlob = output.result as Blob;
 
-      // Create a fresh unlocked virtual File object, fallback to window.File to avoid Node/Browser File type clashes
-      const unlockedFile = new (window as any).File([decryptedBlob], fileToDecrypt.name.replace('.pdf', '_unlocked.pdf'), {
-        type: 'application/pdf',
-      }) as File;
+      // Create a fresh unlocked virtual File object
+      const unlockedFile = createVirtualPdfFile(
+        decryptedBlob,
+        fileToDecrypt.name.replace(/\.pdf$/i, '_unlocked.pdf')
+      );
 
       const updatedAccumulator = [...decryptedFilesAccumulator, unlockedFile];
       setDecryptedFilesAccumulator(updatedAccumulator);
@@ -231,11 +270,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       const unencryptedList: File[] = [];
 
       for (const file of valid) {
-        const isEncrypted = await checkIsEncrypted(file);
-        if (isEncrypted) {
-          encryptedList.push(file);
+        const { needsPassword, file: processedFile } = await inspectAndUnlockPdf(file);
+        if (needsPassword) {
+          encryptedList.push(processedFile);
         } else {
-          unencryptedList.push(file);
+          unencryptedList.push(processedFile);
         }
       }
 
@@ -247,8 +286,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         setPassword('');
         setDecryptError(null);
       } else {
-        // All files are already plain/unencrypted, transmit natively
-        onFilesSelected(valid);
+        // All files are already plain/unencrypted or silently unlocked, transmit directly
+        onFilesSelected(unencryptedList);
       }
     }
   }, [disabled, validateFiles, onError, onFilesSelected]);

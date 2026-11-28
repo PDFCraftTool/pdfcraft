@@ -116,6 +116,49 @@ jobs:
           APPIMAGE_EXTRACT_AND_RUN: "1"
           APPLE_SIGNING_IDENTITY: "-"
 
+      - name: Patch Linux AppImage (Exclude Conflicting Graphics Libraries)
+        if: matrix.platform == 'ubuntu-latest'
+        shell: bash
+        run: |
+          echo "Patching AppImage to exclude bundled Wayland client libraries..."
+          APPIMAGE_FILE=$(find src-tauri/target/release/bundle/appimage -name "*.AppImage" | head -n 1)
+          if [ -n "$APPIMAGE_FILE" ] && [ -f "$APPIMAGE_FILE" ]; then
+            echo "Found AppImage: $APPIMAGE_FILE"
+            WORKDIR=$(mktemp -d)
+            cd "$WORKDIR"
+            chmod +x "$GITHUB_WORKSPACE/$APPIMAGE_FILE"
+
+            # Extract AppImage
+            APPIMAGE_EXTRACT_AND_RUN=1 "$GITHUB_WORKSPACE/$APPIMAGE_FILE" --appimage-extract
+
+            # Remove bundled libwayland-client to prevent conflicts with host's Mesa/EGL drivers on newer distros (e.g., Ubuntu 26.04)
+            echo "Removing bundled Wayland client libraries from AppImage..."
+            find squashfs-root/ -name "libwayland-client.so*" -print -delete || true
+            find squashfs-root/ -name "libwayland-egl.so*" -print -delete || true
+
+            # Download appimagetool if not installed
+            if ! command -v appimagetool >/dev/null 2>&1; then
+              curl -sSL "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -o appimagetool
+              chmod +x appimagetool
+              APPIMAGETOOL="./appimagetool"
+            else
+              APPIMAGETOOL="appimagetool"
+            fi
+
+            # Extraction can leave owner-only permissions. AppImage users must
+            # be able to read files and traverse/execute existing directories/programs.
+            # Capital X preserves non-executable data files (unlike chmod +x).
+            chmod -R a+rX squashfs-root
+
+            # Repackage AppImage without conflicting libraries
+            rm -f "$GITHUB_WORKSPACE/$APPIMAGE_FILE"
+            APPIMAGE_EXTRACT_AND_RUN=1 ARCH=x86_64 "$APPIMAGETOOL" squashfs-root "$GITHUB_WORKSPACE/$APPIMAGE_FILE"
+            chmod +x "$GITHUB_WORKSPACE/$APPIMAGE_FILE"
+            cd "$GITHUB_WORKSPACE"
+            rm -rf "$WORKDIR"
+            echo "Successfully repacked AppImage without conflicting Wayland libraries."
+          fi
+
       - name: Ad-hoc Sign macOS App Bundle & Repackage DMG
         if: matrix.platform == 'macos-latest' && github.event_name != 'pull_request'
         shell: bash

@@ -136,7 +136,7 @@ export class FormLogicDesignerProcessor extends BasePDFProcessor {
         // JS must be represented as a PDFString or PDFStream
         const jsAction = context.obj({
           S: pdfLib.PDFName.of('JavaScript'),
-          JS: pdfLib.PDFString.of(jsCode),
+          JS: pdfLib.PDFHexString.fromText(jsCode),
         });
 
         // AA dictionary (Additional Actions)
@@ -176,7 +176,7 @@ export class FormLogicDesignerProcessor extends BasePDFProcessor {
 
 // Simple JS string escaper
 function escapeJsString(val: string): string {
-  return val.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+  return JSON.stringify(val).slice(1, -1).replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 }
 
 export function createFormLogicDesignerProcessor(): FormLogicDesignerProcessor {

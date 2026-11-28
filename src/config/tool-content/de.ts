@@ -521,7 +521,7 @@ export const toolContentDe: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Signatur erstellen",
-        "description": "Zeichnen, tippen oder laden Sie Ihre Unterschrift hoch."
+        "description": "Zeichnen, tippen oder laden Sie Ihre Unterschrift hoch. Sie können auch ein Foto einer auf Papier geschriebenen Unterschrift scannen."
       },
       {
         "step": 3,

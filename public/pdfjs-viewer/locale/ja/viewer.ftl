@@ -532,6 +532,9 @@ pdfjs-editor-add-signature-draw-button = 手書き
     .title = 手書き入力します
 pdfjs-editor-add-signature-image-button = 画像
     .title = 画像を指定します
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = スキャン
+    .title = 署名の写真をスキャンします
 
 ## Tab panels
 
@@ -550,6 +553,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] または画像ファイルを選択
        *[other] または画像ファイルを参照
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = 白い紙に署名し、その写真を撮ってここにアップロードしてください。
+pdfjs-editor-add-signature-scan-tip = きれいに仕上げるには、カメラのフラッシュか明るく均一な照明を使い、カメラを紙の真上に構えてください。
+pdfjs-editor-add-signature-scan-choose-photo-button = 写真を選択
+pdfjs-editor-add-signature-scan-take-photo-button = 写真を撮る
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] 写真をここにドラッグするか、⌘V で貼り付けることもできます。
+       *[other] 写真をここにドラッグするか、Ctrl+V で貼り付けることもできます。
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = 署名の範囲です。ドラッグするか矢印キーで移動します。Shift キーを押しながら矢印キーでサイズを変更します。
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = スキャンした署名のプレビュー
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = 左に回転
+pdfjs-editor-add-signature-scan-rotate-left-button-label = 左に回転
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = 右に回転
+pdfjs-editor-add-signature-scan-rotate-right-button-label = 右に回転
+pdfjs-editor-add-signature-scan-sensitivity-range-label = インクの感度
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = インクの感度: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = 写真を変更
 
 ## Controls
 

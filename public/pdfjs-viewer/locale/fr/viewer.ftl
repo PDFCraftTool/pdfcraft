@@ -540,6 +540,9 @@ pdfjs-editor-add-signature-draw-button = Dessiner
     .title = Dessiner
 pdfjs-editor-add-signature-image-button = Image
     .title = Image
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Scanner
+    .title = Scanner une photo de votre signature
 
 ## Tab panels
 
@@ -558,6 +561,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Ou choisissez parmi les fichiers image
        *[other] Ou parcourez les fichiers image
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Signez sur une feuille de papier blanc, prenez-la en photo et importez la photo ici.
+pdfjs-editor-add-signature-scan-tip = Pour un résultat optimal, utilisez le flash de l’appareil photo ou une lumière vive et uniforme, et tenez l’appareil bien droit au-dessus du papier.
+pdfjs-editor-add-signature-scan-choose-photo-button = Choisir une photo
+pdfjs-editor-add-signature-scan-take-photo-button = Prendre une photo
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Vous pouvez aussi faire glisser une photo ici ou la coller avec ⌘V.
+       *[other] Vous pouvez aussi faire glisser une photo ici ou la coller avec Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Zone de la signature. Faites-la glisser ou utilisez les touches fléchées pour la déplacer. Maintenez Maj avec les touches fléchées pour la redimensionner.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Aperçu de la signature scannée
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Faire pivoter à gauche
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Faire pivoter à gauche
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Faire pivoter à droite
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Faire pivoter à droite
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Sensibilité de l’encre
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Sensibilité de l’encre : { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Changer de photo
 
 ## Controls
 

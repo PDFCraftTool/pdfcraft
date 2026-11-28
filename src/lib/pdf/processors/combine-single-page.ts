@@ -14,6 +14,8 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
+import { getPageView } from '../page-view';
 
 /**
  * Combine orientation options
@@ -142,7 +144,7 @@ export class CombineSinglePagePDFProcessor extends BasePDFProcessor {
       let totalHeight = 0;
 
       for (const page of sourcePages) {
-        const { width, height } = page.getSize();
+        const { width, height } = getPageView(page);
         maxWidth = Math.max(maxWidth, width);
         maxHeight = Math.max(maxHeight, height);
         totalWidth += width;
@@ -186,7 +188,7 @@ export class CombineSinglePagePDFProcessor extends BasePDFProcessor {
       // Pre-embed all pages at once to avoid duplicate font embedding
       // This is crucial for CJK PDFs where fonts can be very large
       this.updateProgress(20, 'Embedding pages...');
-      const embeddedPages = await newPdf.embedPages(sourcePages);
+      const embeddedPages = await newPdf.embedPages(sourcePages.map(ensurePageContents));
 
       // Draw each embedded page
       const progressPerPage = 60 / totalPages;
@@ -206,8 +208,17 @@ export class CombineSinglePagePDFProcessor extends BasePDFProcessor {
           `Processing page ${i + 1} of ${totalPages}...`
         );
 
+        // Pages with /Rotate are shown turned, so size and draw them as displayed
         const sourcePage = sourcePages[i];
-        const { width, height } = sourcePage.getSize();
+        const { width, height } = getPageView(sourcePage);
+        const quarterTurns = ((sourcePage.getRotation().angle % 360) + 360) % 360 / 90;
+        const drawTurned = (x: number, y: number) => newPage.drawPage(embeddedPage, {
+          // Origin of the unturned page so that, once turned clockwise by
+          // /Rotate, it fills the box whose lower-left corner is (x, y).
+          x: quarterTurns === 2 || quarterTurns === 3 ? x + width : x,
+          y: quarterTurns === 1 || quarterTurns === 2 ? y + height : y,
+          rotate: pdfLib.degrees(-quarterTurns * 90),
+        });
 
         // Use pre-embedded page
         const embeddedPage = embeddedPages[i];
@@ -215,12 +226,7 @@ export class CombineSinglePagePDFProcessor extends BasePDFProcessor {
         if (orientation === 'horizontal') {
           // Center vertically
           const y = (finalHeight - height) / 2;
-          newPage.drawPage(embeddedPage, {
-            x: currentX,
-            y,
-            width,
-            height,
-          });
+          drawTurned(currentX, y);
 
           // Draw separator if enabled and not the last page
           if (addSeparator && i < totalPages - 1) {
@@ -239,12 +245,7 @@ export class CombineSinglePagePDFProcessor extends BasePDFProcessor {
           currentY -= height;
           // Center horizontally
           const x = (finalWidth - width) / 2;
-          newPage.drawPage(embeddedPage, {
-            x,
-            y: currentY,
-            width,
-            height,
-          });
+          drawTurned(x, currentY);
 
           // Draw separator if enabled and not the last page
           if (addSeparator && i < totalPages - 1) {

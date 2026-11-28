@@ -14,6 +14,7 @@ vi.mock('@/lib/pdf/loader', () => {
 
   const mockPdfLib = {
     PDFName: mockPdfName,
+    PDFHexString: { fromText: (value: string) => ({ value }) },
     PDFDocument: {
       load: vi.fn().mockImplementation(async () => {
         const mockAnnotsArray = {
@@ -21,6 +22,7 @@ vi.mock('@/lib/pdf/loader', () => {
         };
         const mockPage = {
           node: {
+            Annots: () => mockAnnotsArray,
             has: vi.fn().mockReturnValue(true),
             get: vi.fn().mockImplementation((key) => {
               if (key.name === 'Annots') {

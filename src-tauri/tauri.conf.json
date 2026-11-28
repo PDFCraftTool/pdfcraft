@@ -23,11 +23,9 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; frame-src 'self' blob: data:; object-src 'none'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; worker-src blob: 'self'; wasm-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; media-src 'self' blob:; connect-src 'self' data: blob: https:;",
+      "csp": "default-src 'self' https: blob: data: 'unsafe-inline' 'unsafe-eval'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; frame-src 'self' https: blob: data:; object-src 'none'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data:; worker-src 'self' blob: https: data:; wasm-src 'self' blob: https:; style-src 'self' https: 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' https: data:; media-src 'self' blob: https:; connect-src 'self' data: blob: https: http:;",
       "dangerousDisableAssetCspModification": ["style-src"],
       "headers": {
-        "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Embedder-Policy": "require-corp",
         "Cross-Origin-Resource-Policy": "cross-origin"
       }
     }
@@ -35,6 +33,11 @@
   "bundle": {
     "active": true,
     "targets": ["dmg", "msi", "nsis", "deb", "appimage"],
+    "windows": {
+      "nsis": {
+        "installerIcon": "icons/icon.ico"
+      }
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

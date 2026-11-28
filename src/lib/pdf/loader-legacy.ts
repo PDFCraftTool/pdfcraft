@@ -1,3 +1,4 @@
+import { withBasePath } from '@/lib/utils/path';
 /**
  * PDF.js Legacy Library Loader
  * 
@@ -31,7 +32,7 @@ function configureLegacyWorker(pdfjsLib: PDFJSLegacyModule): void {
     if (typeof window !== 'undefined') {
         // Use the local worker file for offline support
         // The worker file is located in public/workers/pdf.worker.legacy.min.js
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/workers/pdf.worker.legacy.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = withBasePath('/workers/pdf.worker.legacy.min.js');
         legacyWorkerConfigured = true;
     }
 }

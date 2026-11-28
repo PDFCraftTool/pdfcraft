@@ -5,6 +5,8 @@ import {
   saveFile,
   saveBlobFile,
   writeFileBytes,
+  getSystemPrinters,
+  printPdfFile,
 } from '@/lib/tauri-bridge';
 
 describe('tauri-bridge', () => {
@@ -108,6 +110,23 @@ describe('tauri-bridge', () => {
 
       await writeFileBytes('test.bin', data);
       expect(clickSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('getSystemPrinters and printPdfFile', () => {
+    it('returns empty list in browser mode for getSystemPrinters', async () => {
+      const printers = await getSystemPrinters();
+      expect(printers).toEqual([]);
+    });
+
+    it('falls back to window.print in browser mode for printPdfFile', async () => {
+      const printSpy = vi.fn();
+      window.print = printSpy;
+      const data = new Uint8Array([1, 2, 3]);
+
+      const result = await printPdfFile(data);
+      expect(result).toEqual({ success: true });
+      expect(printSpy).toHaveBeenCalled();
     });
   });
 });

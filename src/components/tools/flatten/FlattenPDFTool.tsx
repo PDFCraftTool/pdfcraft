@@ -298,7 +298,7 @@ export function FlattenPDFTool({ className = '' }: FlattenPDFToolProps) {
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_flattened.pdf` : 'flattened.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_flattened.pdf` : 'flattened.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

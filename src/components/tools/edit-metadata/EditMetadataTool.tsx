@@ -20,6 +20,8 @@ interface CurrentMetadata {
   keywords: string;
   creator: string;
   producer: string;
+  creationDate: string;
+  modificationDate: string;
 }
 
 /**
@@ -75,6 +77,91 @@ function MetadataField({
   );
 }
 
+/**
+ * Props for DateField component
+ */
+interface DateFieldProps {
+  label: string;
+  field: keyof CurrentMetadata;
+  value: string;
+  onChange: (field: keyof CurrentMetadata, value: string) => void;
+  disabled?: boolean;
+  helpText?: string;
+}
+
+/**
+ * Date input field component using datetime-local
+ */
+function DateField({
+  label,
+  field,
+  value,
+  onChange,
+  disabled = false,
+  helpText,
+}: DateFieldProps) {
+  return (
+    <div className="space-y-1">
+      <label
+        htmlFor={`metadata-${field}`}
+        className="block text-sm font-medium text-[hsl(var(--color-foreground))]"
+      >
+        {label}
+      </label>
+      <input
+        id={`metadata-${field}`}
+        type="datetime-local"
+        value={value}
+        onChange={(e) => onChange(field, e.target.value)}
+        disabled={disabled}
+        className="w-full px-3 py-2 rounded-[var(--radius-md)] border border-[hsl(var(--color-border))] 
+          bg-[hsl(var(--color-background))] text-[hsl(var(--color-foreground))]
+          focus:outline-none focus:ring-2 focus:ring-[hsl(var(--color-primary))] focus:border-transparent
+          disabled:opacity-50 disabled:cursor-not-allowed"
+      />
+      {helpText && (
+        <p className="text-xs text-[hsl(var(--color-muted-foreground))]">
+          {helpText}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Parse a PDF date string (D:YYYYMMDDHHmmSS or Date object) to datetime-local format
+ */
+function parsePdfDateToInputValue(pdfDate: string | Date | undefined): string {
+  if (!pdfDate) return '';
+
+  try {
+    let date: Date;
+
+    if (typeof pdfDate === 'object' && pdfDate instanceof Date) {
+      date = pdfDate;
+    } else if (typeof pdfDate === 'string' && pdfDate.startsWith('D:')) {
+      // PDF date format: D:YYYYMMDDHHmmSS+TZ
+      const year = pdfDate.substring(2, 6);
+      const month = pdfDate.substring(6, 8) || '01';
+      const day = pdfDate.substring(8, 10) || '01';
+      const hour = pdfDate.substring(10, 12) || '00';
+      const minute = pdfDate.substring(12, 14) || '00';
+      const second = pdfDate.substring(14, 16) || '00';
+      date = new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`);
+    } else {
+      date = new Date(pdfDate);
+    }
+
+    if (isNaN(date.getTime())) return '';
+
+    // Format as datetime-local value: YYYY-MM-DDTHH:mm
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  } catch {
+    return '';
+  }
+}
+
 export interface EditMetadataToolProps {
   /** Custom class name */
   className?: string;
@@ -85,7 +172,7 @@ export interface EditMetadataToolProps {
  * Requirements: 5.1
  * 
  * Provides the UI for editing PDF document metadata including
- * title, author, subject, and keywords.
+ * title, author, subject, keywords, creation date, and modification date.
  */
 export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
   const t = useTranslations('common');
@@ -108,6 +195,8 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
     keywords: '',
     creator: '',
     producer: '',
+    creationDate: '',
+    modificationDate: '',
   });
   const [originalMetadata, setOriginalMetadata] = useState<CurrentMetadata | null>(null);
   
@@ -135,6 +224,8 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
         keywords: (info?.Keywords as string) || '',
         creator: (info?.Creator as string) || '',
         producer: (info?.Producer as string) || '',
+        creationDate: parsePdfDateToInputValue(info?.CreationDate as string | Date | undefined),
+        modificationDate: parsePdfDateToInputValue(info?.ModDate as string | Date | undefined),
       };
       
       setMetadata(extracted);
@@ -149,6 +240,8 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
         keywords: '',
         creator: '',
         producer: '',
+        creationDate: '',
+        modificationDate: '',
       };
       setMetadata(empty);
       setOriginalMetadata(empty);
@@ -188,6 +281,8 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
       keywords: '',
       creator: '',
       producer: '',
+      creationDate: '',
+      modificationDate: '',
     });
     setOriginalMetadata(null);
     setResultBlob(null);
@@ -262,10 +357,29 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
         producer: metadata.producer,
       };
 
+      // Parse and set creation date if provided
+      if (metadata.creationDate) {
+        const creationDate = new Date(metadata.creationDate);
+        if (!isNaN(creationDate.getTime())) {
+          editableMetadata.creationDate = creationDate;
+        }
+      }
+
+      // Parse and set modification date if provided
+      if (metadata.modificationDate) {
+        const modificationDate = new Date(metadata.modificationDate);
+        if (!isNaN(modificationDate.getTime())) {
+          editableMetadata.modificationDate = modificationDate;
+        }
+      }
+
+      // Only auto-update modification date if user hasn't explicitly set one
+      const shouldAutoUpdateModDate = !metadata.modificationDate;
+
       const result = await editPDFMetadata(
         file,
         editableMetadata,
-        { updateModificationDate: true },
+        { updateModificationDate: shouldAutoUpdateModDate },
         handleProgress
       );
 
@@ -300,7 +414,9 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
     metadata.subject !== originalMetadata.subject ||
     metadata.keywords !== originalMetadata.keywords ||
     metadata.creator !== originalMetadata.creator ||
-    metadata.producer !== originalMetadata.producer
+    metadata.producer !== originalMetadata.producer ||
+    metadata.creationDate !== originalMetadata.creationDate ||
+    metadata.modificationDate !== originalMetadata.modificationDate
   );
 
   /**
@@ -447,6 +563,31 @@ export function EditMetadataTool({ className = '' }: EditMetadataToolProps) {
               placeholder={tTools('editMetadata.producerPlaceholder') || 'Enter PDF producer'}
               disabled={isProcessing}
             />
+          </div>
+
+          {/* Date Fields Section */}
+          <div className="mt-6 pt-4 border-t border-[hsl(var(--color-border))]">
+            <h4 className="text-md font-medium text-[hsl(var(--color-foreground))] mb-4">
+              {tTools('editMetadata.datesSection') || 'Document Dates'}
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <DateField
+                label={tTools('editMetadata.creationDate') || 'Creation Date'}
+                field="creationDate"
+                value={metadata.creationDate}
+                onChange={handleMetadataChange}
+                disabled={isProcessing}
+                helpText={tTools('editMetadata.creationDateHelp') || 'The date the document was originally created.'}
+              />
+              <DateField
+                label={tTools('editMetadata.modificationDate') || 'Modification Date'}
+                field="modificationDate"
+                value={metadata.modificationDate}
+                onChange={handleMetadataChange}
+                disabled={isProcessing}
+                helpText={tTools('editMetadata.modificationDateHelp') || 'Leave empty to auto-set to current date/time on save.'}
+              />
+            </div>
           </div>
 
           <div className="mt-6 pt-4 border-t border-[hsl(var(--color-border))]">

@@ -14,6 +14,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 
 /**
  * Page dimension information
@@ -89,6 +90,7 @@ const STANDARD_SIZES: Record<string, { width: number; height: number }> = {
   'B4': { width: 709, height: 1001 },
   'B5': { width: 499, height: 709 },
   'Executive': { width: 522, height: 756 },
+  '#10 Envelope': { width: 297, height: 684 },
 };
 
 /**
@@ -193,7 +195,7 @@ export class PageDimensionsProcessor extends BasePDFProcessor {
         this.updateProgress(progressPercent, `Analyzing page ${i + 1} of ${pageCount}...`);
 
         const page = sourcePdf.getPage(i);
-        const { width, height } = page.getSize();
+        const { width, height } = getPageView(page);
 
         // Convert to different units
         const widthIn = width / POINTS_PER_INCH;

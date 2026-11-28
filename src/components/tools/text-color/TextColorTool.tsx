@@ -170,7 +170,7 @@ export function TextColorTool({ className = '' }: TextColorToolProps) {
           {result && (
             <DownloadButton 
               file={result} 
-              filename={file.name.replace('.pdf', '_textcolor.pdf')} 
+              filename={file.name.replace(/\.pdf$/i, '_textcolor.pdf')} 
               variant="secondary" 
               size="lg" 
               showFileSize 

@@ -10,6 +10,7 @@ import {
   type ReplaceExistingTextDiagnostics,
   type TextFitMode,
 } from '@/lib/pdf/processors/replace-existing-text';
+import { withBasePath } from '@/lib/utils/path';
 
 export interface LegacyAnnotatorToolProps {
   className?: string;
@@ -168,6 +169,7 @@ export function LegacyAnnotatorTool({
                   setupColorPickerAndStroke();
                   setupUndoRedoAndAuthorPatch();
                   setupSnapping();
+                  setupArrowEndpointHandles();
                   setupChineseFontPatch();
                   setupExistingTextEditing();
                 }
@@ -527,6 +529,190 @@ export function LegacyAnnotatorTool({
                 function clearGuides() {
                   const container = document.getElementById('pdfcraft-alignment-guides');
                   if (container) container.innerHTML = '';
+                }
+              }
+
+              // Arrows get a draggable handle at the base and at the tip instead of the generic
+              // resize box, so dragging an end re-aims and stretches the arrow without scaling
+              // the arrowhead. Dragging the arrow body still moves the whole arrow.
+              function setupArrowEndpointHandles() {
+                const Konva = window.Konva;
+                if (!Konva || !Konva.Transformer) return;
+                const proto = Konva.Transformer.prototype;
+                if (proto.__pdfcraftArrowHandlesPatched) return;
+                proto.__pdfcraftArrowHandlesPatched = true;
+
+                console.log('[PDFCraft Patch] Setting up arrow endpoint handles...');
+
+                const HANDLE_RADIUS = 6;
+                const HANDLE_HIT_RADIUS = 10;
+                const HANDLE_NS = '.pdfcraftArrowHandles';
+                const originalSetNodes = proto.setNodes;
+                const originalDetach = proto.detach;
+
+                proto.setNodes = function(nodes) {
+                  const result = originalSetNodes.apply(this, arguments);
+                  const group = nodes && nodes.length === 1 ? nodes[0] : null;
+                  const arrow = group ? getArrowShape(group) : null;
+                  if (arrow) {
+                    // Hide the resize box but keep its bounds, which position the annotation menu
+                    this.resizeEnabled(false);
+                    this.borderStrokeWidth(0);
+                    // The extension adds the transformer to its layer right after setting its nodes
+                    const transformer = this;
+                    Promise.resolve().then(function() {
+                      if (transformer.nodes()[0] === group) attachHandles(transformer, group, arrow);
+                    });
+                  }
+                  return result;
+                };
+
+                proto.detach = function() {
+                  removeHandles(this);
+                  return originalDetach.apply(this, arguments);
+                };
+
+                // The comment pane's connector line ends at the right edge of the (now hidden) box,
+                // which misses slanted arrows. Point it at the arrow's midpoint instead.
+                const ext = window.pdfjsAnnotationExtensionInstance;
+                const connectorLine = ext && (ext._connectorLine || ext.connectorLine);
+                const connectorProto = connectorLine && Object.getPrototypeOf(connectorLine);
+                if (connectorProto && typeof connectorProto.drawConnection === 'function') {
+                  const originalDrawConnection = connectorProto.drawConnection;
+                  connectorProto.drawConnection = function(annotation, rect) {
+                    const midpoint = annotation && annotation.subtype === 'Arrow' ? getArrowMidpoint(annotation) : null;
+                    const target = midpoint ? { x: midpoint.x, y: midpoint.y, width: 0, height: 0 } : rect;
+                    return originalDrawConnection.call(this, annotation, target);
+                  };
+                }
+
+                function getArrowMidpoint(annotation) {
+                  const canvas = ext.painter && ext.painter.konvaCanvasStore && ext.painter.konvaCanvasStore.get(annotation.pageNumber);
+                  const group = canvas && canvas.konvaStage.findOne(function(node) {
+                    return node.id() === annotation.id;
+                  });
+                  const arrow = group ? getArrowShape(group) : null;
+                  if (!arrow) return null;
+                  const points = arrow.points();
+                  return arrow.getAbsoluteTransform().point({
+                    x: (points[0] + points[2]) / 2,
+                    y: (points[1] + points[3]) / 2
+                  });
+                }
+
+                function getArrowShape(group) {
+                  if (typeof group.getChildren !== 'function') return null;
+                  const children = group.getChildren();
+                  return children.length === 1 && children[0].getClassName() === 'Arrow' ? children[0] : null;
+                }
+
+                // Arrows resized by the old resize box store the stretch as group scale, which also
+                // enlarges the arrowhead. Fold it into the points so the head returns to normal size.
+                function bakeGroupScale(group, arrow) {
+                  const scaleX = group.scaleX();
+                  const scaleY = group.scaleY();
+                  if (scaleX === 1 && scaleY === 1) return;
+                  arrow.points(arrow.points().map(function(value, i) {
+                    return value * (i % 2 === 0 ? scaleX : scaleY);
+                  }));
+                  group.scale({ x: 1, y: 1 });
+                }
+
+                function attachHandles(transformer, group, arrow) {
+                  const layer = transformer.getLayer();
+                  const stage = transformer.getStage();
+                  if (!layer || !stage) return;
+
+                  // Draw at a constant on-screen size regardless of the page zoom
+                  function drawCircle(radius) {
+                    return function(ctx, shape) {
+                      const scale = Math.abs(shape.getAbsoluteScale().x) || 1;
+                      ctx.beginPath();
+                      ctx.arc(0, 0, radius / scale, 0, Math.PI * 2);
+                      ctx.closePath();
+                      ctx.fillStrokeShape(shape);
+                    };
+                  }
+
+                  const handles = [0, 1].map(function(index) {
+                    const handle = new Konva.Shape({
+                      name: 'pdfcraft-arrow-handle',
+                      draggable: true,
+                      fill: '#ffffff',
+                      stroke: transformer.anchorStroke(),
+                      strokeWidth: 2,
+                      strokeScaleEnabled: false,
+                      sceneFunc: drawCircle(HANDLE_RADIUS),
+                      hitFunc: drawCircle(HANDLE_HIT_RADIUS),
+                      dragBoundFunc: function(pos) {
+                        return {
+                          x: Math.max(0, Math.min(stage.width(), pos.x)),
+                          y: Math.max(0, Math.min(stage.height(), pos.y))
+                        };
+                      }
+                    });
+
+                    // Keep handle presses away from the page, where a drawing tool or deselection could react
+                    handle.on('mousedown touchstart pointerdown mouseup touchend pointerup click tap pointerclick', function(e) {
+                      e.cancelBubble = true;
+                    });
+                    handle.on('mouseenter', function() {
+                      stage.container().style.cursor = 'move';
+                    });
+                    handle.on('mouseleave', function() {
+                      stage.container().style.cursor = '';
+                    });
+                    handle.on('dragstart', function(e) {
+                      e.cancelBubble = true;
+                      bakeGroupScale(group, arrow);
+                      // Same notifications as the resize box, so the extension hides and re-shows its menu
+                      transformer.fire('transformstart');
+                    });
+                    handle.on('dragmove', function(e) {
+                      e.cancelBubble = true;
+                      const local = arrow.getAbsoluteTransform().copy().invert().point(handle.getAbsolutePosition());
+                      const points = arrow.points().slice();
+                      points[index * 2] = local.x;
+                      points[index * 2 + 1] = local.y;
+                      arrow.points(points);
+                      transformer.forceUpdate();
+                    });
+                    handle.on('dragend', function(e) {
+                      e.cancelBubble = true;
+                      // The extension saves the arrow's new points to its store on transformend
+                      transformer.fire('transformend');
+                    });
+
+                    layer.add(handle);
+                    return handle;
+                  });
+
+                  function syncHandles() {
+                    const transform = arrow.getAbsoluteTransform();
+                    const points = arrow.points();
+                    handles.forEach(function(handle, index) {
+                      if (handle.isDragging()) return;
+                      handle.setAbsolutePosition(transform.point({ x: points[index * 2], y: points[index * 2 + 1] }));
+                    });
+                  }
+
+                  syncHandles();
+                  group.on('dragmove' + HANDLE_NS + ' dragend' + HANDLE_NS, syncHandles);
+                  transformer.on('dragmove' + HANDLE_NS + ' dragend' + HANDLE_NS, syncHandles);
+                  transformer.__pdfcraftArrowHandles = { group: group, handles: handles, stage: stage };
+                  layer.batchDraw();
+                }
+
+                function removeHandles(transformer) {
+                  const state = transformer.__pdfcraftArrowHandles;
+                  if (!state) return;
+                  transformer.__pdfcraftArrowHandles = null;
+                  state.group.off(HANDLE_NS);
+                  transformer.off(HANDLE_NS);
+                  state.handles.forEach(function(handle) {
+                    handle.destroy();
+                  });
+                  state.stage.container().style.cursor = '';
                 }
               }
 
@@ -1155,7 +1341,7 @@ export function LegacyAnnotatorTool({
           <div className="relative border border-[hsl(var(--color-border))] rounded-[var(--radius-md)] overflow-hidden bg-gray-100">
             <iframe
               ref={iframeRef}
-              src={`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`}
+              src={withBasePath(`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`)}
               className="w-full h-[700px] border-0"
               title="PDF Editor"
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"

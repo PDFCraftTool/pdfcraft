@@ -8,6 +8,8 @@ import { DownloadButton } from '../DownloadButton';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import type { CertificateData } from '@/types/digital-signature';
+import { openPendingPopup } from '@/lib/pdf/remote-signing/oauth-popup';
+import { RemoteSigningPanel, type RemoteSigningSelection } from './RemoteSigningPanel';
 
 function EyeIcon({ open }: { open: boolean }) {
   if (open) {
@@ -38,6 +40,8 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [needsPassword, setNeedsPassword] = useState(false);
+  const [signMode, setSignMode] = useState<'file' | 'remote'>('file');
+  const [remote, setRemote] = useState<RemoteSigningSelection | null>(null);
 
   // Signature options
   const [reason, setReason] = useState('');
@@ -179,7 +183,11 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
   }, []);
 
   const handleSign = useCallback(async () => {
-    if (!pdfFile || !certData) return;
+    const useRemote = signMode === 'remote';
+    if (!pdfFile || (useRemote ? !remote : !certData)) return;
+
+    // A credential authorized on the provider's page needs its window opened inside the click
+    const popup = useRemote && remote?.needsPopup ? openPendingPopup() : null;
 
     cancelledRef.current = false;
     setStatus('processing');
@@ -197,14 +205,14 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
       setProgress(40);
       setProgressMessage('Applying digital signature...');
 
-      const { signPdf, getCertificateInfo } = await import('@/lib/pdf/processors/digital-sign');
+      const { signPdf, signPdfRemote, getCertificateInfo } = await import('@/lib/pdf/processors/digital-sign');
 
       let visibleSignature;
       if (enableVisible) {
         let text = sigText;
         if (!text && !sigImageData) {
-          const info = getCertificateInfo(certData.certificate);
-          text = `Digitally signed by ${info.subject}\n${new Date().toLocaleDateString()}`;
+          const subject = useRemote ? remote!.subject : getCertificateInfo(certData!.certificate).subject;
+          text = `Digitally signed by ${subject}\n${new Date().toLocaleDateString()}`;
         }
 
         // Dynamic height calculation based on text
@@ -232,10 +240,14 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
         };
       }
 
-      const signedBytes = await signPdf(pdfBytes, certData, {
+      const signOptions = {
         signatureInfo: { reason: reason || undefined, location: location || undefined, contactInfo: contactInfo || undefined },
         visibleSignature: visibleSignature as any,
-      });
+      };
+      if (useRemote) setProgressMessage(tTool('remoteSigningProgress'));
+      const signedBytes = useRemote
+        ? await signPdfRemote(pdfBytes, remote!.createSigner(popup), signOptions)
+        : await signPdf(pdfBytes, certData!, signOptions);
 
       if (cancelledRef.current) { setStatus('idle'); return; }
 
@@ -252,11 +264,14 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
         }
         setStatus('error');
       }
+    } finally {
+      popup?.close();
     }
-  }, [pdfFile, certData, reason, location, contactInfo, enableVisible, sigX, sigY, sigWidth, sigHeight, sigPage, sigText, sigTextColor, sigTextSize, sigImageData, sigImageType]);
+  }, [signMode, remote, tTool, pdfFile, certData, reason, location, contactInfo, enableVisible, sigX, sigY, sigWidth, sigHeight, sigPage, sigText, sigTextColor, sigTextSize, sigImageData, sigImageType]);
 
   const isProcessing = status === 'processing';
-  const canSign = pdfFile && certData && !isProcessing;
+  const signerReady = signMode === 'remote' ? !!remote : !!certData;
+  const canSign = pdfFile && signerReady && !isProcessing;
 
   const formatDate = (d: Date) => d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 
@@ -298,6 +313,34 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
         <Card variant="outlined">
           <h3 className="text-lg font-medium text-[hsl(var(--color-foreground))] mb-4">{tTool('certificateTitle')}</h3>
 
+          <div role="radiogroup" aria-label={tTool('certificateTitle')} className="inline-flex mb-4 p-1 rounded-[var(--radius-md)] bg-[hsl(var(--color-muted))]">
+            {(['file', 'remote'] as const).map(mode => (
+              <button
+                key={mode}
+                type="button"
+                role="radio"
+                aria-checked={signMode === mode}
+                onClick={() => setSignMode(mode)}
+                disabled={isProcessing}
+                className={`px-3 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-colors duration-200 ${signMode === mode ? 'bg-[hsl(var(--color-background))] text-[hsl(var(--color-foreground))] shadow-sm' : 'text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]'}`}
+              >
+                {mode === 'file' ? tTool('modeFile') : tTool('modeRemote')}
+              </button>
+            ))}
+          </div>
+
+          {signMode === 'remote' ? (
+            <div className="space-y-4">
+              <RemoteSigningPanel disabled={isProcessing} onChange={setRemote} />
+              {remote && (
+                <div className="p-3 rounded-[var(--radius-sm)] space-y-1 bg-green-50 border border-green-200 dark:bg-green-950 dark:border-green-800">
+                  <p className="text-sm"><span className="text-[hsl(var(--color-muted-foreground))]">{tTool('subject')}:</span> <span className="font-medium text-[hsl(var(--color-foreground))]">{remote.subject}</span></p>
+                  {remote.issuer && <p className="text-sm"><span className="text-[hsl(var(--color-muted-foreground))]">{tTool('issuer')}:</span> <span className="font-medium text-[hsl(var(--color-foreground))]">{remote.issuer}</span></p>}
+                  {remote.validFrom && remote.validTo && <p className="text-sm"><span className="text-[hsl(var(--color-muted-foreground))]">{tTool('valid')}:</span> <span className="font-medium text-[hsl(var(--color-foreground))]">{formatDate(remote.validFrom)} — {formatDate(remote.validTo)}</span></p>}
+                </div>
+              )}
+            </div>
+          ) : (
           <div className="space-y-4">
             <div>
               <label htmlFor="cert-input" className="block text-sm font-medium text-[hsl(var(--color-foreground))] mb-2">
@@ -376,13 +419,14 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
               </div>
             )}
           </div>
+          )}
         </Card>
       )
       }
 
       {/* Signature Options */}
       {
-        certData && (
+        pdfFile && signerReady && (
           <Card variant="outlined">
             <h3 className="text-lg font-medium text-[hsl(var(--color-foreground))] mb-4">{tTool('signatureOptionsTitle')}</h3>
             <div className="space-y-4">
@@ -496,7 +540,7 @@ export function DigitalSignPDFTool({ className = '' }: { className?: string }) {
         {result && (
           <DownloadButton
             file={result}
-            filename={pdfFile ? `${pdfFile.name.replace('.pdf', '')}_signed.pdf` : 'signed.pdf'}
+            filename={pdfFile ? `${pdfFile.name.replace(/\.pdf$/i, '')}_signed.pdf` : 'signed.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

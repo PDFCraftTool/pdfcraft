@@ -490,7 +490,7 @@ export function DeepSanitizeTool({ className = '' }: DeepSanitizeToolProps) {
           <div className="flex gap-3 justify-center max-w-xs mx-auto">
             <DownloadButton
               file={result}
-              filename={file?.name.replace('.pdf', '_sanitized.pdf') || 'sanitized_document.pdf'}
+              filename={file?.name.replace(/\.pdf$/i, '_sanitized.pdf') || 'sanitized_document.pdf'}
               variant="primary"
               size="lg"
               className="flex-1 font-bold shadow-lg"

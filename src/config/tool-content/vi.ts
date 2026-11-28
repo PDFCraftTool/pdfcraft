@@ -539,7 +539,7 @@ export const toolContentVn: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Tạo chữ ký của bạn",
-        "description": "Vẽ chữ ký của bạn bằng chuột hoặc chạm, nhập tên của bạn để tạo chữ ký hoặc tải lên hình ảnh chữ ký."
+        "description": "Vẽ chữ ký của bạn bằng chuột hoặc chạm, nhập tên của bạn để tạo chữ ký hoặc tải lên hình ảnh chữ ký. Bạn cũng có thể quét ảnh chụp chữ ký viết trên giấy."
       },
       {
         "step": 3,

@@ -9,6 +9,7 @@ import type { ProcessInput, ProcessOutput, ProgressCallback } from '@/types/pdf'
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { getPageView } from '../page-view';
 import type { PDFPage, PDFFont, PDFImage } from 'pdf-lib';
 
 
@@ -218,7 +219,10 @@ export class WatermarkProcessor extends BasePDFProcessor {
 
         const pageIndex = pagesToProcess[i];
         const page = pdf.getPage(pageIndex);
-        const { width, height } = page.getSize();
+        // Lay the watermark out on the page as displayed (pages with /Rotate
+        // are shown turned) and let the transform take it to page space.
+        const { width, height, matrix } = getPageView(page);
+        page.pushOperators(pdfLib.pushGraphicsState(), pdfLib.concatTransformationMatrix(...matrix));
 
         if (wmOptions.type === 'text' && wmOptions.text) {
           const text = wmOptions.text;
@@ -308,6 +312,8 @@ export class WatermarkProcessor extends BasePDFProcessor {
           }
         }
 
+        page.pushOperators(pdfLib.popGraphicsState());
+
         this.updateProgress(30 + (55 * (i + 1) / pagesToProcess.length), `Processing page ${pageIndex + 1}...`);
       }
 
@@ -375,7 +381,7 @@ export class WatermarkProcessor extends BasePDFProcessor {
             const flattenedBytes = await flattenedDoc.save({ useObjectStreams: true });
             const blob = new Blob([new Uint8Array(flattenedBytes)], { type: 'application/pdf' });
             this.updateProgress(100, 'Complete!');
-            return this.createSuccessOutput(blob, file.name.replace('.pdf', '_watermarked.pdf'), { pageCount: numPages });
+            return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_watermarked.pdf'), { pageCount: numPages });
           }
         } catch (flattenError) {
           console.warn('Flattening failed, falling back to standard PDF:', flattenError);
@@ -384,7 +390,7 @@ export class WatermarkProcessor extends BasePDFProcessor {
 
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
       this.updateProgress(100, 'Complete!');
-      return this.createSuccessOutput(blob, file.name.replace('.pdf', '_watermarked.pdf'), { pageCount: totalPages });
+      return this.createSuccessOutput(blob, file.name.replace(/\.pdf$/i, '_watermarked.pdf'), { pageCount: totalPages });
 
     } catch (error) {
       return this.createErrorOutput(PDFErrorCode.PROCESSING_FAILED, 'Failed to add watermark.', error instanceof Error ? error.message : 'Unknown error');

@@ -234,7 +234,7 @@ export const toolContentZhTW: Record<string, ToolContent> = {
     `,
     howToUse: [
       { step: 1, title: '上傳PDF檔案', description: '拖放您的PDF檔案或點擊選擇需要簽名的檔案。' },
-      { step: 2, title: '創建簽名', description: '用鼠標或觸摸繪制簽名，輸入姓名生成簽名，或上傳簽名圖像。' },
+      { step: 2, title: '創建簽名', description: '用鼠標或觸摸繪制簽名，輸入姓名生成簽名，或上傳簽名圖像。也可以掃描寫在紙上的簽名照片。' },
       { step: 3, title: '放置和調整', description: '點擊文件放置簽名，然後拖動定位和調整大小。' },
       { step: 4, title: '保存並下載', description: '點擊保存應用簽名並下載已簽名的PDF。' },
     ],

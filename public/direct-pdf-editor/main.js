@@ -577,6 +577,72 @@ async function loadBundledChineseFont() {
   }
 }
 
+// Preload bundled Arabic font (Noto Naskh Arabic, OFL) so Arabic text can be
+// written into PDFs on any device, even when no Arabic system font is installed.
+async function loadBundledArabicFont() {
+  try {
+    const res = await fetch('/fonts/NotoNaskhArabic-Regular.ttf');
+    if (!res.ok) {
+      console.warn('[DirectEditor] Bundled Arabic font not found (HTTP ' + res.status + ')');
+      return;
+    }
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    const PE = window.PdfEngine;
+    if (!PE?.localFonts) {
+      console.warn('[DirectEditor] PdfEngine.localFonts not ready yet');
+      return;
+    }
+    // `scriptFallbackFamilies()` (core.js) already lists these families, so
+    // registering the bytes under them is enough for the engine to use the
+    // bundled font. Existing (system) entries are never overwritten.
+    const families = ['Noto Naskh Arabic', 'Noto Sans Arabic'];
+    for (const fam of families) {
+      for (const sk of ['', '|00', '|10', '|01', '|11']) {
+        if (!PE.localFonts.has(fam + sk)) {
+          PE.localFonts.set(fam + sk, bytes);
+        }
+      }
+    }
+    console.log(
+      '[DirectEditor] Bundled Arabic font (Noto Naskh Arabic) successfully mounted into PdfEngine!'
+    );
+  } catch (err) {
+    console.warn('[DirectEditor] Error loading bundled Arabic font:', err);
+  }
+}
+
+// Preload bundled Cyrillic-capable font (Liberation Sans, OFL) so Cyrillic text
+// (e.g. Russian, Ukrainian, Serbian) can be written into PDFs even when the
+// machine has no system font with Cyrillic glyphs (typical on Linux/Firefox/Safari).
+async function loadBundledCyrillicFont() {
+  try {
+    const res = await fetch('/fonts/LiberationSans-Regular.ttf');
+    if (!res.ok) {
+      console.warn('[DirectEditor] Bundled Cyrillic font not found (HTTP ' + res.status + ')');
+      return;
+    }
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    const PE = window.PdfEngine;
+    if (!PE?.localFonts) {
+      console.warn('[DirectEditor] PdfEngine.localFonts not ready yet');
+      return;
+    }
+    // `scriptFallbackFamilies()` (core.js) lists 'Liberation Sans' for the
+    // Cyrillic ranges. Existing (system) entries are never overwritten.
+    const families = ['Liberation Sans'];
+    for (const fam of families) {
+      for (const sk of ['', '|00', '|10', '|01', '|11']) {
+        if (!PE.localFonts.has(fam + sk)) {
+          PE.localFonts.set(fam + sk, bytes);
+        }
+      }
+    }
+    console.log('[DirectEditor] Bundled Cyrillic font (Liberation Sans) mounted into PdfEngine');
+  } catch (err) {
+    console.warn('[DirectEditor] Error loading bundled Cyrillic font:', err);
+  }
+}
+
 // Initialize on DOM Ready
 async function init() {
   console.log('[DirectEditor] Initializing controller...');
@@ -596,6 +662,8 @@ async function init() {
     const ready = await appModule.engineReady;
     console.log('[DirectEditor] WASM engine status:', ready);
     await loadBundledChineseFont();
+    await loadBundledArabicFont();
+    await loadBundledCyrillicFont();
   } catch (e) {
     console.error('[DirectEditor] WASM engine initialization error:', e);
   }

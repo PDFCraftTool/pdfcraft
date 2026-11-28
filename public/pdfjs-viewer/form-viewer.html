@@ -226,6 +226,9 @@
         const loadingTask = pdfjsLib.getDocument({
           data,
           enableXfa: true,
+          cMapUrl: './cmaps/',
+          cMapPacked: true,
+          standardFontDataUrl: './standard_fonts/',
         });
         pdfDocument = await loadingTask.promise;
         // Wire scripting to the loaded document so XFA/JS executes

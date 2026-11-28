@@ -1898,7 +1898,7 @@
       "uploadDescription": "Arraste e solte um arquivo PDF para assinar.",
       "instructionsTitle": "Como assinar",
       "instruction1": "Clique na ferramenta Assinatura (ícone de caneta) na barra de ferramentas",
-      "instruction2": "Desenhe, digite ou carregue sua assinatura",
+      "instruction2": "Desenhe, digite ou carregue sua assinatura, ou digitalize uma foto dela",
       "instruction3": "Clique onde deseja colocar a assinatura",
       "instruction4": "Clique em \"Salvar PDF assinado\" abaixo quando terminar",
       "flattenOption": "Achatar assinatura (recomendado - torna a assinatura permanente)",

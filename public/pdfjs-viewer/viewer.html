@@ -34,7 +34,8 @@ See https://github.com/adobe-type-tools/cmap-resources
     <link rel="stylesheet" href="viewer.css">
 
   <script src="viewer.js" type="module"></script>
-  </head>
+    <link rel="stylesheet" href="reading-direction.css">
+</head>
 
   <body tabindex="0">
     <div id="outerContainer">
@@ -400,6 +401,10 @@ See https://github.com/adobe-type-tools/cmap-resources
                         </button>
                       </div>
 
+                      <button id="spreadRtl" class="toolbarButton labeled" type="button" tabindex="0" aria-pressed="false" title="Read spread pages right to left (unavailable in horizontal scrolling)">
+                        <span>Right-to-left page order</span>
+                      </button>
+
                       <div id="imageAltTextSettingsSeparator" class="horizontalToolbarSeparator hidden"></div>
                       <button id="imageAltTextSettings" type="button" class="toolbarButton labeled hidden" tabindex="0" data-l10n-id="pdfjs-image-alt-text-settings-button" aria-controls="altTextSettingsDialog">
                         <span data-l10n-id="pdfjs-image-alt-text-settings-button-label"></span>
@@ -643,6 +648,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               <button id="addSignatureTypeButton" type="button" role="tab" aria-selected="true" aria-controls="addSignatureTypeContainer" data-l10n-id="pdfjs-editor-add-signature-type-button" tabindex="0"></button>
               <button id="addSignatureDrawButton" type="button" role="tab" aria-selected="false" aria-controls="addSignatureDrawContainer" data-l10n-id="pdfjs-editor-add-signature-draw-button" tabindex="0"></button>
               <button id="addSignatureImageButton" type="button" role="tab" aria-selected="false" aria-controls="addSignatureImageContainer" data-l10n-id="pdfjs-editor-add-signature-image-button" tabindex="-1"></button>
+              <button id="addSignatureScanButton" type="button" role="tab" aria-selected="false" aria-controls="addSignatureScanContainer" data-l10n-id="pdfjs-editor-add-signature-scan-button" tabindex="-1" hidden></button>
             </div>
             <div id="addSignatureActionContainer" data-selected="type">
               <div id="addSignatureTypeContainer" role="tabpanel" aria-labelledby="addSignatureTypeContainer">
@@ -679,6 +685,38 @@ See https://github.com/adobe-type-tools/cmap-resources
                     <a data-l10n-id="pdfjs-editor-add-signature-image-browse-link"></a>
                   </label>
                   <input id="addSignatureFilePicker" type="file"></input>
+                </div>
+              </div>
+              <!-- PDFCraft: scan a photographed signature, driven by the pdfcraft_signature_scanner module -->
+              <div id="addSignatureScanContainer" role="tabpanel" aria-labelledby="addSignatureScanButton" tabindex="-1" hidden>
+                <div id="addSignatureScanPlaceholder">
+                  <span id="addSignatureScanInstructions" data-l10n-id="pdfjs-editor-add-signature-scan-instructions"></span>
+                  <span id="addSignatureScanTip" data-l10n-id="pdfjs-editor-add-signature-scan-tip"></span>
+                  <div id="addSignatureScanPickers">
+                    <button id="addSignatureScanBrowse" type="button" class="primaryButton" tabindex="0"><span data-l10n-id="pdfjs-editor-add-signature-scan-choose-photo-button"></span></button>
+                    <button id="addSignatureScanCamera" type="button" class="secondaryButton" tabindex="0"><span data-l10n-id="pdfjs-editor-add-signature-scan-take-photo-button"></span></button>
+                    <input id="addSignatureScanFilePicker" type="file" accept="image/*" tabindex="-1">
+                    <input id="addSignatureScanCameraPicker" type="file" accept="image/*" capture="environment" tabindex="-1">
+                  </div>
+                  <span id="addSignatureScanDropHint" data-l10n-id="pdfjs-editor-add-signature-scan-drop-hint"></span>
+                </div>
+                <div id="addSignatureScanEditor" hidden>
+                  <div id="addSignatureScanWorkspace">
+                    <div id="addSignatureScanStage">
+                      <canvas id="addSignatureScanCanvas" aria-hidden="true"></canvas>
+                      <div id="addSignatureScanCropFrame" role="group" tabindex="0" data-l10n-id="pdfjs-editor-add-signature-scan-crop-frame"></div>
+                    </div>
+                    <div id="addSignatureScanPreviewContainer" role="img" data-l10n-id="pdfjs-editor-add-signature-scan-preview">
+                      <svg id="addSignatureScanPreview" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+                    </div>
+                  </div>
+                  <div id="addSignatureScanToolbar">
+                    <button id="addSignatureScanRotateLeft" type="button" class="pdfcraftScanIconButton" data-l10n-id="pdfjs-editor-add-signature-scan-rotate-left-button" tabindex="0"><span data-l10n-id="pdfjs-editor-add-signature-scan-rotate-left-button-label"></span></button>
+                    <button id="addSignatureScanRotateRight" type="button" class="pdfcraftScanIconButton" data-l10n-id="pdfjs-editor-add-signature-scan-rotate-right-button" tabindex="0"><span data-l10n-id="pdfjs-editor-add-signature-scan-rotate-right-button-label"></span></button>
+                    <label for="addSignatureScanSensitivity" data-l10n-id="pdfjs-editor-add-signature-scan-sensitivity-range-label"></label>
+                    <input type="range" id="addSignatureScanSensitivity" min="0" max="100" step="1" value="50" data-l10n-id="pdfjs-editor-add-signature-scan-sensitivity-range" data-l10n-args='{ "sensitivity": 50 }' tabindex="0">
+                    <button id="addSignatureScanChangePhoto" type="button" class="secondaryButton" tabindex="0"><span data-l10n-id="pdfjs-editor-add-signature-scan-change-photo-button"></span></button>
+                  </div>
                 </div>
               </div>
               <div id="addSignatureControls">
@@ -785,5 +823,75 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
+
+    <script src="reading-direction.js"></script>
+
+    <!-- Auto-populate clipboard on text selection (matches native Linux Primary Selection behavior) -->
+    <script>
+      (function() {
+        let lastCopiedText = '';
+        function syncSelectionToClipboard() {
+          try {
+            const sel = window.getSelection();
+            const text = sel ? sel.toString().trim() : '';
+            if (text && text.length > 0 && text !== lastCopiedText) {
+              lastCopiedText = text;
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).catch(function() {});
+              }
+            }
+          } catch (e) {}
+        }
+        document.addEventListener('mouseup', syncSelectionToClipboard);
+        document.addEventListener('touchend', syncSelectionToClipboard);
+
+        // PDFCraft bridge for importing extracted signatures
+        window.pdfcraftImportSignature = async function(blob, name) {
+          try {
+            const file = new File([blob], (name || 'signature') + '.png', { type: 'image/png' });
+            const sigBtn = document.getElementById('editorSignatureButton');
+            if (sigBtn) sigBtn.click();
+
+            const imgTabBtn = document.getElementById('addSignatureImageButton');
+            if (imgTabBtn) imgTabBtn.click();
+
+            const filePicker = document.getElementById('addSignatureFilePicker');
+            const descInput = document.getElementById('addSignatureDescInput');
+            const saveCheckbox = document.getElementById('addSignatureSaveCheckbox');
+            const addBtn = document.getElementById('addSignatureAddButton');
+
+            if (filePicker) {
+              const dt = new DataTransfer();
+              dt.items.add(file);
+              filePicker.files = dt.files;
+              filePicker.dispatchEvent(new Event('change', { bubbles: true }));
+
+              if (descInput) {
+                descInput.value = name || 'Extracted Signature';
+                descInput.dispatchEvent(new Event('input', { bubbles: true }));
+              }
+
+              if (saveCheckbox) {
+                saveCheckbox.checked = true;
+              }
+
+              let count = 0;
+              while (addBtn && addBtn.disabled && count < 35) {
+                await new Promise(r => setTimeout(r, 80));
+                count++;
+              }
+
+              if (addBtn && !addBtn.disabled) {
+                addBtn.click();
+                return true;
+              }
+            }
+          } catch (err) {
+            console.error('pdfcraftImportSignature error:', err);
+          }
+          return false;
+        };
+      })();
+    </script>
   </body>
 </html>

@@ -280,6 +280,21 @@ select option {
 [dir="rtl"] .me-2 { margin-inline-end: 0.5rem; }
 [dir="rtl"] .ms-2 { margin-inline-start: 0.5rem; }
 
+/* Arabic and Hebrew (RTL) Language Support */
+/* Arabic uses the self-hosted Noto Sans Arabic webfont (src/lib/fonts.ts); the */
+/* rest of the stack keeps native Arabic/Hebrew system fonts as fallbacks. */
+[lang="he"], [lang="ar"] {
+  font-family: var(--font-arabic, 'Noto Sans Arabic'), 'Segoe UI', 'Geeza Pro', 'Al Nile',
+    'Damascus', 'Noto Naskh Arabic', 'Arial Unicode MS', Arial, Helvetica, sans-serif;
+  direction: rtl;
+}
+
+/* Ensure Arabic/Hebrew text layers render even when the PDF font lacks the glyphs */
+.textLayer[dir="rtl"] span {
+  font-family: var(--font-arabic, 'Noto Sans Arabic'), 'Segoe UI', 'Geeza Pro', 'Al Nile',
+    'Noto Naskh Arabic', 'Arial Unicode MS', Arial, sans-serif;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

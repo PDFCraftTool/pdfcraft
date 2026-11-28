@@ -407,7 +407,7 @@ export const toolContentJa: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "署名を作成",
-        "description": "マウスまたはタッチで署名を描画、名前を入力して署名を生成、または署名画像をアップロードします。"
+        "description": "マウスまたはタッチで署名を描画、名前を入力して署名を生成、または署名画像をアップロードします。紙に書いた署名の写真をスキャンすることもできます。"
       },
       {
         "step": 3,

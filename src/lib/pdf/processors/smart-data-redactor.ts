@@ -13,6 +13,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib, loadPdfjs } from '../loader';
+import { redactPDF, type RedactionArea } from './redact';
 
 export interface SmartRedactOptions {
   patterns: ('email' | 'phone' | 'idcard' | 'custom')[];
@@ -76,10 +77,15 @@ export class SmartDataRedactorProcessor extends BasePDFProcessor {
       const totalPages = pdfLibDoc.getPageCount();
 
       const progressInterval = 70 / totalPages;
-      let matchesCount = 0;
+      const redactionAreas: RedactionArea[] = [];
+      const hexColor = redactOptions.redactColor
+        ? '#' + [redactOptions.redactColor.r, redactOptions.redactColor.g, redactOptions.redactColor.b]
+            .map(x => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0'))
+            .join('')
+        : '#000000';
 
       for (let i = 1; i <= totalPages; i++) {
-        this.updateProgress(15 + (i - 1) * progressInterval, `Scanning & redacting page ${i}...`);
+        this.updateProgress(15 + (i - 1) * progressInterval, `Scanning & analyzing page ${i}...`);
 
         const pdfjsPage = await pdfjsDoc.getPage(i);
         const pdfLibPage = pdfLibDoc.getPage(i - 1);
@@ -87,7 +93,6 @@ export class SmartDataRedactorProcessor extends BasePDFProcessor {
 
         // Extract text items with coordinates
         const textContent = await pdfjsPage.getTextContent();
-        const matches: MatchBox[] = [];
 
         // Build simple lines of text to perform regex
         for (const item of textContent.items) {
@@ -116,71 +121,65 @@ export class SmartDataRedactorProcessor extends BasePDFProcessor {
           }
 
           if (isMatch) {
-            // Coordinate mapping (PDFJS transform coordinates are bottom-left oriented, same as pdf-lib)
-            // item.transform gives [fontHeight, 0, 0, fontHeight, x, y] usually
+            // Coordinate mapping (PDFJS transform coordinates are bottom-left oriented)
             const x = transform[4];
             const y = transform[5];
             const height = transform[3] || item.height || 12;
             const width = item.width || (text.length * height * 0.6);
 
-            matches.push({
-              text,
-              x,
-              y,
-              width,
-              height,
+            const pad = 2;
+            const canvasX = Math.max(0, x - pad);
+            const canvasY = Math.max(0, pageHeight - y - height - pad);
+            const canvasW = width + pad * 2;
+            const canvasH = height + pad * 2;
+
+            redactionAreas.push({
+              id: `smart-${i}-${redactionAreas.length}`,
+              type: 'rect',
+              page: i,
+              x: canvasX,
+              y: canvasY,
+              width: canvasW,
+              height: canvasH,
+              pageWidth,
+              pageHeight,
+              style: redactOptions.redactColor ? 'custom-color' : 'blackout',
+              color: hexColor,
+              label: '[REDACTED]',
             });
-          }
-        }
-
-        // Draw redaction boxes and perform stream cleaning
-        if (matches.length > 0) {
-          matchesCount += matches.length;
-          const rColor = redactOptions.redactColor || { r: 0, g: 0, b: 0 };
-          const fillColor = pdfLib.rgb(rColor.r / 255, rColor.g / 255, rColor.b / 255);
-
-          for (const match of matches) {
-            // Overlay blocking mask
-            pdfLibPage.drawRectangle({
-              x: match.x - 2,
-              y: match.y - 2,
-              width: match.width + 4,
-              height: match.height + 4,
-              color: fillColor,
-            });
-
-            // Physical scrub: search and replace contents in the page content stream
-            const contents = pdfLibPage.node.get(pdfLib.PDFName.of('Contents'));
-            if (contents) {
-              const contentStreams = Array.isArray(contents) ? contents : [contents];
-              for (const contentStreamRef of contentStreams) {
-                const contentStream = pdfLibDoc.context.lookup(contentStreamRef);
-                if (contentStream instanceof pdfLib.PDFStream) {
-                  const rawData = (contentStream as any).getUncompressedContents();
-                  const contentText = new TextDecoder('utf-8').decode(rawData);
-                  
-                  // Replace the exact matching string with masked chars inside Tj/TJ
-                  const escapedText = match.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                  const searchRegex = new RegExp(`\\([^\\)]*${escapedText}[^\\)]*\\)\\s*(Tj|TJ)`, 'gi');
-                  const redactedStreamText = contentText.replace(searchRegex, '([REDACTED]) Tj');
-                  
-                  (contentStream as any).setContent(new TextEncoder().encode(redactedStreamText));
-                }
-              }
-            }
           }
         }
       }
 
-      this.updateProgress(90, 'Saving redacted PDF document...');
-      const pdfBytes = await pdfLibDoc.save({ useObjectStreams: true });
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+      let outputBlob: Blob;
+
+      if (redactionAreas.length > 0) {
+        this.updateProgress(85, 'Executing irreversible physical rasterization...');
+        const finalPdfBytes = await redactPDF(
+          fileBytes,
+          redactionAreas,
+          {
+            renderScale: 2.0,
+            outputQuality: 0.95,
+            stripMetadata: true,
+            purgeAnnotations: true,
+          },
+          (progressPercent, msg) => {
+            this.updateProgress(85 + Math.round((progressPercent / 100) * 12), msg);
+          }
+        );
+        outputBlob = new Blob([finalPdfBytes as unknown as BlobPart], { type: 'application/pdf' });
+      } else {
+        this.updateProgress(95, 'No sensitive data found, generating clean PDF...');
+        const pdfBytes = await pdfLibDoc.save({ useObjectStreams: true });
+        outputBlob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+      }
 
       this.updateProgress(100, 'Complete!');
 
-      return this.createSuccessOutput(blob, `${file.name.replace(/\.pdf$/i, '')}_redacted.pdf`, {
+      return this.createSuccessOutput(outputBlob, `${file.name.replace(/\.pdf$/i, '')}_redacted.pdf`, {
         pageCount: totalPages,
-        redactionsApplied: matchesCount,
+        redactionsApplied: redactionAreas.length,
       });
 
     } catch (error) {

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Signing service</title>
+  <style>
+    body { font: 15px/1.5 system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; color: #222; background: #fff; }
+    @media (prefers-color-scheme: dark) { body { color: #ddd; background: #111; } }
+  </style>
+</head>
+<body>
+  <p id="msg">Returning to PDFCraft…</p>
+  <script>
+    // OAuth redirect target for remote signing (src/lib/pdf/remote-signing/oauth-popup.ts)
+    (function () {
+      var p = new URLSearchParams(window.location.search);
+      var result = {
+        state: p.get('state') || undefined,
+        code: p.get('code') || undefined,
+        error: p.get('error') || undefined,
+        error_description: p.get('error_description') || undefined
+      };
+      try {
+        var ch = new BroadcastChannel('pdfcraft-csc-oauth');
+        ch.postMessage(result);
+        ch.close();
+      } catch (e) { /* older browsers: localStorage below */ }
+      try {
+        localStorage.setItem('pdfcraft-csc-oauth-result', JSON.stringify(result));
+      } catch (e) { /* storage blocked */ }
+      history.replaceState(null, '', window.location.pathname);
+      document.getElementById('msg').textContent = result.code
+        ? 'Signed in. You can close this window.'
+        : 'Sign-in failed. You can close this window.';
+      setTimeout(function () { window.close(); }, 300);
+    })();
+  </script>
+</body>
+</html>

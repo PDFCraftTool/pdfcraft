@@ -4,6 +4,7 @@
 , cacert
 , gzip
 , nginx
+, staticHash ? "sha256-AIIyALDKn6920A1Po3INkO7bklktL9CXwmRjsJz/y+Y="
 }:
 
 let
@@ -97,7 +98,7 @@ let
     # Hash must be updated when source changes.
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-hD/ptolhTZwm+Z4YeQVlyEQ9UzVRfmI8fTQ1rpkIG/8=";
+    outputHash = staticHash;
   };
 
 in
@@ -238,6 +239,10 @@ WRAPPER
 
     runHook postInstall
   '';
+
+  passthru = {
+    static = pdfcraft-static;
+  };
 
   meta = with lib; {
     description = "PDFCraft - Professional PDF Tools, Free, Private & Browser-Based";

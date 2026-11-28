@@ -120,9 +120,9 @@ export class DeepSanitizeProcessor extends BasePDFProcessor {
         const page = pdfDoc.getPage(i);
         
         // Remove OCGs from individual page resource dictionary
-        const resources = page.node.get(pdfLib.PDFName.of('Resources')) as any;
-        if (resources && resources.has && resources.has(pdfLib.PDFName.of('Properties'))) {
-          resources.delete(pdfLib.PDFName.of('Properties'));
+        if (sanitizeOptions.stripOcgWatermarks) {
+          const resources = page.node.Resources();
+          resources?.delete(pdfLib.PDFName.of('Properties'));
         }
 
         if (sanitizeOptions.stripAnnotations) {

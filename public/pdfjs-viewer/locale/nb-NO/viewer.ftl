@@ -544,6 +544,9 @@ pdfjs-editor-add-signature-draw-button = Tegn
     .title = Tegn
 pdfjs-editor-add-signature-image-button = Bilde
     .title = Bilde
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Skann
+    .title = Skann et bilde av signaturen din
 
 ## Tab panels
 
@@ -562,6 +565,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Eller velg bildefiler
        *[other] Eller velg bildefiler
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Skriv signaturen din på et hvitt ark, ta et bilde av det og last det opp her.
+pdfjs-editor-add-signature-scan-tip = For best resultat bør du bruke blitsen på kameraet eller sterkt, jevnt lys, og holde kameraet rett over arket.
+pdfjs-editor-add-signature-scan-choose-photo-button = Velg bilde
+pdfjs-editor-add-signature-scan-take-photo-button = Ta bilde
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Du kan også dra et bilde hit eller lime det inn med ⌘V.
+       *[other] Du kan også dra et bilde hit eller lime det inn med Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Signaturområde. Dra det eller bruk piltastene for å flytte det. Hold inne Shift sammen med piltastene for å endre størrelsen.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Forhåndsvisning av den skannede signaturen
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Roter mot venstre
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Roter mot venstre
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Roter mot høyre
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Roter mot høyre
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Blekkfølsomhet
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Blekkfølsomhet: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Bytt bilde
 
 ## Controls
 

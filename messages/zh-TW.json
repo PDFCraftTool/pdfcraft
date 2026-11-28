@@ -86,7 +86,7 @@
       "footer": "© 2025 PDFCraft. 保留所有權利。",
       "copyright": "© {year} PDFCraft. 保留所有權利。",
       "privacyBadge": "100% 私密 - 檔案永不離開您的裝置",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "madeWith": "由 <Heart /> 與 <Nextjs /> 製作"
     },
     "recentFiles": {
       "title": "最近檔案",
@@ -139,10 +139,10 @@
       "noResults": "未找到工具"
     },
     "fileUploader": {
-      "dragDrop": "Drag and drop files here, or click to browse",
-      "dropToUpload": "Drop files to upload",
-      "support": "Support",
-      "paste": "Paste (Ctrl+V)",
+      "dragDrop": "將檔案拖放到這裡，或點選瀏覽",
+      "dropToUpload": "放開檔案即可上傳",
+      "support": "支援",
+      "paste": "貼上 (Ctrl+V)",
       "encryptedTitle": "此文檔已加密",
       "enterPasswordHelp": "请输入密碼以解锁并载入：<br/>",
       "passwordPlaceholder": "请输入文檔密碼",
@@ -685,7 +685,21 @@
       "successTitle": "文字識別提取完成！",
       "successSearchablePdf": "双层可搜索 PDF 编译完成。原始扫描图片已被文字遮罩覆盖，您可以使用任意 PDF 查看器打开文件并进行劃詞搜索与複製。",
       "successText": "纯文本文件結構提取成功，已在下方显示文本流预览。",
-      "previewTitle": "提取出来的文本流预览"
+      "previewTitle": "提取出来的文本流预览",
+      "formatMarkdown": "結構化 Markdown (.md)",
+      "formatJson": "結構化 JSON (.json)",
+      "enhanceContrast": "智慧畫質增強（對比度與邊緣銳化）",
+      "enhanceContrastDesc": "自動提高對比並銳化邊緣，適合淡墨與偏暗的掃描件",
+      "copyText": "複製辨識文字",
+      "copied": "已複製到剪貼簿！",
+      "openInEditor": "在 PDF 編輯器中編輯",
+      "openInEditorDesc": "無需下載，直接在 PDFCraft 編輯器中修改文字與版面",
+      "statsPages": "處理頁數",
+      "statsWords": "辨識詞數",
+      "statsChars": "總字元數",
+      "statsConfidence": "平均信心度",
+      "tabText": "文字預覽",
+      "tabJson": "JSON 結構"
     },
     "overlayPdf": {
       "uploadBaseLabel": "1. 上傳主文檔 (Base PDF)",
@@ -1185,10 +1199,10 @@
     }
   },
   "errors": {
-    "pageError": "Something went wrong",
-    "pageErrorDescription": "An unexpected error occurred. Please try again.",
-    "tryAgain": "Try again",
-    "goHome": "Go home",
+    "pageError": "發生錯誤",
+    "pageErrorDescription": "發生未預期的錯誤。請再試一次。",
+    "tryAgain": "再試一次",
+    "goHome": "回到首頁",
     "fileTooLarge": "檔案太大。最大大小為{maxSize}MB。",
     "fileTypeInvalid": "無效的檔案格式。請上傳{acceptedTypes}檔案。",
     "fileCorrupted": "檔案似乎已損壞或無法讀取。",
@@ -1458,7 +1472,11 @@
     "conditionGateway": "條件分支",
     "downloadPdf": "下載 PDF",
     "outputCategory": "輸出與導出",
-    "filenameLabel": "輸出檔案名稱"
+    "filenameLabel": "輸出檔案名稱",
+    "inputCategory": "輸入來源",
+    "pdfInput": "PDF 輸入",
+    "imageInput": "圖片輸入",
+    "fileInput": "檔案輸入"
   },
   "tools": {
     "search": {
@@ -1588,10 +1606,10 @@
       "bookmarksNotice": "注意：按書籤拆分需要PDF中存在書籤。如果未找到書籤，將以整個PDF作為單個檔案。",
       "splitCountLabel": "拆分份數",
       "splitCountHint": "拆分為 {count} 等份（每份約 {pages} 頁）",
-      "pagesPerFile": "Pages Per File",
-      "pageRanges": "Page Ranges",
+      "pagesPerFile": "每個檔案的頁數",
+      "pageRanges": "頁面範圍",
       "pageRangesPlaceholder": "e.g., 1-3, 5, 7-9",
-      "modeEveryNPages": "Every N Pages",
+      "modeEveryNPages": "每 N 頁",
       "pagePreviewTitle": "選擇頁面",
       "splitButton": "拆分PDF",
       "resultsTitle": "拆分結果",
@@ -1617,9 +1635,11 @@
       "uploadLabel": "上傳 PDF 文件",
       "uploadDescription": "拖放 PDF 文件到此處，或點擊瀏覽。",
       "selectTitle": "選擇要提取的頁面",
-      "selectHint": "點選頁面選擇，或在上方輸入頁碼/範圍。",
+      "selectHint": "點選頁面選擇，或在上方輸入頁碼、範圍、odd 或 even。",
       "pageRange": "頁面範圍",
-      "pageRangePlaceholder": "例如：1-5, 8, 10-12",
+      "pageRangePlaceholder": "例如：1-5, 8, 10-12, odd, even",
+      "selectOdd": "奇數頁",
+      "selectEven": "偶數頁",
       "extractButton": "提取頁面",
       "successMessage": "頁面提取成功！點選下載按鈕儲存檔案。"
     },
@@ -1820,7 +1840,15 @@
         "fontSize": "字體大小",
         "inkColor": "墨水顏色",
         "inkThickness": "墨水粗細"
-      }
+      },
+      "textHistory": "文字變更紀錄",
+      "textUndo": "復原文字",
+      "textRedo": "重做文字",
+      "textUndoApplied": "已復原上一次文字變更。",
+      "textRedoApplied": "已重做文字變更。",
+      "overflowAppliedWarning": "替換文字超出原本區域。匯出前請先檢視結果。",
+      "fallbackFontWarning": "無法沿用原始字型，已改用備用字型。請檢查字元與間距。",
+      "signatureInvalidatedWarning": "此 PDF 含有數位簽章。編輯內容會使既有簽章失效。"
     },
     "imageToPdf": {
       "uploadLabel": "上傳圖片",
@@ -1899,7 +1927,7 @@
       "uploadDescription": "拖放PDF檔案到此處進行簽名。",
       "instructionsTitle": "如何簽名",
       "instruction1": "點選工具欄中的簽名工具（鋼筆圖示）",
-      "instruction2": "繪製、輸入或上傳您的簽名",
+      "instruction2": "繪製、輸入或上傳您的簽名，或掃描簽名照片",
       "instruction3": "點選要放置簽名的位置",
       "instruction4": "完成後點選下方的「儲存簽名PDF」",
       "flattenOption": "扁平化簽名（推薦 - 使簽名永久）",
@@ -2163,11 +2191,11 @@
       "totalSize": "總大小",
       "optionsTitle": "ZIP選項",
       "compressionLevel": "壓縮級別",
-      "filename": "Output Filename",
-      "filenamePlaceholder": "e.g., pdfs.zip",
-      "compressionFast": "Fast (low compression)",
-      "compressionNormal": "Normal (balanced)",
-      "compressionMax": "Maximum (smallest file)",
+      "filename": "輸出檔名",
+      "filenamePlaceholder": "例如：pdfs.zip",
+      "compressionFast": "快速（壓縮率較低）",
+      "compressionNormal": "一般（平衡）",
+      "compressionMax": "最大（檔案最小）",
       "noCompression": "不壓縮（最快）",
       "lowCompression": "低壓縮（快速）",
       "mediumCompression": "中等壓縮（平衡）",
@@ -2517,7 +2545,14 @@
       "bold": "粗體",
       "italic": "斜體",
       "boldItalic": "粗體斜體",
-      "setToCurrentPage": "設為目前頁面"
+      "setToCurrentPage": "設為目前頁面",
+      "removeAll": "全部移除",
+      "removeAllConfirm": "要移除所有書籤嗎？儲存後，匯出的 PDF 將不會包含書籤。",
+      "removedAllHint": "已移除所有書籤。儲存即可下載不含書籤的 PDF。",
+      "removeSelected": "移除所選（{count}）",
+      "removeSelectedConfirm": "要移除所選的 {count} 個書籤嗎？其子書籤也會一併移除。",
+      "selectForRemoval": "選擇「{title}」",
+      "selectHint": "勾選核取方塊可一次移除多個書籤。按住 Shift 點選可選取一個範圍。"
     },
     "pageNumbers": {
       "uploadLabel": "上傳 PDF 文件",
@@ -2807,15 +2842,15 @@
       "optionsTitle": "檢測選項",
       "removeButton": "移除空白頁",
       "successMessage": "空白頁移除成功！",
-      "analyzingPages": "Reading pages and computing information entropy...",
-      "sensitivity": "Sensitivity Threshold (0-100)",
-      "sensitivityHint": "Higher sensitivity is more lenient, making pages with slight scanning noise/watermarks easily marked as blank. Recommended blank pages are greyed out with a red diagonal bar. Click cards directly to override: force keep or force delete.",
-      "autoBlank": "Detected Blank",
-      "manualKeep": "Forced Keep",
-      "manualRemove": "Forced Delete",
-      "entropy": "Entropy",
+      "analyzingPages": "正在讀取頁面並計算資訊熵...",
+      "sensitivity": "靈敏度閾值 (0-100)",
+      "sensitivityHint": "靈敏度越高越寬鬆，帶有輕微掃描雜訊或浮水印的頁面也容易被標為空白。系統建議刪除的頁面會以灰色顯示並加上紅色斜線。直接點選卡片即可覆寫：強制保留或強制刪除。",
+      "autoBlank": "偵測為空白",
+      "manualKeep": "強制保留",
+      "manualRemove": "強制刪除",
+      "entropy": "資訊熵",
       "page": "第 {number} 頁",
-      "noBlankPages": "No blank pages found."
+      "noBlankPages": "未發現空白頁。"
     },
     "tableOfContents": {
       "uploadLabel": "上傳 PDF 文件",
@@ -2855,8 +2890,8 @@
       "uploadLabel": "上傳 PDF 文件",
       "uploadDescription": "拖放 PDF 文件到此處，或點擊瀏覽。",
       "optionsTitle": "轉換選項",
-      "preserveFormatting": "Preserve formatting",
-      "extractImages": "Extract images",
+      "preserveFormatting": "保留格式",
+      "extractImages": "擷取圖片",
       "convertButton": "轉換為 DOCX",
       "successMessage": "您的 PDF 已成功轉換為 DOCX！請點擊下載按鈕保存文件。"
     },
@@ -2879,7 +2914,7 @@
       "uploadLabel": "上傳 PDF 文件",
       "uploadDescription": "拖放 PDF 文件到此處，或點擊瀏覽。",
       "optionsTitle": "轉換選項",
-      "detectTables": "Auto-detect tables",
+      "detectTables": "自動偵測表格",
       "extractNote": "每一頁的表格都將提取到 Excel 文件中的獨立工作表中。",
       "convertButton": "轉換為 Excel",
       "successTitle": "轉換成功！",
@@ -2988,7 +3023,7 @@
       "orientationLabel": "方向",
       "rotationLabel": "頁面旋轉",
       "paddingLabel": "邊距",
-      "bindingEdge": "Binding Edge",
+      "bindingEdge": "裝訂邊",
       "bindingLeft": "左側",
       "bindingRight": "右側",
       "previewLabel": "版面預覽",
@@ -3015,7 +3050,7 @@
       "optionsTitle": "轉換選項",
       "pageSizeLabel": "頁面大小",
       "includeCcBccLabel": "包含副本/密件副本欄位",
-      "embedAttachments": "Embed attachments in PDF",
+      "embedAttachments": "將附件嵌入 PDF",
       "includeAttachmentsLabel": "包含附件清單",
       "timezoneLabel": "時區",
       "convertButton": "轉換為 PDF",
@@ -3049,7 +3084,7 @@
       "filesTitle": "檔案",
       "optionsTitle": "選項",
       "dpiLabel": "點陣化 DPI",
-      "preserveSelectableText": "Preserve selectable text",
+      "preserveSelectableText": "保留可選取文字",
       "pageRange": "頁面範圍",
       "convertButton": "將字體轉換為輪廓",
       "downloadAllZip": "全部下載為 ZIP",
@@ -3166,74 +3201,74 @@
       "signCoordinates": "盖印坐标"
     },
     "passportIdComposer": {
-      "uploadLabel": "Upload ID Images",
-      "uploadDescription": "Drag & drop both front and back sides of passport/ID cards to compose A4 copy.",
-      "optionsTitle": "ID Imposition Options",
-      "processButton": "Compose A4 Layout",
-      "successMessage": "Passport/ID composed successfully!"
+      "uploadLabel": "上傳證件圖片",
+      "uploadDescription": "將護照或身分證的正反面拖放到這裡，以合成 A4 影本。",
+      "optionsTitle": "證件拼版選項",
+      "processButton": "合成 A4 版面",
+      "successMessage": "護照／身分證已成功合成！"
     },
     "annotationExporter": {
-      "uploadLabel": "Upload Annotated PDF",
-      "uploadDescription": "Drag & drop PDF here to extract highlights, comments, and outline notebook.",
-      "optionsTitle": "Annotation Extraction Options",
-      "processButton": "Extract Notebook",
-      "successMessage": "PDF annotations extracted successfully!"
+      "uploadLabel": "上傳含註解的 PDF",
+      "uploadDescription": "將 PDF 拖放到這裡，以擷取螢光標示、註解與大綱筆記。",
+      "optionsTitle": "註解擷取選項",
+      "processButton": "擷取筆記",
+      "successMessage": "已成功擷取 PDF 註解！"
     },
     "batchWatermarkRemover": {
-      "uploadLabel": "Upload Watermarked PDF",
-      "uploadDescription": "Drag & drop PDF here to physically purge background watermarks.",
-      "optionsTitle": "Watermark Removal Options",
-      "processButton": "Purge Watermarks",
-      "successMessage": "Watermarks physically purged successfully!"
+      "uploadLabel": "上傳含浮水印的 PDF",
+      "uploadDescription": "將 PDF 拖放到這裡，以清除背景浮水印。",
+      "optionsTitle": "浮水印移除選項",
+      "processButton": "清除浮水印",
+      "successMessage": "已成功清除浮水印！"
     },
     "smartDataRedactor": {
-      "uploadLabel": "Upload PDF to Redact",
-      "uploadDescription": "Drag & drop PDF here to automatically scan & redact privacy data.",
-      "optionsTitle": "Smart Redaction Rules",
-      "processButton": "Redact Sensitive Data",
-      "successMessage": "PDF privacy data redacted successfully!"
+      "uploadLabel": "上傳要遮罩的 PDF",
+      "uploadDescription": "將 PDF 拖放到這裡，以自動掃描並遮罩隱私資料。",
+      "optionsTitle": "智慧遮罩規則",
+      "processButton": "遮罩敏感資料",
+      "successMessage": "已成功遮罩 PDF 中的隱私資料！"
     },
     "bookmarksAutoGenerator": {
       "uploadLabel": "上傳 PDF",
-      "uploadDescription": "Drag & drop PDF here to auto generate bookmarks from structure.",
-      "optionsTitle": "Bookmarks Generation Options",
-      "processButton": "Deduce & Inject Bookmarks",
-      "successMessage": "Bookmarks successfully injected into PDF Outline structure!"
+      "uploadDescription": "將 PDF 拖放到這裡，以依文件結構自動產生書籤。",
+      "optionsTitle": "書籤產生選項",
+      "processButton": "推斷並加入書籤",
+      "successMessage": "已成功將書籤寫入 PDF 大綱！"
     },
     "batchBarcodeInjector": {
       "uploadLabel": "上傳 PDF",
-      "uploadDescription": "Drag & drop PDF here to batch stamp QR / Barcodes.",
-      "optionsTitle": "Barcode Precision Stamp Options",
-      "processButton": "Batch Inject Barcodes",
-      "successMessage": "Asset barcodes/QR injected successfully!"
+      "uploadDescription": "將 PDF 拖放到這裡，以批次加蓋 QR code 或條碼。",
+      "optionsTitle": "條碼加蓋選項",
+      "processButton": "批次加入條碼",
+      "successMessage": "已成功加入條碼與 QR code！"
     },
     "signatureInkOptimizer": {
-      "uploadLabel": "Upload Signature/Seal Photo",
-      "uploadDescription": "Drag & drop signature photos to extract transparent PNG ink layer.",
-      "optionsTitle": "Ink Purifier Settings",
-      "processButton": "Purify Ink Signatures",
-      "successMessage": "Handwritten signature/stamp background filtered successfully!"
+      "uploadLabel": "上傳簽名或印章照片",
+      "uploadDescription": "拖放簽名照片，以擷取透明 PNG 墨跡圖層。",
+      "optionsTitle": "墨跡淨化設定",
+      "processButton": "淨化簽名墨跡",
+      "successMessage": "已成功濾除手寫簽名或印章的背景！"
     },
     "deadLinkDebugger": {
-      "uploadLabel": "Upload PDF to Debug",
-      "uploadDescription": "Drag & drop PDF here to probe interactive hyperlinks.",
-      "optionsTitle": "Hyperlink Probing & Redirect Settings",
-      "processButton": "Probes Hyperlinks",
-      "successMessage": "Hyperlinks verified and fixed successfully!"
+      "uploadLabel": "上傳要檢查的 PDF",
+      "uploadDescription": "將 PDF 拖放到這裡，以檢查互動超連結。",
+      "optionsTitle": "超連結檢查與重新導向設定",
+      "processButton": "檢查超連結",
+      "successMessage": "已成功驗證並修復超連結！"
     },
     "interactiveTocGenerator": {
       "uploadLabel": "上傳 PDF",
-      "uploadDescription": "Drag & drop PDF here to auto compile interactive Table of Contents.",
-      "optionsTitle": "TOC Index Insertion Options",
-      "processButton": "Generate Interactive TOC",
-      "successMessage": "Interactive TOC page & bidirectional anchors woven successfully!"
+      "uploadDescription": "將 PDF 拖放到這裡，以自動產生互動式目錄。",
+      "optionsTitle": "目錄插入選項",
+      "processButton": "產生互動式目錄",
+      "successMessage": "已成功加入互動式目錄頁與雙向錨點！"
     },
     "globalInvoiceParser": {
-      "uploadLabel": "Upload Foreign Invoice PDF",
-      "uploadDescription": "Drag & drop invoice PDF here to automatically apply exchange ledger.",
-      "optionsTitle": "Exchange Rates Options",
-      "processButton": "Translate & Convert Invoice",
-      "successMessage": "Foreign invoice translated and local conversion ledger stamped successfully!"
+      "uploadLabel": "上傳外幣發票 PDF",
+      "uploadDescription": "將發票 PDF 拖放到這裡，以自動套用匯率帳簿。",
+      "optionsTitle": "匯率選項",
+      "processButton": "翻譯並換算發票",
+      "successMessage": "已成功翻譯外幣發票，並加蓋本地換算帳簿！"
     }
   }
 }

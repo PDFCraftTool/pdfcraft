@@ -265,11 +265,14 @@ export function getOpenGraphLocale(locale: Locale): string {
     'zh-TW': 'zh_TW',
     pt: 'pt_BR',
     ar: 'ar_AR',
+    he: 'he_IL',
     it: 'it_IT',
     id: 'id_ID',
     vi: 'vi_VN',
     ro: 'ro_RO',
     pl: 'pl_PL',
+    cs: 'cs_CZ',
+    hi: 'hi_IN',
   };
   return ogLocaleMap[locale] || 'en_US';
 }

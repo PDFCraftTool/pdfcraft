@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-get-temp-dir"
+description = "Enables the get_temp_dir command without any pre-configured scope."
+commands.allow = ["get_temp_dir"]
+
+[[permission]]
+identifier = "deny-get-temp-dir"
+description = "Denies the get_temp_dir command without any pre-configured scope."
+commands.deny = ["get_temp_dir"]

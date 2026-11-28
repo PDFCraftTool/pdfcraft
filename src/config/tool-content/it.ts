@@ -538,7 +538,7 @@ export const toolContentIt: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Crea la firma",
-        "description": "Disegna la firma con mouse o touch, digita il tuo nome per generarla oppure carica un’immagine della firma."
+        "description": "Disegna la firma con mouse o touch, digita il tuo nome per generarla oppure carica un’immagine della firma. Puoi anche scansionare la foto di una firma scritta su carta."
       },
       {
         "step": 3,

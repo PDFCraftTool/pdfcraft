@@ -178,7 +178,7 @@ export class CitationLinkerProcessor extends BasePDFProcessor {
               A: {
                 Type: 'Action',
                 S: 'URI',
-                URI: url,
+                URI: pdfLib.PDFHexString.fromText(url),
               },
             });
           } else if (linkerOptions.fallbackToPageJump && refPage) {
@@ -196,7 +196,7 @@ export class CitationLinkerProcessor extends BasePDFProcessor {
 
           if (linkAnnot) {
             // Retrieve or create page annotations array
-            let annots = pdfLibPage.node.get(pdfLib.PDFName.of('Annots')) as any;
+            let annots = pdfLibPage.node.Annots();
             if (!annots) {
               annots = pdfDoc.context.obj([]);
               pdfLibPage.node.set(pdfLib.PDFName.of('Annots'), annots);

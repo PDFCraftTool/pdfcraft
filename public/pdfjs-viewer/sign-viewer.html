@@ -242,7 +242,12 @@
     async function loadPDF(data) {
       try {
         console.log('loadPDF called');
-        const loadingTask = pdfjsLib.getDocument({ data });
+        const loadingTask = pdfjsLib.getDocument({
+          data,
+          cMapUrl: './cmaps/',
+          cMapPacked: true,
+          standardFontDataUrl: './standard_fonts/',
+        });
         pdfDocument = await loadingTask.promise;
         console.log('PDF document loaded, pages:', pdfDocument.numPages);
         

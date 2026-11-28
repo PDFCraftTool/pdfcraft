@@ -11,6 +11,7 @@ import type {
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
 import { loadPdfLib } from '../loader';
+import { ensurePageContents } from '../page-contents';
 
 export interface BookletFoldingOptions {
   foldingMode: '4-page-fold' | '8-page-saddle' | '4-page-accordion';
@@ -62,7 +63,7 @@ export class BookletFoldingSimulatorProcessor extends BasePDFProcessor {
       const embeddedPages = [];
       for (let i = 0; i < srcPageCount; i++) {
         const page = srcDoc.getPage(i);
-        const embedded = await outputDoc.embedPage(page);
+        const embedded = await outputDoc.embedPage(ensurePageContents(page));
         embeddedPages.push(embedded);
       }
 

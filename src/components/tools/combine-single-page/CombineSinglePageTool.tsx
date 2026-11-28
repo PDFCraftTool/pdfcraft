@@ -398,7 +398,7 @@ export function CombineSinglePageTool({ className = '' }: CombineSinglePageToolP
           {result && (
             <DownloadButton
               file={result}
-              filename={file.name.replace('.pdf', '_combined.pdf')}
+              filename={file.name.replace(/\.pdf$/i, '_combined.pdf')}
               variant="secondary"
               size="lg"
               showFileSize

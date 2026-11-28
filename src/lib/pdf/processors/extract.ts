@@ -22,6 +22,11 @@ import { loadPdfLib } from '../loader';
 export interface ExtractOptions {
   /** Pages to extract (1-based page numbers) */
   pages: number[];
+  /**
+   * Selection text such as "1-5, 8" or "odd".
+   * Parsed after the PDF page count is known, so parity keywords cover the whole file.
+   */
+  pageSelection?: string;
 }
 
 /**
@@ -61,8 +66,10 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
       );
     }
 
+    const pageSelection = extractOptions.pageSelection?.trim() ?? '';
+
     // Validate pages are provided
-    if (!extractOptions.pages || extractOptions.pages.length === 0) {
+    if ((!extractOptions.pages || extractOptions.pages.length === 0) && pageSelection.length === 0) {
       return this.createErrorOutput(
         PDFErrorCode.INVALID_OPTIONS,
         'At least one page is required for extraction.',
@@ -107,8 +114,20 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
       const totalPages = sourcePdf.getPageCount();
       this.updateProgress(20, `Source PDF has ${totalPages} pages.`);
 
+      const selectedPages = pageSelection.length > 0
+        ? parsePageSelection(pageSelection, totalPages)
+        : extractOptions.pages;
+
+      if (selectedPages.length === 0) {
+        return this.createErrorOutput(
+          PDFErrorCode.INVALID_PAGE_RANGE,
+          'No pages matched the selection.',
+          `The PDF has ${totalPages} pages.`
+        );
+      }
+
       // Validate pages
-      const validationError = validatePages(extractOptions.pages, totalPages);
+      const validationError = validatePages(selectedPages, totalPages);
       if (validationError) {
         return this.createErrorOutput(
           PDFErrorCode.INVALID_PAGE_RANGE,
@@ -118,7 +137,7 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
       }
 
       // Remove duplicates and sort
-      const uniquePages = [...new Set(extractOptions.pages)].sort((a, b) => a - b);
+      const uniquePages = [...new Set(selectedPages)].sort((a, b) => a - b);
 
       if (this.checkCancelled()) {
         return this.createErrorOutput(
@@ -152,14 +171,13 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
       } catch (pymupdfErr) {
         console.warn('PyMuPDF extract failed or not available, falling back to pdf-lib:', pymupdfErr);
         
-        // Fallback to pdf-lib (original logic)
-        // Create a new PDF document
-        const newPdf = await pdfLib.PDFDocument.create();
+        // Fallback to pdf-lib: drop the pages that were not selected from the
+        // source document itself, so forms, links, page labels, metadata and
+        // attachments survive (rebuilding the document would lose them).
+        const keep = new Set(uniquePages.map(pageNum => pageNum - 1));
+        const progressPerPage = 60 / totalPages;
 
-        // Copy pages
-        const progressPerPage = 60 / uniquePages.length;
-
-        for (let i = 0; i < uniquePages.length; i++) {
+        for (let pageIndex = totalPages - 1; pageIndex >= 0; pageIndex--) {
           if (this.checkCancelled()) {
             return this.createErrorOutput(
               PDFErrorCode.PROCESSING_CANCELLED,
@@ -167,22 +185,20 @@ export class ExtractPagesPDFProcessor extends BasePDFProcessor {
             );
           }
 
-          const pageNum = uniquePages[i];
-          const pageIndex = pageNum - 1; // Convert to 0-based index
-
           this.updateProgress(
-            30 + (i * progressPerPage),
-            `Extracting page ${pageNum}...`
+            30 + ((totalPages - 1 - pageIndex) * progressPerPage),
+            `Extracting page ${pageIndex + 1}...`
           );
 
-          const [copiedPage] = await newPdf.copyPages(sourcePdf, [pageIndex]);
-          newPdf.addPage(copiedPage);
+          if (!keep.has(pageIndex)) {
+            sourcePdf.removePage(pageIndex);
+          }
         }
 
         this.updateProgress(90, 'Saving extracted pages...');
 
         // Save the new PDF
-        const pdfBytes = await newPdf.save({ useObjectStreams: true });
+        const pdfBytes = await sourcePdf.save({ useObjectStreams: true });
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
         this.updateProgress(100, 'Complete!');
@@ -267,14 +283,28 @@ function generateExtractedFilename(originalName: string, pages: number[]): strin
 }
 
 /**
- * Parse page selection string into array of page numbers
- * Supports formats like: "1,3,5", "1-5", "1-3,5,7-10"
+ * Parse page selection string into array of page numbers.
+ * Supports formats like: "1,3,5", "1-5", "1-3,5,7-10", "odd", "even".
+ * "odd" and "even" are whole tokens and can be combined with other pages.
  */
 export function parsePageSelection(selectionString: string, totalPages: number): number[] {
   const pages: number[] = [];
   const parts = selectionString.split(',').map(s => s.trim()).filter(s => s.length > 0);
 
+  const pushParity = (parity: 'odd' | 'even') => {
+    const start = parity === 'odd' ? 1 : 2;
+    for (let i = start; i <= totalPages; i += 2) {
+      pages.push(i);
+    }
+  };
+
   for (const part of parts) {
+    const keyword = part.toLowerCase();
+    if (keyword === 'odd' || keyword === 'even') {
+      pushParity(keyword);
+      continue;
+    }
+
     if (part.includes('-')) {
       const [startStr, endStr] = part.split('-').map(s => s.trim());
       const start = parseInt(startStr, 10);

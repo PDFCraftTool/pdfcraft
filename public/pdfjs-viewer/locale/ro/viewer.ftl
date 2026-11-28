@@ -547,6 +547,9 @@ pdfjs-editor-add-signature-draw-button = Desenează
     .title = Desenează
 pdfjs-editor-add-signature-image-button = Imagine
     .title = Imagine
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Scanează
+    .title = Scanează o fotografie a semnăturii
 
 ## Tab panels
 
@@ -565,6 +568,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Sau alege fișiere de imagini
        *[other] Sau răsfoiește prin fișiere de imagini
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Semnează pe o foaie de hârtie albă, fotografiaz-o și încarcă fotografia aici.
+pdfjs-editor-add-signature-scan-tip = Pentru cel mai bun rezultat, folosește blițul camerei sau o lumină puternică și uniformă și ține camera drept deasupra hârtiei.
+pdfjs-editor-add-signature-scan-choose-photo-button = Alege fotografia
+pdfjs-editor-add-signature-scan-take-photo-button = Fă o fotografie
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Poți și să tragi o fotografie aici sau să o lipești cu ⌘V.
+       *[other] Poți și să tragi o fotografie aici sau să o lipești cu Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Zona semnăturii. Trage-o sau folosește tastele săgeți pentru a o muta. Ține apăsat Shift cu tastele săgeți pentru a o redimensiona.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Previzualizarea semnăturii scanate
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Rotește la stânga
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Rotește la stânga
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Rotește la dreapta
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Rotește la dreapta
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Sensibilitatea cernelii
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Sensibilitatea cernelii: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Schimbă fotografia
 
 ## Controls
 

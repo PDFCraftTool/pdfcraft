@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { ArrowRight, Zap, Wrench, Lock, Sparkles, Edit, FileImage, FolderOpen, Settings, ShieldCheck, Star } from 'lucide-react';
+import { ArrowRight, Zap, Wrench, Lock, Sparkles, Edit, FileImage, FolderOpen, Settings, ShieldCheck, Star, LayoutGrid } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ToolGrid } from '@/components/tools/ToolGrid';
@@ -120,11 +120,28 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
+                <Link href={`/${locale}/studio`}>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    className="h-11 px-7 text-base shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:-translate-y-0.5 gap-2"
+                  >
+                    <Sparkles className="h-4 w-4" aria-hidden="true" />
+                    <span>{locale === 'zh' ? '进入 Studio 工作台' : 'Open PDF Studio'}</span>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white/20 text-white leading-none">
+                      NEW
+                    </span>
+                  </Button>
+                </Link>
                 <Link href={`/${locale}/tools`}>
-                  <Button variant="primary" size="lg" className="h-11 px-8 text-base shadow-lg hover:shadow-primary/25 transition-all hover:-translate-y-0.5">
-                    {t('home.hero.cta')}
-                    <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="h-11 px-6 text-base transition-all hover:-translate-y-0.5 gap-2 bg-[hsl(var(--color-card)/0.6)] backdrop-blur-sm"
+                  >
+                    <LayoutGrid className="h-4 w-4 text-[hsl(var(--color-muted-foreground))]" aria-hidden="true" />
+                    <span>{t('home.hero.cta')}</span>
                   </Button>
                 </Link>
                 <div className="flex items-center gap-2 text-sm text-[hsl(var(--color-muted-foreground))] bg-[hsl(var(--color-background)/0.5)] px-4 py-2 rounded-full border border-[hsl(var(--color-border))] backdrop-blur-sm">

@@ -404,7 +404,7 @@ export const toolContentKo: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "서명 만들기",
-        "description": "서명을 그리거나, 입력하거나, 이미지를 업로드합니다."
+        "description": "서명을 그리거나, 입력하거나, 이미지를 업로드합니다. 종이에 쓴 서명의 사진을 스캔할 수도 있습니다."
       },
       {
         "step": 3,

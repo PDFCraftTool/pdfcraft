@@ -8,6 +8,7 @@ import {
   createPageLabelsProcessor,
   addPageLabels,
 } from '@/lib/pdf/processors/page-labels';
+import { PDFDocument, PDFName, PDFDict, PDFArray, PDFNumber, PDFHexString, PDFString } from 'pdf-lib';
 import { PDFErrorCode } from '@/types/pdf';
 
 // Helper to create a real minimal PDF using pdf-lib
@@ -73,6 +74,30 @@ describe('PageLabelsProcessor', () => {
   });
 
   describe('process - labeling functionality', () => {
+    it('saves labels for an oversized range without traversing nonexistent pages', async () => {
+      const file = await createRealPDFFile('oversized.pdf', 4);
+      const result = await addPageLabels(file, {
+        rules: [{ pageRange: '1-100000000000000000000', style: 'R', prefix: 'Section-', startValue: 5 }],
+      });
+      expect(result.success).toBe(true);
+      const bytes = await new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as ArrayBuffer);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsArrayBuffer(result.result as Blob);
+      });
+      const saved = await PDFDocument.load(bytes);
+      expect(saved.getPageCount()).toBe(4);
+      const labels = saved.catalog.lookup(PDFName.of('PageLabels'), PDFDict);
+      const nums = labels.lookup(PDFName.of('Nums'), PDFArray);
+      expect(nums.size()).toBe(2);
+      expect(nums.lookup(0, PDFNumber).asNumber()).toBe(0);
+      const first = nums.lookup(1, PDFDict);
+      expect(first.lookup(PDFName.of('S'), PDFName).asString()).toBe('/R');
+      expect(first.lookup(PDFName.of('P'), PDFHexString).decodeText()).toBe('Section-');
+      expect(first.lookup(PDFName.of('St'), PDFNumber).asNumber()).toBe(5);
+    });
+
     it('should successfully inject decimal page label rules on all pages', async () => {
       const file = await createRealPDFFile('book.pdf', 5);
       const result = await addPageLabels(file, {
@@ -89,6 +114,32 @@ describe('PageLabelsProcessor', () => {
       expect(result.success).toBe(true);
       expect(result.result).toBeInstanceOf(Blob);
       expect(result.filename).toBe('book_labeled.pdf');
+    });
+
+    it.each(['章节-', 'Ενότητα-', 'שלום-', '📄-', 'Page-'])('preserves prefix %s after saving and reopening', async (prefix) => {
+      const file = await createRealPDFFile('labels.pdf', 4);
+      const result = await addPageLabels(file, {
+        rules: [{ pageRange: '1,3', style: 'D', prefix, startValue: 7 }],
+      });
+      expect(result.success).toBe(true);
+      const bytes = await new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as ArrayBuffer);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsArrayBuffer(result.result as Blob);
+      });
+      const saved = await PDFDocument.load(bytes);
+      const labels = saved.catalog.lookup(PDFName.of('PageLabels'), PDFDict);
+      const nums = labels.lookup(PDFName.of('Nums'), PDFArray);
+      const first = nums.lookup(1, PDFDict);
+      const resumed = nums.lookup(5, PDFDict);
+      for (const dict of [first, resumed]) {
+        const encoded = dict.get(PDFName.of('P'));
+        expect(encoded instanceof PDFHexString || encoded instanceof PDFString).toBe(true);
+        expect((encoded as PDFHexString | PDFString).decodeText()).toBe(prefix);
+      }
+      expect(first.lookup(PDFName.of('St'), PDFNumber).asNumber()).toBe(7);
+      expect(resumed.lookup(PDFName.of('St'), PDFNumber).asNumber()).toBe(8);
     });
 
     it('should successfully inject complex disjoint roman and decimal rules', async () => {

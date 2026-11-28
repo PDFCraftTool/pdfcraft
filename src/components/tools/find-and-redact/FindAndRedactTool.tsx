@@ -902,7 +902,7 @@ export function FindAndRedactTool({ className = '' }: FindAndRedactToolProps) {
                             {result && (
                                 <DownloadButton
                                     file={result}
-                                    filename={file.name.replace('.pdf', '_redacted.pdf')}
+                                    filename={file.name.replace(/\.pdf$/i, '_redacted.pdf')}
                                     variant="secondary"
                                     size="lg"
                                     showFileSize

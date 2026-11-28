@@ -528,6 +528,9 @@ pdfjs-editor-add-signature-draw-button = Desenhar
     .title = Desenhar
 pdfjs-editor-add-signature-image-button = Imagem
     .title = Imagem
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Digitalizar
+    .title = Digitalizar uma fotografia da sua assinatura
 
 ## Tab panels
 
@@ -546,6 +549,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Ou escolha ficheiros de imagem
        *[other] Ou explore ficheiros de imagem
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Assine numa folha de papel branco, tire-lhe uma fotografia e carregue-a aqui.
+pdfjs-editor-add-signature-scan-tip = Para obter o melhor resultado, utilize o flash da câmara ou uma luz forte e uniforme, e segure a câmara direita sobre o papel.
+pdfjs-editor-add-signature-scan-choose-photo-button = Escolher fotografia
+pdfjs-editor-add-signature-scan-take-photo-button = Tirar fotografia
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Também pode arrastar uma fotografia para aqui ou colá-la com ⌘V.
+       *[other] Também pode arrastar uma fotografia para aqui ou colá-la com Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Área da assinatura. Arraste-a ou utilize as teclas de seta para a mover. Mantenha Shift premido com as teclas de seta para a redimensionar.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Pré-visualização da assinatura digitalizada
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Rodar para a esquerda
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Rodar para a esquerda
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Rodar para a direita
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Rodar para a direita
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Sensibilidade da tinta
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Sensibilidade da tinta: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Mudar fotografia
 
 ## Controls
 

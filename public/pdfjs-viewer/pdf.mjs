@@ -23477,15 +23477,12 @@ class SignatureExtractor {
     }
     return i;
   }
-  static #getGrayPixels(bitmap) {
+  static #getGrayPixels(bitmap, maxDim = this.#PARAMETERS.maxDim) {
     const originalBitmap = bitmap;
     const {
       width,
       height
     } = bitmap;
-    const {
-      maxDim
-    } = this.#PARAMETERS;
     let newWidth = width;
     let newHeight = height;
     if (width > maxDim || height > maxDim) {
@@ -23575,10 +23572,22 @@ class SignatureExtractor {
       areContours: true
     });
   }
-  static process(bitmap, pageWidth, pageHeight, rotation, innerMargin) {
-    const [uint8Buf, width, height] = this.#getGrayPixels(bitmap);
-    const [buffer, histogram] = this.#bilateralFilter(uint8Buf, width, height, Math.hypot(width, height) * this.#PARAMETERS.sigmaSFactor, this.#PARAMETERS.sigmaR, this.#PARAMETERS.kernelSize);
-    const threshold = this.#guessThreshold(histogram);
+  static process(bitmap, pageWidth, pageHeight, rotation, innerMargin, options = null) {
+    // PDFCraft: `options.isClean` marks an image that is already dark ink on
+    // white paper (the Scan tab cleans photos itself). Denoising and threshold
+    // guessing are skipped, which would otherwise thicken the strokes;
+    // `options.threshold` and `options.maxDim` control the stroke edge and
+    // how much detail is kept.
+    const [uint8Buf, width, height] = this.#getGrayPixels(bitmap, options?.maxDim || undefined);
+    let buffer, threshold;
+    if (options?.isClean) {
+      buffer = uint8Buf;
+      threshold = options.threshold ?? 127;
+    } else {
+      let histogram;
+      [buffer, histogram] = this.#bilateralFilter(uint8Buf, width, height, Math.hypot(width, height) * this.#PARAMETERS.sigmaSFactor, this.#PARAMETERS.sigmaR, this.#PARAMETERS.kernelSize);
+      threshold = this.#guessThreshold(histogram);
+    }
     const contourList = this.#findContours(buffer, width, height, threshold);
     return this.processDrawnLines({
       lines: {
@@ -24075,7 +24084,7 @@ class SignatureEditor extends DrawingEditor {
     });
     this.div.hidden = false;
   }
-  getFromImage(bitmap) {
+  getFromImage(bitmap, options = null) {
     const {
       rawDims: {
         pageWidth,
@@ -24083,7 +24092,7 @@ class SignatureEditor extends DrawingEditor {
       },
       rotation
     } = this.parent.viewport;
-    return SignatureExtractor.process(bitmap, pageWidth, pageHeight, rotation, SignatureEditor._INNER_MARGIN);
+    return SignatureExtractor.process(bitmap, pageWidth, pageHeight, rotation, SignatureEditor._INNER_MARGIN, options);
   }
   getFromText(text, fontInfo) {
     const {

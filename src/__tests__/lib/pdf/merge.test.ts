@@ -240,13 +240,81 @@ describe('MergePDFProcessor', () => {
       expect(result.errors).toHaveLength(0);
     });
 
-    it('should reject non-PDF files', async () => {
-      const textFile = new File(['Hello World'], 'test.txt', { type: 'text/plain' });
+    it('should reject unsupported files', async () => {
+      const unsupportedFile = new File(['binary data'], 'program.exe', { type: 'application/x-msdownload' });
       
-      const result = await processor.validate([textFile]);
+      const result = await processor.validate([unsupportedFile]);
       
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
+    });
+
+    it('should accept image and text files in addition to PDF', async () => {
+      const pdfFile = await createRealPDFFile('test.pdf', 1);
+      const imgFile = new File(['fake image'], 'photo.png', { type: 'image/png' });
+      const txtFile = new File(['Hello World'], 'notes.txt', { type: 'text/plain' });
+
+      const result = await processor.validate([pdfFile, imgFile, txtFile]);
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
+
+    it('should accept Office document files (docx, xlsx, pptx)', async () => {
+      const docxFile = new File(['fake docx'], 'contract.docx', {
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+      const xlsxFile = new File(['fake xlsx'], 'budget.xlsx', {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const pptxFile = new File(['fake pptx'], 'slides.pptx', {
+        type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      });
+
+      const result = await processor.validate([docxFile, xlsxFile, pptxFile]);
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+    });
+
+    it('should successfully merge PDF with an image and a text file', async () => {
+      const pdfFile = await createRealPDFFile('document.pdf', 2);
+      
+      // 1x1 PNG image
+      const pngBytes = new Uint8Array([
+        0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
+        0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+        0x08, 0x06, 0x00, 0x00, 0x00, 0x1f, 0x15, 0xc4, 0x89, 0x00, 0x00, 0x00,
+        0x0a, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9c, 0x63, 0x00, 0x01, 0x00, 0x00,
+        0x05, 0x00, 0x01, 0x0d, 0x0a, 0x2d, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x49,
+        0x45, 0x4e, 0x44, 0xae, 0x42, 0x60, 0x82,
+      ]);
+      const imgFile = new File([pngBytes], 'sample.png', { type: 'image/png' });
+      Object.defineProperty(imgFile, 'arrayBuffer', {
+        value: async () => pngBytes.buffer,
+      });
+
+      // Text file
+      const textContent = 'This is notes content from a plain text file.';
+      const txtFile = new File([textContent], 'memo.txt', { type: 'text/plain' });
+      Object.defineProperty(txtFile, 'text', {
+        value: async () => textContent,
+      });
+      Object.defineProperty(txtFile, 'arrayBuffer', {
+        value: async () => new TextEncoder().encode(textContent).buffer,
+      });
+
+      const result = await processor.process({
+        files: [pdfFile, imgFile, txtFile],
+        options: { preserveBookmarks: true },
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.result).toBeInstanceOf(Blob);
+      // document.pdf has 2 pages, sample.png has 1 page, memo.txt has 1 page => total 4 pages
+      expect(result.metadata?.pageCount).toBe(4);
+      expect(result.metadata?.fileCount).toBe(3);
+      expect(result.metadata?.bookmarkCount).toBe(3);
     });
   });
 });

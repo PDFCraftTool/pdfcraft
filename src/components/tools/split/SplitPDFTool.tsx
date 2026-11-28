@@ -20,6 +20,7 @@ import {
 import { createZip } from '@/lib/zip';
 import { saveBlobFile } from '@/lib/tauri-bridge';
 import { configurePdfjsWorker } from '@/lib/pdf/loader';
+import { useSelectAllShortcut } from '@/hooks/useSelectAllShortcut';
 import type { SplitOptions, PageRange, ProcessOutput } from '@/types/pdf';
 
 export interface SplitPDFToolProps {
@@ -254,6 +255,11 @@ export function SplitPDFTool({ className = '' }: SplitPDFToolProps) {
   const handleDeselectAll = useCallback(() => {
     setSelectedPages(new Set());
   }, []);
+
+  useSelectAllShortcut({
+    onSelectAll: handleSelectAll,
+    enabled: splitMode === 'ranges' || splitMode === 'visual',
+  });
 
   /**
    * Get page ranges from current selection/input
@@ -1015,7 +1021,7 @@ export function SplitPDFTool({ className = '' }: SplitPDFToolProps) {
                 onClick={async () => {
                   try {
                     const zipBlob = await createZip(results);
-                    const zipName = `${file?.name.replace('.pdf', '') || 'split'}-files.zip`;
+                    const zipName = `${file?.name.replace(/\.pdf$/i, '') || 'split'}-files.zip`;
                     await saveBlobFile(zipBlob, zipName);
                   } catch (err) {
                     console.error('Failed to create ZIP:', err);

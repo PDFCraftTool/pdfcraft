@@ -276,3 +276,65 @@ export async function openExternalUrl(url: string): Promise<boolean> {
   return false;
 }
 
+export interface SystemPrinter {
+  name: string;
+  is_default: boolean;
+  port_name?: string | null;
+}
+
+/**
+ * Fetch installed system printers.
+ * In a desktop Tauri environment: queries real OS printers (local, network, USB).
+ * In a standard browser environment: returns empty array.
+ */
+export async function getSystemPrinters(): Promise<SystemPrinter[]> {
+  if (isTauri()) {
+    try {
+      const invoke = await getTauriInvoke();
+      return await invoke<SystemPrinter[]>('get_system_printers');
+    } catch (err) {
+      console.warn('Failed to get system printers via Tauri:', err);
+    }
+  }
+  return [];
+}
+
+/**
+ * Print a PDF document natively or via browser fallback.
+ * In desktop Tauri environment: invokes native print to specific printer or default printer.
+ * In browser environment: falls back to window.print().
+ */
+export async function printPdfFile(
+  fileData: Blob | Uint8Array,
+  printerName?: string
+): Promise<{ success: boolean; error?: string }> {
+  if (isTauri()) {
+    try {
+      const invoke = await getTauriInvoke();
+      let bytes: Uint8Array;
+      if (fileData instanceof Uint8Array) {
+        bytes = fileData;
+      } else {
+        const buffer = await fileData.arrayBuffer();
+        bytes = new Uint8Array(buffer);
+      }
+      await invoke('print_pdf_file', {
+        data: Array.from(bytes),
+        printerName: printerName || null,
+      });
+      return { success: true };
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      return { success: false, error: errMsg };
+    }
+  }
+
+  // Browser fallback
+  if (typeof window !== 'undefined') {
+    window.print();
+    return { success: true };
+  }
+
+  return { success: false, error: 'Environment does not support printing' };
+}
+

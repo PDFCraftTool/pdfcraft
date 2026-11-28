@@ -608,6 +608,9 @@ pdfjs-editor-add-signature-draw-button = Draw
     .title = Draw
 pdfjs-editor-add-signature-image-button = Image
     .title = Image
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Scan
+    .title = Scan a photo of your signature
 
 ## Tab panels
 
@@ -628,6 +631,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Or choose image files
        *[other] Or browse image files
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Sign a sheet of white paper, take a photo of it and upload it here.
+pdfjs-editor-add-signature-scan-tip = For the best result, use the camera flash or bright, even light, and hold the camera straight above the paper.
+pdfjs-editor-add-signature-scan-choose-photo-button = Choose photo
+pdfjs-editor-add-signature-scan-take-photo-button = Take photo
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] You can also drag a photo here or paste it with ⌘V.
+       *[other] You can also drag a photo here or paste it with Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Signature area. Drag it or use the arrow keys to move it. Hold Shift with the arrow keys to resize it.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Preview of the scanned signature
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Rotate left
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Rotate left
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Rotate right
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Rotate right
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Ink sensitivity
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Ink sensitivity: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Change photo
 
 ## Controls
 

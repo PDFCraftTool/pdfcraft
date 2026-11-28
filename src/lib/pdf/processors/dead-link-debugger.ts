@@ -73,7 +73,7 @@ export class DeadLinkDebuggerProcessor extends BasePDFProcessor {
         this.updateProgress(20 + i * progressInterval, `Scanning links on page ${i + 1}...`);
         const page = pages[i];
         
-        const annots = page.node.get(pdfLib.PDFName.of('Annots'));
+        const annots = page.node.Annots();
         if (annots instanceof pdfLib.PDFArray) {
           for (let j = 0; j < annots.size(); j++) {
             const annotRef = annots.get(j);
@@ -82,7 +82,7 @@ export class DeadLinkDebuggerProcessor extends BasePDFProcessor {
             if (annot instanceof pdfLib.PDFDict) {
               const subtype = annot.get(pdfLib.PDFName.of('Subtype'));
               if (subtype === pdfLib.PDFName.of('Link')) {
-                const action = annot.get(pdfLib.PDFName.of('A'));
+                const action = pdfDoc.context.lookup(annot.get(pdfLib.PDFName.of('A')));
                 if (action instanceof pdfLib.PDFDict) {
                   const sValue = action.get(pdfLib.PDFName.of('S'));
                   if (sValue === pdfLib.PDFName.of('URI')) {
@@ -92,9 +92,9 @@ export class DeadLinkDebuggerProcessor extends BasePDFProcessor {
                       let originalUrl = '';
                       const resolvedUri = pdfDoc.context.lookup(uriObj);
                       if (resolvedUri instanceof pdfLib.PDFString) {
-                        originalUrl = resolvedUri.asString();
+                        originalUrl = resolvedUri.decodeText();
                       } else if (resolvedUri instanceof pdfLib.PDFHexString) {
-                        originalUrl = resolvedUri.asString();
+                        originalUrl = resolvedUri.decodeText();
                       }
 
                       if (originalUrl) {

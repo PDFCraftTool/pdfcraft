@@ -237,7 +237,7 @@ export const toolContentId: Record<string, ToolContent> = {
     `,
     howToUse: [
       { step: 1, title: 'Unggah PDF Anda', description: 'Tarik dan lepas file PDF Anda atau klik untuk memilih dokumen yang perlu Anda tanda tangani.' },
-      { step: 2, title: 'Buat Tanda Tangan Anda', description: 'Gambar tanda tangan Anda dengan mouse atau sentuhan, ketik nama Anda untuk menghasilkan tanda tangan, atau unggah gambar tanda tangan.' },
+      { step: 2, title: 'Buat Tanda Tangan Anda', description: 'Gambar tanda tangan Anda dengan mouse atau sentuhan, ketik nama Anda untuk menghasilkan tanda tangan, atau unggah gambar tanda tangan. Anda juga dapat memindai foto tanda tangan yang ditulis di atas kertas.' },
       { step: 3, title: 'Tempatkan dan Sesuaikan', description: 'Klik pada dokumen untuk menempatkan tanda tangan Anda, lalu tarik untuk memposisikan dan mengubah ukuran sesuai kebutuhan.' },
       { step: 4, title: 'Simpan dan Unduh', description: 'Klik Simpan untuk menerapkan tanda tangan Anda dan mengunduh PDF yang telah ditandatangani.' },
     ],

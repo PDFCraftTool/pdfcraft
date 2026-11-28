@@ -1,3 +1,4 @@
+import { withBasePath } from '@/lib/utils/path';
 /**
  * PDF Library Configuration
  * Requirements: 1.4, 5.6
@@ -11,12 +12,12 @@
  */
 export const PDFJS_CONFIG = {
   // Worker source path - loaded from public directory
-  workerSrc: '/workers/pdf.worker.min.mjs',
+  workerSrc: withBasePath('/workers/pdf.worker.min.mjs'),
   // CMap URL for character mapping
-  cMapUrl: '/pdfjs-viewer/cmaps/',
+  cMapUrl: withBasePath('/pdfjs-viewer/cmaps/'),
   cMapPacked: true,
   // Standard fonts URL
-  standardFontDataUrl: '/pdfjs-viewer/standard_fonts/',
+  standardFontDataUrl: withBasePath('/pdfjs-viewer/standard_fonts/'),
 } as const;
 
 /**

@@ -220,7 +220,7 @@ export function DeskewPDFTool({ className = '' }: DeskewPDFToolProps) {
                                 {batchFile.status === 'completed' && batchFile.result && (
                                     <DownloadButton
                                         file={batchFile.result}
-                                        filename={`${batchFile.file.name.replace('.pdf', '')}_deskewed.pdf`}
+                                        filename={`${batchFile.file.name.replace(/\.pdf$/i, '')}_deskewed.pdf`}
                                         variant="ghost"
                                         size="sm"
                                     />

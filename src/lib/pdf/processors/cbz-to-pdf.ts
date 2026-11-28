@@ -205,6 +205,8 @@ export class CbzToPDFProcessor extends BasePDFProcessor {
 
                             canvas.width = img.width;
                             canvas.height = img.height;
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
                             ctx.drawImage(img, 0, 0);
 
                             const jpegBlob = await new Promise<Blob>((resolve, reject) => {

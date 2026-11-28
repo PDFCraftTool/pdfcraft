@@ -93,25 +93,24 @@ export class ReversePagesPDFProcessor extends BasePDFProcessor {
 
       this.updateProgress(30, 'Reversing page order...');
 
-      // Create new PDF with reversed page order
-      const newPdf = await pdfLib.PDFDocument.create();
+      // Reorder the pages inside the source document instead of copying them
+      // into a new one, so forms, outlines, links, attachments, page labels
+      // and metadata survive and still point at the same page objects.
+      const pages = sourcePdf.getPages();
 
-      // Create reversed indices array
-      const reversedIndices = Array.from(
-        { length: totalPages },
-        (_, i) => totalPages - 1 - i
-      );
+      this.updateProgress(50, 'Moving pages into reverse order...');
 
-      this.updateProgress(50, 'Copying pages in reverse order...');
-
-      // Copy all pages in reversed order
-      const copiedPages = await newPdf.copyPages(sourcePdf, reversedIndices);
-      copiedPages.forEach(page => newPdf.addPage(page));
+      for (let i = totalPages - 1; i >= 0; i--) {
+        sourcePdf.removePage(i);
+      }
+      for (let i = totalPages - 1; i >= 0; i--) {
+        sourcePdf.addPage(pages[i]);
+      }
 
       this.updateProgress(90, 'Saving PDF...');
 
       // Save the new PDF
-      const pdfBytes = await newPdf.save({ useObjectStreams: true });
+      const pdfBytes = await sourcePdf.save({ useObjectStreams: true });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 
       this.updateProgress(100, 'Complete!');

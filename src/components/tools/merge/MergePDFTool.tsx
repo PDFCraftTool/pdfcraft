@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { Image as ImageIcon, FileText, FileSpreadsheet, Presentation } from 'lucide-react';
 import { FileUploader } from '../FileUploader';
 import { ProcessingProgress, ProcessingStatus } from '../ProcessingProgress';
 import { DownloadButton } from '../DownloadButton';
@@ -9,6 +10,98 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { mergePDFs } from '@/lib/pdf';
 import type { MergeOptions, UploadedFile, ProcessOutput } from '@/types/pdf';
+
+const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.bmp', '.tiff', '.tif', '.svg', '.heic', '.heif'];
+const TEXT_EXTENSIONS = ['.txt', '.text', '.md', '.markdown', '.log'];
+const WORD_EXTENSIONS = ['.docx', '.doc', '.odt', '.rtf'];
+const EXCEL_EXTENSIONS = ['.xlsx', '.xls', '.ods', '.csv'];
+const PPT_EXTENSIONS = ['.pptx', '.ppt', '.odp'];
+
+function getFileTypeCategory(file: File): 'pdf' | 'image' | 'text' | 'word' | 'excel' | 'powerpoint' {
+  const mime = file.type?.toLowerCase() || '';
+  const ext = '.' + file.name.split('.').pop()?.toLowerCase();
+  if (mime === 'application/pdf' || ext === '.pdf') return 'pdf';
+  if (mime.startsWith('image/') || IMAGE_EXTENSIONS.includes(ext)) return 'image';
+  if (mime.startsWith('text/') || TEXT_EXTENSIONS.includes(ext)) return 'text';
+  if (WORD_EXTENSIONS.includes(ext)) return 'word';
+  if (EXCEL_EXTENSIONS.includes(ext)) return 'excel';
+  if (PPT_EXTENSIONS.includes(ext)) return 'powerpoint';
+  return 'pdf';
+}
+
+function FileThumbnail({ file }: { file: File }) {
+  const [thumbUrl, setThumbUrl] = useState<string | null>(null);
+  const category = getFileTypeCategory(file);
+
+  useEffect(() => {
+    if (category === 'image') {
+      const url = URL.createObjectURL(file);
+      setThumbUrl(url);
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    }
+  }, [file, category]);
+
+  if (category === 'image' && thumbUrl) {
+    return (
+      <div className="flex-shrink-0 w-8 h-8 rounded border border-[hsl(var(--color-border))] overflow-hidden bg-[hsl(var(--color-muted)/0.3)] flex items-center justify-center">
+        <img src={thumbUrl} alt={file.name} className="w-full h-full object-cover" />
+      </div>
+    );
+  }
+
+  if (category === 'image') {
+    return (
+      <div className="flex-shrink-0 w-8 h-8 rounded bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+        <ImageIcon className="w-4 h-4" />
+      </div>
+    );
+  }
+
+  if (category === 'text') {
+    return (
+      <div className="flex-shrink-0 w-8 h-8 rounded bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+        <FileText className="w-4 h-4" />
+      </div>
+    );
+  }
+
+  if (category === 'word') {
+    return (
+      <div className="flex-shrink-0 w-8 h-8 rounded bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+        <FileText className="w-4 h-4" />
+      </div>
+    );
+  }
+
+  if (category === 'excel') {
+    return (
+      <div className="flex-shrink-0 w-8 h-8 rounded bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 text-teal-600 dark:text-teal-400 flex items-center justify-center">
+        <FileSpreadsheet className="w-4 h-4" />
+      </div>
+    );
+  }
+
+  if (category === 'powerpoint') {
+    return (
+      <div className="flex-shrink-0 w-8 h-8 rounded bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-800 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+        <Presentation className="w-4 h-4" />
+      </div>
+    );
+  }
+
+  // PDF
+  return (
+    <div className="flex-shrink-0">
+      <svg className="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+        <path d="M14 2v6h6" fill="white" />
+        <text x="7" y="17" fontSize="6" fill="white" fontWeight="bold">PDF</text>
+      </svg>
+    </div>
+  );
+}
 
 /**
  * Generate a unique ID for files
@@ -168,7 +261,7 @@ export function MergePDFTool({ className = '' }: MergePDFToolProps) {
    */
   const handleMerge = useCallback(async () => {
     if (files.length < 2) {
-      setError('Please add at least 2 PDF files to merge.');
+      setError('Please add at least 2 files to merge.');
       return;
     }
 
@@ -204,7 +297,7 @@ export function MergePDFTool({ className = '' }: MergePDFToolProps) {
         setResult(output.result as Blob);
         setStatus('complete');
       } else {
-        setError(output.error?.message || 'Failed to merge PDF files.');
+        setError(output.error?.message || 'Failed to merge files.');
         setStatus('error');
       }
     } catch (err) {
@@ -240,14 +333,41 @@ export function MergePDFTool({ className = '' }: MergePDFToolProps) {
     <div className={`space-y-6 ${className}`.trim()}>
       {/* File Upload Area */}
       <FileUploader
-        accept={['application/pdf', '.pdf']}
+        accept={[
+          'application/pdf',
+          '.pdf',
+          'image/*',
+          '.jpg',
+          '.jpeg',
+          '.png',
+          '.webp',
+          '.bmp',
+          '.tiff',
+          '.svg',
+          '.heic',
+          'text/plain',
+          'text/markdown',
+          '.txt',
+          '.md',
+          '.docx',
+          '.doc',
+          '.odt',
+          '.rtf',
+          '.xlsx',
+          '.xls',
+          '.ods',
+          '.csv',
+          '.pptx',
+          '.ppt',
+          '.odp',
+        ]}
         multiple
         maxFiles={100}
         onFilesSelected={handleFilesSelected}
         onError={handleUploadError}
         disabled={isProcessing}
-        label={tTools('mergePdf.uploadLabel') || 'Upload PDF Files'}
-        description={tTools('mergePdf.uploadDescription') || 'Drag and drop PDF files here, or click to browse. You can add multiple files.'}
+        label={tTools('mergePdf.uploadLabel') || 'Upload Files'}
+        description={tTools('mergePdf.uploadDescription') || 'Drag and drop PDF, image, Word, Excel, PowerPoint, or text files here to combine into a single PDF.'}
       />
 
       {/* Error Message */}
@@ -318,20 +438,60 @@ export function MergePDFTool({ className = '' }: MergePDFToolProps) {
                   {index + 1}
                 </span>
 
-                {/* PDF Icon */}
-                <div className="flex-shrink-0">
-                  <svg className="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
-                    <path d="M14 2v6h6" fill="white" />
-                    <text x="7" y="17" fontSize="6" fill="white" fontWeight="bold">PDF</text>
-                  </svg>
-                </div>
+                {/* Thumbnail / File Icon */}
+                <FileThumbnail file={file.file} />
 
                 {/* File Info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[hsl(var(--color-foreground))] truncate">
-                    {file.file.name}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium text-[hsl(var(--color-foreground))] truncate">
+                      {file.file.name}
+                    </p>
+                    {(() => {
+                      const cat = getFileTypeCategory(file.file);
+                      const fileExt = file.file.name.split('.').pop()?.toUpperCase() || '';
+                      if (cat === 'image') {
+                        return (
+                          <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
+                            IMAGE
+                          </span>
+                        );
+                      }
+                      if (cat === 'text') {
+                        return (
+                          <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
+                            TEXT
+                          </span>
+                        );
+                      }
+                      if (cat === 'word') {
+                        return (
+                          <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300">
+                            {fileExt || 'DOC'}
+                          </span>
+                        );
+                      }
+                      if (cat === 'excel') {
+                        return (
+                          <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300">
+                            {fileExt || 'XLS'}
+                          </span>
+                        );
+                      }
+                      if (cat === 'powerpoint') {
+                        return (
+                          <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300">
+                            {fileExt || 'PPT'}
+                          </span>
+                        );
+                      }
+                      return (
+                        <span className="flex-shrink-0 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300">
+                          PDF
+                        </span>
+                      );
+                    })()}
+                  </div>
                   <p className="text-xs text-[hsl(var(--color-muted-foreground))]">
                     {formatSize(file.file.size)}
                   </p>

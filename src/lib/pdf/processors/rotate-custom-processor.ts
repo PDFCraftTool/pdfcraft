@@ -1,5 +1,6 @@
 import { PDFDocument, degrees } from 'pdf-lib';
 import { type ProcessOutput, PDFErrorCode, ErrorCategory } from '@/types/pdf';
+import { ensurePageContents } from '../page-contents';
 
 export interface RotateCustomOptions {
     rotations: { [pageIndex: number]: number }; // Page index to rotation angle mapping
@@ -18,8 +19,15 @@ export async function rotateCustom(
 
         const arrayBuffer = await file.arrayBuffer();
         const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-        const newPdfDoc = await PDFDocument.create();
         const pageCount = pdfDoc.getPageCount();
+
+        // Right-angle rotations only change /Rotate. Keep the source document
+        // so forms, outlines, attachments, links and metadata survive; only
+        // arbitrary angles need the embedding path in a new document.
+        const preserveDocument = pdfDoc.getPages().every((page, index) =>
+            (page.getRotation().angle + (options.rotations[index] || 0)) % 90 === 0
+        );
+        const newPdfDoc = preserveDocument ? pdfDoc : await PDFDocument.create();
 
         if (onProgress) onProgress(30);
 
@@ -36,13 +44,17 @@ export async function rotateCustom(
 
             if (totalRotation % 90 === 0) {
                 // Simple rotation for 90-degree multiples
-                const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [i]);
-                copiedPage.setRotation(degrees(totalRotation));
-                newPdfDoc.addPage(copiedPage);
+                if (preserveDocument) {
+                    originalPage.setRotation(degrees(totalRotation));
+                } else {
+                    const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [i]);
+                    copiedPage.setRotation(degrees(totalRotation));
+                    newPdfDoc.addPage(copiedPage);
+                }
             } else {
                 // Complex rotation for custom angles
                 // We must embed the page to rotate it arbitrarily
-                const embeddedPage = await newPdfDoc.embedPage(originalPage);
+                const embeddedPage = await newPdfDoc.embedPage(ensurePageContents(originalPage));
                 const { width, height } = embeddedPage.scale(1);
 
                 const angleRad = (totalRotation * Math.PI) / 180;

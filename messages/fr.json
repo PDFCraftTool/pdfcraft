@@ -1898,7 +1898,7 @@
       "uploadDescription": "Faites glisser et déposez un fichier PDF à signer.",
       "instructionsTitle": "Comment signer",
       "instruction1": "Cliquez sur l'outil Signature (icône de stylo) dans la barre d'outils",
-      "instruction2": "Dessinez, tapez ou téléchargez votre signature",
+      "instruction2": "Dessinez, tapez ou téléchargez votre signature, ou scannez-en une photo",
       "instruction3": "Cliquez à l'endroit où vous souhaitez placer la signature",
       "instruction4": "Cliquez sur \"Enregistrer le PDF signé\" ci-dessous lorsque vous avez terminé",
       "flattenOption": "Aplatir la signature (recommandé - rend la signature permanente)",

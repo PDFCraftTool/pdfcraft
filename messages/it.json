@@ -1898,7 +1898,7 @@
       "uploadDescription": "Trascina e rilascia un file PDF da firmare.",
       "instructionsTitle": "Come firmare",
       "instruction1": "Fai clic sullo strumento Firma (icona della penna) nella barra degli strumenti",
-      "instruction2": "Disegna, digita o carica la tua firma",
+      "instruction2": "Disegna, digita o carica la tua firma, oppure scansionane una foto",
       "instruction3": "Fai clic nel punto in cui desideri posizionare la firma",
       "instruction4": "Al termine, fai clic su \"Salva PDF firmato\" di seguito",
       "flattenOption": "Appiattisci firma (consigliato: rende la firma permanente)",

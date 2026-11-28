@@ -14,6 +14,7 @@ import type {
 } from '@/types/pdf';
 import { PDFErrorCode } from '@/types/pdf';
 import { BasePDFProcessor } from '../processor';
+import { withBasePath } from '@/lib/utils/path';
 
 /**
  * Decrypt PDF options
@@ -66,7 +67,7 @@ async function initializeQpdf(): Promise<any> {
 
     // Load the script dynamically
     const script = document.createElement('script');
-    script.src = '/qpdf.js';
+    script.src = withBasePath('/qpdf.js');
     script.async = true;
 
     script.onload = () => {
@@ -99,7 +100,7 @@ function initQpdfModule(resolve: (value: any) => void, reject: (reason: any) => 
     createModule({
       locateFile: (path: string) => {
         if (path.endsWith('.wasm')) {
-          return '/qpdf.wasm';
+          return withBasePath('/qpdf.wasm');
         }
         return path;
       },

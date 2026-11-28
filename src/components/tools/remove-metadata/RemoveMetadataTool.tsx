@@ -310,7 +310,7 @@ export function RemoveMetadataTool({ className = '' }: RemoveMetadataToolProps) 
         {result && (
           <DownloadButton
             file={result}
-            filename={file ? `${file.name.replace('.pdf', '')}_no_metadata.pdf` : 'no_metadata.pdf'}
+            filename={file ? `${file.name.replace(/\.pdf$/i, '')}_no_metadata.pdf` : 'no_metadata.pdf'}
             variant="secondary"
             size="lg"
             showFileSize

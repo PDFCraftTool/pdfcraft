@@ -544,6 +544,9 @@ pdfjs-editor-add-signature-draw-button = Disegna
     .title = Disegna
 pdfjs-editor-add-signature-image-button = Immagine
     .title = Immagine
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Scansiona
+    .title = Scansiona una foto della tua firma
 
 ## Tab panels
 
@@ -562,6 +565,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Oppure scegli un file immagine
        *[other] Oppure sfoglia i file immagine
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Firma su un foglio di carta bianca, scatta una foto e caricala qui.
+pdfjs-editor-add-signature-scan-tip = Per un risultato ottimale, usa il flash della fotocamera o una luce intensa e uniforme e tieni la fotocamera dritta sopra il foglio.
+pdfjs-editor-add-signature-scan-choose-photo-button = Scegli foto
+pdfjs-editor-add-signature-scan-take-photo-button = Scatta foto
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Puoi anche trascinare qui una foto o incollarla con ⌘V.
+       *[other] Puoi anche trascinare qui una foto o incollarla con Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Area della firma. Trascinala o usa i tasti freccia per spostarla. Tieni premuto Maiusc con i tasti freccia per ridimensionarla.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Anteprima della firma scansionata
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Ruota a sinistra
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Ruota a sinistra
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Ruota a destra
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Ruota a destra
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Sensibilità dell’inchiostro
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Sensibilità dell’inchiostro: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Cambia foto
 
 ## Controls
 

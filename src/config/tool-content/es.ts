@@ -517,7 +517,7 @@ export const toolContentEs: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Crea tu Firma",
-        "description": "Dibuja, escribe o sube una imagen de firma."
+        "description": "Dibuja, escribe o sube una imagen de firma. También puedes escanear una foto de una firma escrita en papel."
       },
       {
         "step": 3,

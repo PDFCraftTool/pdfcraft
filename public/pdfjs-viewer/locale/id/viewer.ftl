@@ -532,6 +532,9 @@ pdfjs-editor-add-signature-draw-button = Gambarkan
     .title = Gambarkan
 pdfjs-editor-add-signature-image-button = Gambar
     .title = Gambar
+# PDFCraft: Scan is a verb (you can scan a photo of your signature)
+pdfjs-editor-add-signature-scan-button = Pindai
+    .title = Pindai foto tanda tangan Anda
 
 ## Tab panels
 
@@ -550,6 +553,35 @@ pdfjs-editor-add-signature-image-browse-link =
         [macos] Atau pilih berkas gambar
        *[other] Atau cari berkas gambar
     }
+
+## PDFCraft: Scan tab panel
+
+pdfjs-editor-add-signature-scan-instructions = Tanda tangani selembar kertas putih, foto kertasnya, lalu unggah fotonya di sini.
+pdfjs-editor-add-signature-scan-tip = Untuk hasil terbaik, gunakan lampu kilat kamera atau cahaya terang yang merata, dan pegang kamera tegak lurus di atas kertas.
+pdfjs-editor-add-signature-scan-choose-photo-button = Pilih foto
+pdfjs-editor-add-signature-scan-take-photo-button = Ambil foto
+pdfjs-editor-add-signature-scan-drop-hint =
+    { PLATFORM() ->
+        [macos] Anda juga dapat menyeret foto ke sini atau menempelkannya dengan ⌘V.
+       *[other] Anda juga dapat menyeret foto ke sini atau menempelkannya dengan Ctrl+V.
+    }
+pdfjs-editor-add-signature-scan-crop-frame =
+    .aria-label = Area tanda tangan. Seret atau gunakan tombol panah untuk memindahkannya. Tahan Shift sambil menekan tombol panah untuk mengubah ukurannya.
+pdfjs-editor-add-signature-scan-preview =
+    .aria-label = Pratinjau tanda tangan yang dipindai
+pdfjs-editor-add-signature-scan-rotate-left-button =
+    .title = Putar ke kiri
+pdfjs-editor-add-signature-scan-rotate-left-button-label = Putar ke kiri
+pdfjs-editor-add-signature-scan-rotate-right-button =
+    .title = Putar ke kanan
+pdfjs-editor-add-signature-scan-rotate-right-button-label = Putar ke kanan
+pdfjs-editor-add-signature-scan-sensitivity-range-label = Sensitivitas tinta
+
+# Variables:
+#   $sensitivity (Number) - how faint a stroke can be and still count as ink, from 0 to 100.
+pdfjs-editor-add-signature-scan-sensitivity-range =
+    .title = Sensitivitas tinta: { $sensitivity }
+pdfjs-editor-add-signature-scan-change-photo-button = Ganti foto
 
 ## Controls
 

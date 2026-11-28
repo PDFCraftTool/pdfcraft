@@ -6,8 +6,8 @@
  * Useful for batch redacting sensitive information like account numbers, names, etc.
  */
 
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { loadPdfjs } from '../loader';
+import { redactPDF, type RedactionArea } from './redact';
 
 /**
  * Text match found in the PDF
@@ -319,108 +319,80 @@ export async function applyFindAndRedact(
             };
         }
 
-        onProgress?.(10, 'Loading PDF...');
+        onProgress?.(10, 'Loading PDF document...');
 
-        // Load the PDF with pdf-lib
+        const pdfjs = await loadPdfjs();
         const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer, {
-            ignoreEncryption: true,
-        });
+        const pdfDocProxy = await pdfjs.getDocument({ data: arrayBuffer.slice(0) }).promise;
+        const totalPages = pdfDocProxy.numPages;
 
-        const pages = pdfDoc.getPages();
-        const pageCount = pages.length;
-
-        // Default redaction color (black)
-        const redactionColor = options.color
-            ? rgb(options.color.r / 255, options.color.g / 255, options.color.b / 255)
-            : rgb(0, 0, 0);
-
-        let redactedCount = 0;
-        const progressPerMatch = 80 / selectedMatches.length;
-
-        // Embed font for replacement text
-        let font = null;
-        if (options.replacementText) {
-            font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        // Collect page dimensions
+        const pageDimensions = new Map<number, { width: number; height: number }>();
+        for (let p = 1; p <= totalPages; p++) {
+            const pageProxy = await pdfDocProxy.getPage(p);
+            const vp = pageProxy.getViewport({ scale: 1.0 });
+            pageDimensions.set(p, { width: vp.width, height: vp.height });
         }
 
-        for (let i = 0; i < selectedMatches.length; i++) {
-            const match = selectedMatches[i];
-            const progress = 10 + i * progressPerMatch;
-            onProgress?.(progress, `Redacting ${i + 1} of ${selectedMatches.length}...`);
+        const hexColor = options.color
+            ? '#' + [options.color.r, options.color.g, options.color.b]
+                .map(x => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0'))
+                .join('')
+            : '#000000';
 
-            // Validate page number
-            if (match.page < 1 || match.page > pageCount) {
+        const redactions: RedactionArea[] = [];
+        for (const match of selectedMatches) {
+            if (match.page < 1 || match.page > totalPages) {
                 console.warn(`Invalid page number: ${match.page}. Skipping.`);
                 continue;
             }
 
-            const page = pages[match.page - 1];
-            const { height: pageHeight } = page.getSize();
+            const pageDim = pageDimensions.get(match.page);
+            if (!pageDim) continue;
 
-            // The y-coordinate is already in PDF coordinates (from bottom)
-            // We need to draw the rectangle at this position
-            const pdfY = match.y;
+            const padX = 1.5;
+            const padY = 1.5;
+            const canvasX = Math.max(0, match.x - padX);
+            const canvasY = Math.max(0, pageDim.height - match.y - match.height - padY);
+            const canvasW = match.width + padX * 2;
+            const canvasH = match.height + padY * 2;
 
-            // Draw filled rectangle over the matched text
-            page.drawRectangle({
-                x: match.x,
-                y: pdfY,
-                width: match.width,
-                height: match.height,
-                color: redactionColor,
-                opacity: 1, // Fully opaque
+            redactions.push({
+                id: match.id,
+                type: 'rect',
+                page: match.page,
+                x: canvasX,
+                y: canvasY,
+                width: canvasW,
+                height: canvasH,
+                pageWidth: pageDim.width,
+                pageHeight: pageDim.height,
+                style: options.color ? 'custom-color' : 'blackout',
+                color: hexColor,
+                borderColor: options.addBorder ? '#4d4d4d' : undefined,
+                label: options.replacementText?.trim() || undefined,
             });
-
-            // Add border if requested
-            if (options.addBorder) {
-                page.drawRectangle({
-                    x: match.x,
-                    y: pdfY,
-                    width: match.width,
-                    height: match.height,
-                    borderColor: rgb(0.3, 0.3, 0.3),
-                    borderWidth: 0.5,
-                });
-            }
-
-            // Add replacement text if specified
-            if (options.replacementText && font) {
-                const fontSize = Math.min(match.height * 0.7, 10);
-                const textWidth = font.widthOfTextAtSize(options.replacementText, fontSize);
-
-                // Center the text in the redaction box
-                const textX = match.x + (match.width - textWidth) / 2;
-                const textY = pdfY + (match.height - fontSize) / 2;
-
-                page.drawText(options.replacementText, {
-                    x: textX,
-                    y: textY,
-                    size: fontSize,
-                    font,
-                    color: rgb(1, 1, 1), // White text on black background
-                });
-            }
-
-            redactedCount++;
         }
 
-        onProgress?.(95, 'Saving PDF...');
+        // Execute irreversible physical rasterization and deep metadata sanitization
+        const finalPdfBytes = await redactPDF(
+            file,
+            redactions,
+            {
+                renderScale: 2.0,
+                outputQuality: 0.95,
+                stripMetadata: true,
+                purgeAnnotations: true,
+            },
+            onProgress
+        );
 
-        // Save the modified PDF
-        const pdfBytes = await pdfDoc.save({ useObjectStreams: true });
-        const outputBuffer = pdfBytes.buffer.slice(
-            pdfBytes.byteOffset,
-            pdfBytes.byteOffset + pdfBytes.byteLength
-        ) as ArrayBuffer;
-        const blob = new Blob([outputBuffer], { type: 'application/pdf' });
-
-        onProgress?.(100, 'Complete!');
+        const blob = new Blob([finalPdfBytes as unknown as BlobPart], { type: 'application/pdf' });
 
         return {
             success: true,
             result: blob,
-            redactedCount,
+            redactedCount: selectedMatches.length,
         };
     } catch (error) {
         console.error('Redaction error:', error);
@@ -445,6 +417,7 @@ export async function findAndRedact(
         file,
         {
             searchTerm: options.searchTerm,
+            searchTerms: options.searchTerms,
             caseSensitive: options.caseSensitive,
             useRegex: options.useRegex,
             wholeWord: options.wholeWord,

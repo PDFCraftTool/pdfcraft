@@ -240,6 +240,10 @@ function validatePageRanges(ranges: PageRange[], totalPages: number): string | n
     const range = ranges[i];
 
     // Check for valid range values
+    if (!Number.isInteger(range.start) || !Number.isInteger(range.end)) {
+      return 'Range ' + (i + 1) + ': Page numbers must be finite integers.';
+    }
+
     if (range.start < 1) {
       return `Range ${i + 1}: Start page must be at least 1.`;
     }

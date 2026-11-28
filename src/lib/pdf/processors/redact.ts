@@ -7,6 +7,8 @@
 
 import { PDFDocument, PDFName, rgb } from 'pdf-lib';
 import { loadPdfjs } from '../loader';
+import { PDFJS_CONFIG } from '../config';
+import { withBasePath } from '../../utils/path';
 
 export type RedactionStyle = 'blackout' | 'whiteout' | 'mosaic' | 'blur' | 'custom-color';
 
@@ -56,6 +58,8 @@ export interface RedactionArea {
   blurRadius?: number;
   /** Optional text label overlay (e.g. "REDACTED") */
   label?: string;
+  /** Optional border color for redaction box */
+  borderColor?: string;
 }
 
 /**
@@ -147,11 +151,18 @@ export function applySolidFill(
   w: number,
   h: number,
   color = '#000000',
-  label?: string
+  label?: string,
+  borderColor?: string
 ): void {
   ctx.save();
   ctx.fillStyle = color;
   ctx.fillRect(x, y, w, h);
+
+  if (borderColor) {
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x, y, w, h);
+  }
 
   if (label) {
     ctx.fillStyle = color === '#000000' ? '#ffffff' : '#000000';
@@ -466,14 +477,14 @@ export function renderRedactionAreaOnCanvas(
       applyBlur(ctx, rx, ry, rw, rh, (area.blurRadius || 8) * scaleX);
       break;
     case 'whiteout':
-      applySolidFill(ctx, rx, ry, rw, rh, '#ffffff', area.label);
+      applySolidFill(ctx, rx, ry, rw, rh, '#ffffff', area.label, area.borderColor);
       break;
     case 'custom-color':
-      applySolidFill(ctx, rx, ry, rw, rh, area.color || '#000000', area.label);
+      applySolidFill(ctx, rx, ry, rw, rh, area.color || '#000000', area.label, area.borderColor);
       break;
     case 'blackout':
     default:
-      applySolidFill(ctx, rx, ry, rw, rh, '#000000', area.label);
+      applySolidFill(ctx, rx, ry, rw, rh, '#000000', area.label, area.borderColor);
       break;
   }
 }
@@ -482,8 +493,8 @@ export function renderRedactionAreaOnCanvas(
  * Execute Redaction on PDF
  */
 export async function redactPDF(
-  file: File | ArrayBuffer,
-  redactionsByPage: Record<number, RedactionArea[]>,
+  file: File | ArrayBuffer | Uint8Array,
+  redactions: Record<number, RedactionArea[]> | RedactionArea[],
   options: RedactOptions = {},
   onProgress?: (percent: number, message: string) => void
 ): Promise<Uint8Array> {
@@ -495,12 +506,24 @@ export async function redactPDF(
     outputQuality = 0.95,
   } = options;
 
+  // Normalize redactions by page number
+  const redactionsByPage: Record<number, RedactionArea[]> = Array.isArray(redactions)
+    ? redactions.reduce<Record<number, RedactionArea[]>>((acc, area) => {
+        if (!acc[area.page]) acc[area.page] = [];
+        acc[area.page].push(area);
+        return acc;
+      }, {})
+    : redactions;
+
   onProgress?.(5, 'Loading PDF documents...');
 
   const arrayBuffer = file instanceof File ? await file.arrayBuffer() : file;
   const pdfjsLib = await loadPdfjs();
   const pdfDocProxy = await pdfjsLib.getDocument({
     data: arrayBuffer.slice(0),
+    cMapUrl: withBasePath(PDFJS_CONFIG.cMapUrl),
+    cMapPacked: PDFJS_CONFIG.cMapPacked,
+    standardFontDataUrl: withBasePath(PDFJS_CONFIG.standardFontDataUrl),
     disableFontFace: false,
     useSystemFonts: true,
   }).promise;
@@ -535,8 +558,17 @@ export async function redactPDF(
 
     // Rasterize with PDF.js to guarantee 100% irreversible destruction of underlying text/objects
     const pageProxy = await pdfDocProxy.getPage(pageNum);
-    const viewport = pageProxy.getViewport({ scale: renderScale });
     const defaultViewport = pageProxy.getViewport({ scale: 1.0 });
+
+    // Guard against oversized canvas exceeding browser texture limits
+    const MAX_CANVAS_DIM = 4096;
+    let actualScale = renderScale;
+    const maxDim = Math.max(defaultViewport.width, defaultViewport.height) * actualScale;
+    if (maxDim > MAX_CANVAS_DIM) {
+      actualScale = MAX_CANVAS_DIM / Math.max(defaultViewport.width, defaultViewport.height);
+    }
+
+    const viewport = pageProxy.getViewport({ scale: actualScale });
 
     const offscreenCanvas = document.createElement('canvas');
     offscreenCanvas.width = Math.floor(viewport.width);
@@ -569,14 +601,51 @@ export async function redactPDF(
 
     // Export canvas to JPEG blob
     const blob = await new Promise<Blob>((resolve, reject) => {
-      offscreenCanvas.toBlob(
-        (b) => {
-          if (b) resolve(b);
-          else reject(new Error('Canvas image conversion failed'));
-        },
-        'image/jpeg',
-        outputQuality
-      );
+      if (typeof offscreenCanvas.toBlob === 'function') {
+        offscreenCanvas.toBlob(
+          (b) => {
+            if (b) {
+              resolve(b);
+            } else {
+              // Try toDataURL fallback if toBlob returns null
+              try {
+                const dataUrl = offscreenCanvas.toDataURL('image/jpeg', outputQuality);
+                const base64Data = dataUrl.split(',')[1];
+                if (base64Data) {
+                  const binaryStr = atob(base64Data);
+                  const len = binaryStr.length;
+                  const u8arr = new Uint8Array(len);
+                  for (let i = 0; i < len; i++) {
+                    u8arr[i] = binaryStr.charCodeAt(i);
+                  }
+                  resolve(new Blob([u8arr], { type: 'image/jpeg' }));
+                  return;
+                }
+              } catch {
+                // Ignore fallback error
+              }
+              reject(new Error('Canvas image conversion failed'));
+            }
+          },
+          'image/jpeg',
+          outputQuality
+        );
+      } else {
+        try {
+          const dataUrl = offscreenCanvas.toDataURL('image/jpeg', outputQuality);
+          const base64Data = dataUrl.split(',')[1];
+          if (!base64Data) throw new Error('Empty dataURL');
+          const binaryStr = atob(base64Data);
+          const len = binaryStr.length;
+          const u8arr = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            u8arr[i] = binaryStr.charCodeAt(i);
+          }
+          resolve(new Blob([u8arr], { type: 'image/jpeg' }));
+        } catch (err) {
+          reject(new Error(`Canvas image conversion failed: ${err instanceof Error ? err.message : 'toBlob unsupported'}`));
+        }
+      }
     });
 
     const imageBytes = await blob.arrayBuffer();

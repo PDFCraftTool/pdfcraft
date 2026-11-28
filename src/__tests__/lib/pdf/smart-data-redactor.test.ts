@@ -63,6 +63,12 @@ vi.mock('@/lib/pdf/loader', () => {
   };
 });
 
+vi.mock('@/lib/pdf/processors/redact', () => ({
+  redactPDF: vi.fn().mockImplementation(async (_file, areas) => {
+    return new Uint8Array([1, 2, 3]);
+  }),
+}));
+
 describe('SmartDataRedactorProcessor', () => {
   let mockFile: File;
 

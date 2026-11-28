@@ -421,7 +421,7 @@ export function OverlayPDFTool({ className = '' }: OverlayPDFToolProps) {
               {result && (
                 <DownloadButton
                   file={result}
-                  filename={baseFile.name.replace('.pdf', '_overlay.pdf')}
+                  filename={baseFile.name.replace(/\.pdf$/i, '_overlay.pdf')}
                   variant="secondary"
                   size="lg"
                   className="w-full py-4"

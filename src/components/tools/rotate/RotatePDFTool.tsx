@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { rotatePDF } from '@/lib/pdf/processors/rotate';
 import { configurePdfjsWorker } from '@/lib/pdf/loader';
+import { useSelectAllShortcut } from '@/hooks/useSelectAllShortcut';
 import type { ProcessOutput } from '@/types/pdf';
 
 export interface RotatePDFToolProps {
@@ -185,6 +186,11 @@ export function RotatePDFTool({ className = '' }: RotatePDFToolProps) {
   const handleSelectAll = useCallback(() => {
     setSelectedPages(new Set(Array.from({ length: totalPages }, (_, i) => i + 1)));
   }, [totalPages]);
+
+  useSelectAllShortcut({
+    onSelectAll: handleSelectAll,
+    enabled: pagePreviews.length > 0,
+  });
 
   /**
    * Clear selection
@@ -886,7 +892,7 @@ export function RotatePDFTool({ className = '' }: RotatePDFToolProps) {
               {result && (
                 <DownloadButton
                   file={result}
-                  filename={file.name.replace('.pdf', '_rotated.pdf')}
+                  filename={file.name.replace(/\.pdf$/i, '_rotated.pdf')}
                   variant="secondary"
                   size="lg"
                   className="w-full py-4 border-2 border-[hsl(var(--color-secondary-hover))]"

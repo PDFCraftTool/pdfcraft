@@ -1898,7 +1898,7 @@
       "uploadDescription": "PDF 파일을 드래그 앤 드롭하여 서명하세요.",
       "instructionsTitle": "서명 방법",
       "instruction1": "도구 모음에서 서명 도구(펜 아이콘)를 클릭합니다.",
-      "instruction2": "서명을 그리거나 입력하거나 업로드하세요.",
+      "instruction2": "서명을 그리거나 입력하거나 업로드하거나, 서명 사진을 스캔하세요.",
       "instruction3": "서명을 넣을 위치를 클릭하세요.",
       "instruction4": "완료되면 아래의 \"서명된 PDF 저장\"을 클릭하세요.",
       "flattenOption": "서명 병합(권장 - 서명을 영구화)",

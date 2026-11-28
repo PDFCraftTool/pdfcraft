@@ -37,28 +37,29 @@ export const toolContentZh: Record<string, ToolContent> = {
   },
 
   'merge-pdf': {
-    title: '合并PDF',
-    metaDescription: '将多个PDF文件合并成一个文档。免费在线PDF合并器，支持拖放重新排序。',
-    keywords: ['合并pdf', '组合pdf', '连接pdf', 'pdf合并器', '拼接pdf'],
+    title: '合并 PDF 与多格式文件',
+    metaDescription: '将多个 PDF、图片（JPG/PNG/WebP）、Office 文档（Word/Excel/PPT）和文本文件快速合并为一个统一的 PDF 文档。免费在线文件合并器，支持拖拽排序与书签保留。',
+    keywords: ['合并pdf', '组合文件', '图片合并为pdf', 'word合并为pdf', 'pdf合并器', '拼接pdf', '多格式合并', 'combine files'],
     description: `
-      <p>合并PDF允许您快速轻松地将多个PDF文档合并成一个文件。无论您是整合报告、合并扫描文档还是组装演示文稿，这个工具都能使过程变得无缝。</p>
-      <p>只需上传文件，使用拖放功能按所需顺序排列，然后将它们合并成一个连贯的文档。该工具保留原始文件的质量，并可选择保留每个源文档的书签。</p>
-      <p>所有合并操作都在您的浏览器本地进行，确保敏感文档的完全隐私。</p>
+      <p>合并工具允许您快速轻松地将多个 PDF 文档、各类图片（JPG、PNG、WebP、BMP 等）、Office 文档（Word、Excel、PowerPoint）以及纯文本文件整合成一个连贯统一的 PDF 文件。无论是汇总商业报告、整合图文资料、合并扫描收据，还是组装汇报幻灯片，都能一站式搞定。</p>
+      <p>只需上传文件，使用拖放功能按所需顺序直观排列，系统会在本地自动将图片与文档转换为高质量 PDF 页面并无缝拼接。该工具完整保留原图画质，并可智能为每个子文件生成目录书签以便于查阅。</p>
+      <p>所有转换与合并操作均在您的浏览器本地沙箱中安全运行，无需上传第三方服务器，确保私密文档绝对安全。</p>
     `,
     howToUse: [
-      { step: 1, title: '上传PDF文件', description: '将多个PDF文件拖放到上传区域，或点击从设备中选择文件。' },
-      { step: 2, title: '排列顺序', description: '拖放文件缩略图以按所需顺序排列。' },
-      { step: 3, title: '合并并下载', description: '点击合并按钮组合所有文件，然后下载合并后的PDF。' },
+      { step: 1, title: '上传多种格式文件', description: '将 PDF、图片（JPG/PNG）、Office 文档（Word/Excel/PPT）或文本文件拖放到上传区域，支持混选添加。' },
+      { step: 2, title: '拖拽排列顺序', description: '通过拖放卡片调整文件先后顺序，图片文件支持实时缩略图预览。' },
+      { step: 3, title: '合并并下载 PDF', description: '点击合并按钮，系统会自动将所有内容转换为页面并组合成单一 PDF，即可立即下载。' },
     ],
     useCases: [
-      { title: '合并报告', description: '将月度或季度报告合并成一个年度文档，便于分发和存档。', icon: 'file-text' },
-      { title: '组装作品集', description: '将多个项目文档、证书或工作样本合并成专业作品集。', icon: 'briefcase' },
-      { title: '整合发票', description: '将多张发票或收据合并成一个文档，用于会计和记录保存。', icon: 'receipt' },
+      { title: '图文混排归档', description: '将 PDF 合同、身份证件图片、收据发票与说明文档一次性整合为一份完整的归档文件。', icon: 'briefcase' },
+      { title: '汇总多格式报告', description: '将 Word 分析报告、Excel 财务表格和 PPT 幻灯片一键拼接进同一个 PDF 便于呈阅。', icon: 'file-text' },
+      { title: '组装设计与作品集', description: '将多张设计效果图（JPG/PNG）与文字说明组合为高规格的作品集 PDF。', icon: 'image' },
     ],
     faq: [
-      { question: '可以合并多少个PDF？', answer: '您可以一次合并最多100个PDF文件，总大小最高可达500MB。' },
-      { question: '合并后的PDF会保持原始质量吗？', answer: '是的，合并过程保留所有文档的原始质量，不会进行任何压缩或质量损失。' },
-      { question: '可以合并受密码保护的PDF吗？', answer: '受密码保护的PDF需要先解密。请使用我们的解密PDF工具在合并前移除密码。' },
+      { question: '支持合并哪些类型的文件？', answer: '支持标准 PDF 文件、常见图片（JPG、PNG、WebP、BMP、SVG 等）、Office 文档（Word .docx/.doc、Excel .xlsx/.xls、PowerPoint .pptx/.ppt）以及纯文本（.txt、.md）。' },
+      { question: '可以合并多少个文件？', answer: '您可以一次合并最多 100 个文件，总大小最高可达 500MB。' },
+      { question: '非 PDF 文件合并后的质量如何？', answer: '系统会按自适应页面和原始高分辨率渲染图片和文档，不进行破坏性压缩，确保打印与阅读清晰度。' },
+      { question: '可以合并受密码保护的 PDF 吗？', answer: '受密码保护的 PDF 需要先解密。请使用我们的解密 PDF 工具在合并前移除密码。' },
     ],
   },
 
@@ -233,7 +234,7 @@ export const toolContentZh: Record<string, ToolContent> = {
     `,
     howToUse: [
       { step: 1, title: '上传PDF文件', description: '拖放您的PDF文件或点击选择需要签名的文档。' },
-      { step: 2, title: '创建签名', description: '用鼠标或触摸绘制签名，输入姓名生成签名，或上传签名图像。' },
+      { step: 2, title: '创建签名', description: '用鼠标或触摸绘制签名，输入姓名生成签名，或上传签名图像。也可以扫描写在纸上的签名照片。' },
       { step: 3, title: '放置和调整', description: '点击文档放置签名，然后拖动定位和调整大小。' },
       { step: 4, title: '保存并下载', description: '点击保存应用签名并下载已签名的PDF。' },
     ],

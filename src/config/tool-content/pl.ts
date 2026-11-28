@@ -200,7 +200,7 @@ export const toolContentPl: Record<string, ToolContent> = {
     description: "<p>Sign PDF umożliwia szybkie i bezpieczne dodawanie podpisów elektronicznych do dokumentów PDF. Utwórz swój podpis, rysując, wpisując lub przesyłając obraz, a następnie umieść go w dowolnym miejscu dokumentu.</p>\n      <p>Możesz dodać wiele podpisów do jednego dokumentu, precyzyjnie zmienić ich rozmiar i położenie, a także zapisać swój podpis do wykorzystania w przyszłości. Narzędzie doskonale nadaje się do umów, porozumień, formularzy i wszelkich dokumentów wymagających Twojego podpisu.</p>\n      <p>Wszystkie podpisywanie odbywa się lokalnie w Twojej przeglądarce, dzięki czemu Twoje dokumenty i podpis pozostają prywatne.</p>\n    ",
     howToUse: [
       { step: 1, title: "Prześlij swój plik PDF", description: "Przeciągnij i upuść plik PDF lub kliknij, aby wybrać dokument, który chcesz podpisać." },
-      { step: 2, title: "Utwórz swój podpis", description: "Narysuj swój podpis za pomocą myszy lub dotyku, wpisz swoje imię i nazwisko, aby wygenerować podpis, lub prześlij obraz podpisu." },
+      { step: 2, title: "Utwórz swój podpis", description: "Narysuj swój podpis za pomocą myszy lub dotyku, wpisz swoje imię i nazwisko, aby wygenerować podpis, lub prześlij obraz podpisu. Możesz też zeskanować zdjęcie podpisu złożonego na papierze." },
       { step: 3, title: "Umieść i dostosuj", description: "Kliknij dokument, aby umieścić swój podpis, a następnie przeciągnij go w odpowiednie miejsce i zmień jego rozmiar w razie potrzeby." },
       { step: 4, title: "Zapisz i pobierz", description: "Kliknij Zapisz, aby zastosować swój podpis i pobrać podpisany plik PDF." },
     ],

@@ -6,7 +6,7 @@
  *   node scripts/ensure-pdfjs-viewer-js.js [public|out]
  */
 
-import { copyFileSync, existsSync, readFileSync, readdirSync, writeFileSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -15,8 +15,24 @@ const __dirname = dirname(__filename);
 const rootDir = join(__dirname, '..');
 
 const target = process.argv[2] || 'public';
+const targetDir = join(rootDir, target);
 const viewerDir = join(rootDir, target, 'pdfjs-viewer');
 const workersDir = join(rootDir, target, 'workers');
+
+function copyDirRecursive(src, dest) {
+  if (!existsSync(src)) return;
+  mkdirSync(dest, { recursive: true });
+  const entries = readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = join(src, entry.name);
+    const destPath = join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDirRecursive(srcPath, destPath);
+    } else {
+      copyFileSync(srcPath, destPath);
+    }
+  }
+}
 
 function convertMjsToJs(dir) {
   if (!existsSync(dir)) {
@@ -28,9 +44,17 @@ function convertMjsToJs(dir) {
   for (const mjsFile of mjsFiles) {
     const mjsPath = join(dir, mjsFile);
     const jsPath = join(dir, mjsFile.replace(/\.mjs$/, '.js'));
-    let content = readFileSync(mjsPath, 'utf8');
-    content = content.replace(/\.mjs/g, '.js');
-    writeFileSync(jsPath, content);
+    let mjsContent = readFileSync(mjsPath, 'utf8');
+    
+    // Normalize any legacy ../web/ resource paths to local ./
+    const normalizedMjs = mjsContent.replace(/\.\.\/web\/(cmaps|standard_fonts|iccs|wasm)\//g, './$1/');
+    if (normalizedMjs !== mjsContent) {
+      writeFileSync(mjsPath, normalizedMjs);
+      mjsContent = normalizedMjs;
+    }
+
+    let jsContent = mjsContent.replace(/\.mjs/g, '.js');
+    writeFileSync(jsPath, jsContent);
     console.log(`[ensure-pdfjs-js] ${target}/${mjsFile} -> ${mjsFile.replace(/\.mjs$/, '.js')}`);
   }
 }
@@ -51,6 +75,19 @@ function patchHtmlFiles(dir) {
   }
 }
 
+function syncWebFallbacks() {
+  if (!existsSync(viewerDir)) return;
+  const webDir = join(targetDir, 'web');
+  for (const sub of ['cmaps', 'standard_fonts', 'iccs', 'wasm']) {
+    const src = join(viewerDir, sub);
+    const dest = join(webDir, sub);
+    if (existsSync(src)) {
+      copyDirRecursive(src, dest);
+    }
+  }
+  console.log(`[ensure-pdfjs-js] Synced fallback /web/ resource directories in ${target}`);
+}
+
 function copyDeploymentFiles() {
   if (target !== 'out') return;
 
@@ -65,6 +102,7 @@ function copyDeploymentFiles() {
 convertMjsToJs(viewerDir);
 patchHtmlFiles(viewerDir);
 convertMjsToJs(workersDir);
+syncWebFallbacks();
 copyDeploymentFiles();
 
 console.log('[ensure-pdfjs-js] Done.');

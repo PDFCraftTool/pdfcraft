@@ -6,6 +6,7 @@ import { FileUploader } from '../FileUploader';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { isTauri, saveBlobFile } from '@/lib/tauri-bridge';
+import { withBasePath } from '@/lib/utils/path';
 
 export interface StampsToolProps {
   className?: string;
@@ -284,7 +285,7 @@ export function StampsTool({ className = '' }: StampsToolProps) {
   }, [stampState.blobUrl]);
 
   const viewerUrl = stampState.blobUrl
-    ? `/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(stampState.blobUrl)}`
+    ? withBasePath(`/pdfjs-annotation-viewer/web/viewer.html?file=${encodeURIComponent(stampState.blobUrl)}`)
     : null;
 
   return (

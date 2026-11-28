@@ -16,5 +16,14 @@ declare module 'zgapdfsigner' {
   export class PdfSigner {
     constructor(options: Record<string, unknown>);
     sign(pdfBytes: Uint8Array): Promise<ArrayBuffer>;
+    protected privateKey: unknown;
+    protected cchain: CertsChain | null;
+    protected loadP12cert(p12cert?: unknown, pwd?: string): unknown;
+  }
+
+  export class CertsChain {
+    constructor(certs?: unknown[]);
+    getSignCert(): unknown;
+    getAllCerts(): unknown[];
   }
 }

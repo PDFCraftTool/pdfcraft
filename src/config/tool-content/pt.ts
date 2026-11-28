@@ -4836,7 +4836,7 @@ export const toolContentPt: Record<string, ToolContent> = {
       {
         "step": 2,
         "title": "Criar sua Assinatura",
-        "description": "Desenhe sua assinatura com o mouse ou tela de toque, digite seu nome para gerar uma assinatura ou carregue uma imagem de assinatura."
+        "description": "Desenhe sua assinatura com o mouse ou tela de toque, digite seu nome para gerar uma assinatura ou carregue uma imagem de assinatura. Você também pode digitalizar uma foto de uma assinatura feita no papel."
       },
       {
         "step": 3,
