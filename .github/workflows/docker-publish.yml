@@ -24,11 +24,44 @@ env:
   # Docker image names must be lowercase
   IMAGE_NAME: ${{ github.repository_owner }}/${{ github.event.repository.name }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  changes:
+    name: Detect relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - name: Check changed files
+        id: filter
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The heavy builds only validate code changes. A PR that touches
+          # nothing but translations, tool content or documentation skips
+          # them; the Quick Check workflow still validates such PRs.
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          files=$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" --paginate --jq '.[].filename')
+          echo "Changed files:"
+          echo "$files"
+          if echo "$files" | grep -vqE '^(messages/|src/config/tool-content/|docs/).*|\.md$'; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+          fi
+
   # ============================================================================
   # Stage 1: Build images for each platform in parallel using native runners
   # ============================================================================
   build:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ${{ matrix.runner }}
     
     outputs:
